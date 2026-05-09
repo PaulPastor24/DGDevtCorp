@@ -13,6 +13,8 @@ $userTitle = 'Project Engineer';
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
@@ -59,9 +61,6 @@ $userTitle = 'Project Engineer';
             <div class="nav-item" onclick="navigate('alerts', this)">
                 Alerts
                 <span class="nav-badge red">5</span>
-            </div>
-            <div class="nav-item" onclick="goHome()">
-                Back to Home
             </div>
             <div class="nav-item" onclick="doLogout()">
                 Sign Out
@@ -1150,12 +1149,23 @@ function primaryAction() {
 
 function doLogout() {
     if (confirm('Are you sure you want to sign out?')) {
-        window.location.href = 'landing.html';
+        window.location.href = 'logout.php';
     }
 }
 
-function goHome() {
-    window.location.href = 'landing.html';
+function handleInventoryLocationChange(sel) {
+    const totalEl = document.getElementById('total-inventory-value');
+    if (!sel || !totalEl) return;
+
+    const totalsByLocation = {
+        'Overall': '₱4.93M',
+        'Rizal Residential': '₱1.62M',
+        'San Pablo Commercial Hub': '₱1.28M',
+        'Batangas Warehouse Facility': '₱1.10M',
+        'Lipa City Townhouse Dev.': '₱0.93M',
+    };
+
+    totalEl.textContent = totalsByLocation[sel.value] || totalsByLocation.Overall;
 }
 
 function formatClock(clockValue) {
@@ -1591,7 +1601,8 @@ async function processGroupPhoto() {
             const ax1 = a.x, ay1 = a.y, ax2 = a.x + a.w, ay2 = a.y + a.h;
             const bx1 = b.x, by1 = b.y, bx2 = b.x + b.w, by2 = b.y + b.h;
             const ix1 = Math.max(ax1, bx1), iy1 = Math.max(ay1, by1);
-            const            const iw = Math.max(0, ix2 - ix1);
+            const ix2 = Math.min(ax2, bx2), iy2 = Math.min(ay2, by2);
+            const iw = Math.max(0, ix2 - ix1);
             const ih = Math.max(0, iy2 - iy1);
             const inter = iw * ih;
             const areaA = a.w * a.h;
@@ -1757,21 +1768,14 @@ async function processGroupPhoto() {
 document.addEventListener('DOMContentLoaded', () => {
     initAttendanceModule();
 
-    if (typeof initialRole !== 'undefined') {
-        currentRole = initialRole;
-        const el = document.querySelector('.role-tab[onclick*="' + currentRole + '"]');
-        if (el) el.classList.add('active');
-        if (currentRole === 'client') {
-            navigate('client', document.querySelector('[onclick*="client"]'));
-        }
-    }
-
     const sel = document.getElementById('inventory-location');
     if (sel) handleInventoryLocationChange(sel);
     const primary = document.getElementById('primaryAction');
     if (primary) primary.style.display = 'block';
 });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWbSxccPQtF3EpF3fnJHog6LaEVF+z4NhkxqHY4xZe3Z8L0L" crossorigin="anonymous"></script>
 
 </body>
 </html

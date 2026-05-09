@@ -12,6 +12,8 @@ $userTitle = 'Project Manager';
     <title>Client Portal D&G Construction Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/client.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
@@ -42,9 +44,6 @@ $userTitle = 'Project Manager';
             </div>
 
             <div class="nav-section-label">System</div>
-            <div class="nav-item" onclick="goHome()">
-                Back to Home
-            </div>
             <div class="nav-item" onclick="doLogout()">
                 Sign Out
             </div>
@@ -263,14 +262,13 @@ function navigate(page, el) {
 
 function doLogout() {
     if (confirm('Are you sure you want to sign out?')) {
-        window.location.href = 'landing.html';
+        window.location.href = 'logout.php';
     }
 }
 
-function goHome() {
-    window.location.href = 'landing.html';
-}
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWbSxccPQtF3EpF3fnJHog6LaEVF+z4NhkxqHY4xZe3Z8L0L" crossorigin="anonymous"></script>
 
 </body>
 </html>

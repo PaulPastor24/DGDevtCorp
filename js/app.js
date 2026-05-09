@@ -19,6 +19,7 @@ function doLogin() {
 function doLogout() {
   document.getElementById('mainApp').style.display = 'none';
   document.getElementById('loginPage').style.display = 'flex';
+  window.location.href = 'index.php';
 }
 
 const pageTitles = {

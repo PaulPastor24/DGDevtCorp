@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 $userRole = 'supervisor';
 $userName = 'Contractor Lead';
@@ -12,6 +12,8 @@ $userTitle = 'Project Supervisor';
     <title>Supervisor Dashboard D&G Construction Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/supervisor.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
@@ -19,7 +21,7 @@ $userTitle = 'Project Supervisor';
     <aside class="sidebar">
         <div class="sidebar-logo">
             <div class="logo-badge">
-                <div class="logo-icon">CM</div>
+                <div class="logo-icon"><img src="images/logo.jpg" alt="D&G"></div>
                 <div>
                     <div class="logo-text">ConstructMonitor</div>
                 </div>
@@ -46,9 +48,6 @@ $userTitle = 'Project Supervisor';
             </div>
 
             <div class="nav-section-label">System</div>
-            <div class="nav-item" onclick="goHome()">
-                Back to Home
-            </div>
             <div class="nav-item" onclick="doLogout()">
                 Sign Out
             </div>
@@ -101,7 +100,7 @@ $userTitle = 'Project Supervisor';
                 <div style="max-width: 100%;">
                     <div class="card mb-0">
                         <div class="card-header">
-                            <div class="card-title">Construction Phases â€” Rizal Residential Complex</div>
+                            <div class="card-title">Construction Phases — Rizal Residential Complex</div>
                             <div style="font-size:12px; color:var(--muted);">Target: Aug 2026</div>
                         </div>
 
@@ -109,11 +108,11 @@ $userTitle = 'Project Supervisor';
                             <div class="timeline-phase">
                                 <div class="phase-dot done"></div>
                                 <div class="phase-info">
-                                    <div class="phase-name">Phase 1 â€” Site Preparation & Earthworks</div>
-                                    <div class="phase-dates">Jan 15 â€“ Feb 28, 2026 Â· Completed on time</div>
+                                    <div class="phase-name">Phase 1 — Site Preparation & Earthworks</div>
+                                    <div class="phase-dates">Jan 15 – Feb 28, 2026 · Completed on time</div>
                                 </div>
                                 <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--green);">100%</div>
+                                    <div class="phase-pct" style="color:var(--accent);">100%</div>
                                     <div class="phase-status">Completed</div>
                                 </div>
                             </div>
@@ -121,11 +120,11 @@ $userTitle = 'Project Supervisor';
                             <div class="timeline-phase">
                                 <div class="phase-dot done"></div>
                                 <div class="phase-info">
-                                    <div class="phase-name">Phase 2 â€” Foundation Works</div>
-                                    <div class="phase-dates">Mar 1 â€“ Apr 10, 2026 Â· Completed 3 days early</div>
+                                    <div class="phase-name">Phase 2 — Foundation Works</div>
+                                    <div class="phase-dates">Mar 1 – Apr 10, 2026 · Completed 3 days early</div>
                                 </div>
                                 <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--green);">100%</div>
+                                    <div class="phase-pct" style="color:var(--accent);">100%</div>
                                     <div class="phase-status">Completed</div>
                                 </div>
                             </div>
@@ -133,8 +132,8 @@ $userTitle = 'Project Supervisor';
                             <div class="timeline-phase">
                                 <div class="phase-dot current"></div>
                                 <div class="phase-info">
-                                    <div class="phase-name">Phase 3 â€” Structural Works â† Current</div>
-                                    <div class="phase-dates">Apr 11 â€“ Jun 30, 2026 Â· In progress</div>
+                                    <div class="phase-name">Phase 3 — Structural Works ← Current</div>
+                                    <div class="phase-dates">Apr 11 – Jun 30, 2026 · In progress</div>
                                 </div>
                                 <div class="phase-right">
                                     <div class="phase-pct" style="color:var(--accent);">67%</div>
@@ -145,8 +144,8 @@ $userTitle = 'Project Supervisor';
                             <div class="timeline-phase">
                                 <div class="phase-dot upcoming"></div>
                                 <div class="phase-info">
-                                    <div class="phase-name">Phase 4 â€” MEP Installation</div>
-                                    <div class="phase-dates">Jul 1 â€“ Jul 31, 2026 Â· Upcoming</div>
+                                    <div class="phase-name">Phase 4 — MEP Installation</div>
+                                    <div class="phase-dates">Jul 1 – Jul 31, 2026 · Upcoming</div>
                                 </div>
                                 <div class="phase-right">
                                     <div class="phase-pct" style="color:var(--muted);">0%</div>
@@ -157,8 +156,8 @@ $userTitle = 'Project Supervisor';
                             <div class="timeline-phase">
                                 <div class="phase-dot upcoming"></div>
                                 <div class="phase-info">
-                                    <div class="phase-name">Phase 5 â€” Finishing & Turnover</div>
-                                    <div class="phase-dates">Aug 1 â€“ Aug 31, 2026 Â· Upcoming</div>
+                                    <div class="phase-name">Phase 5 — Finishing & Turnover</div>
+                                    <div class="phase-dates">Aug 1 – Aug 31, 2026 · Upcoming</div>
                                 </div>
                                 <div class="phase-right">
                                     <div class="phase-pct" style="color:var(--muted);">0%</div>
@@ -174,6 +173,24 @@ $userTitle = 'Project Supervisor';
                 <div class="page-header">
                     <h1>Submit Progress Report</h1>
                     <p>Report daily accomplishments and project status for admin review.</p>
+                </div>
+
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-bottom:20px;">
+                    <div class="stat-card" style="background:linear-gradient(135deg, rgba(245,166,35,0.1), rgba(245,166,35,0.05)); border:1px solid rgba(245,166,35,0.2);">
+                        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; font-weight:600; margin-bottom:4px;">Reports This Month</div>
+                        <div style="font-family:var(--heading); font-size:24px; font-weight:800; margin-bottom:2px;">7</div>
+                        <div style="font-size:11px; color:var(--accent);">3 pending review</div>
+                    </div>
+                    <div class="stat-card" style="background:linear-gradient(135deg, rgba(34,197,94,0.1), rgba(34,197,94,0.05)); border:1px solid rgba(34,197,94,0.2);">
+                        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; font-weight:600; margin-bottom:4px;">Approved</div>
+                        <div style="font-family:var(--heading); font-size:24px; font-weight:800; margin-bottom:2px;">4</div>
+                        <div style="font-size:11px; color:#22c55e;">Last 30 days</div>
+                    </div>
+                    <div class="stat-card" style="background:linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.05)); border:1px solid rgba(59,130,246,0.2);">
+                        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; font-weight:600; margin-bottom:4px;">On-Time Submission Rate</div>
+                        <div style="font-family:var(--heading); font-size:24px; font-weight:800; margin-bottom:2px;">100%</div>
+                        <div style="font-size:11px; color:var(--blue);">Excellent</div>
+                    </div>
                 </div>
 
                 <div class="step-indicator" style="margin-bottom:24px;">
@@ -220,9 +237,9 @@ $userTitle = 'Project Supervisor';
                             <div class="form-group">
                                 <label class="form-label">Current Phase</label>
                                 <select class="form-select">
-                                    <option>Phase 3 â€” Structural Works</option>
-                                    <option>Phase 2 â€” Foundation Works</option>
-                                    <option>Phase 4 â€” MEP Installation</option>
+                                    <option>Phase 3 — Structural Works</option>
+                                    <option>Phase 2 — Foundation Works</option>
+                                    <option>Phase 4 — MEP Installation</option>
                                 </select>
                             </div>
 
@@ -244,18 +261,44 @@ $userTitle = 'Project Supervisor';
 
                             <div class="form-group">
                                 <label class="form-label">Issues / Blockers</label>
-                                <textarea class="form-textarea" placeholder="Any issues, risks, or blockers..." style="min-height:60px;">Rebar delivery delayed by supplier â€” ETA Apr 30. Awaiting inspector sign-off for Level 4 slab.</textarea>
+                                <textarea class="form-textarea" placeholder="Any issues, risks, or blockers..." style="min-height:60px;">Rebar delivery delayed by supplier — ETA Apr 30. Awaiting inspector sign-off for Level 4 slab.</textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div>
+                    <div style="display:flex; flex-direction:column; gap:14px;">
                         <div class="card">
                             <div class="card-title" style="margin-bottom:14px;">Supporting Documents</div>
                             <div class="upload-zone">
-                                <div class="upload-icon">ðŸ“Ž</div>
+                                <div class="upload-icon">📎</div>
                                 <div class="upload-text">Drop files here or <span>browse</span></div>
                                 <div style="font-size:11px; color:var(--muted); margin-top:4px;">Photos, PDFs, inspection reports</div>
+                            </div>
+                            <div style="margin-top:12px;">
+                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;">
+                                    <span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;">
+                                    <span>inspection_form_level4.pdf</span> <span style="margin-left:auto; color:var(--muted);">0.8 MB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card mb-0">
+                            <div class="card-title" style="margin-bottom:12px;">Recent Submissions</div>
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <div style="padding:10px; background:rgba(34,197,94,0.08); border-radius:8px; border-left:3px solid #22c55e;">
+                                    <div style="font-size:12px; font-weight:600; color:var(--text);">Rizal Complex - Phase 3</div>
+                                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">Apr 25 · <span style="color:#22c55e; font-weight:600;">Approved</span></div>
+                                </div>
+                                <div style="padding:10px; background:rgba(245,166,35,0.08); border-radius:8px; border-left:3px solid var(--accent);">
+                                    <div style="font-size:12px; font-weight:600; color:var(--text);">San Pablo Hub - Phase 2</div>
+                                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">Apr 22 · <span style="color:var(--accent); font-weight:600;">Pending</span></div>
+                                </div>
+                                <div style="padding:10px; background:rgba(59,130,246,0.08); border-radius:8px; border-left:3px solid var(--blue);">
+                                    <div style="font-size:12px; font-weight:600; color:var(--text);">Warehouse - Phase 1</div>
+                                    <div style="font-size:11px; color:var(--muted); margin-top:2px;">Apr 18 · <span style="color:var(--blue); font-weight:600;">Revisions</span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -263,7 +306,7 @@ $userTitle = 'Project Supervisor';
 
                 <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:12px;">
                     <button class="topbar-btn">Save Draft</button>
-                    <button class="topbar-btn primary" onclick="showToast('Report submitted for admin review!')">Submit Report â†’</button>
+                    <button class="topbar-btn primary" onclick="showToast('Report submitted for admin review!')">Submit Report →</button>
                 </div>
             </div>
 
@@ -277,7 +320,7 @@ $userTitle = 'Project Supervisor';
                     <div class="attendance-stack">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-title">Today's Attendance — <span id="attendanceDateLabel">Apr 28, 2026</span></div>
+                                <div class="card-title">Today's Attendance � <span id="attendanceDateLabel">Apr 28, 2026</span></div>
                                 <select class="form-select attendance-select" id="attendanceProjectSelect">
                                     <option value="Rizal Residential Complex">Rizal Residential Complex</option>
                                     <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
@@ -330,6 +373,10 @@ $userTitle = 'Project Supervisor';
                                         <label class="form-label">Group Photo</label>
                                         <input type="file" class="form-input" id="groupPhotoInput" accept="image/*">
                                     </div>
+                                    <div id="groupPhotoResults" style="margin-top:14px; display:none;">
+                                        <div style="font-size:12px; font-weight:600; margin-bottom:12px; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Matched Workers</div>
+                                        <div id="groupPhotoResultsBody" style="display:flex; flex-direction:column; gap:10px;"></div>
+                                    </div>
                                     <div class="face-meta" id="faceMeta">The supervisor scan compares every detected face with the worker profiles stored by admin.</div>
                                 </div>
                             </div>
@@ -354,19 +401,16 @@ $userTitle = 'Project Supervisor';
                         <div class="stat-label">Active Deliveries</div>
                         <div class="stat-value">12</div>
                         <div class="stat-change">This week</div>
-                        <div class="stat-icon">Deliveries</div>
                     </div>
                     <div class="stat-card" style="--accent-color: var(--red);">
                         <div class="stat-label">Low Stock Alerts</div>
                         <div class="stat-value">3</div>
                         <div class="stat-change down">Immediate reorder needed</div>
-                        <div class="stat-icon">Alerts</div>
                     </div>
                     <div class="stat-card" style="--accent-color: var(--green);">
                         <div class="stat-label">Inventory Value</div>
-                        <div id="total-inventory-value" class="stat-value">â‚±1.2M</div>
+                        <div id="total-inventory-value" class="stat-value">₱1.2M</div>
                         <div class="stat-change up">This site</div>
-                        <div class="stat-icon">Inventory</div>
                     </div>
                 </div>
 
@@ -377,10 +421,9 @@ $userTitle = 'Project Supervisor';
 
                     <div id="inventory-list">
                         <div class="mat-item">
-                            <div class="mat-icon">ðŸª¨</div>
                             <div class="mat-info">
                                 <div class="mat-name">Ready-Mix Concrete</div>
-                                <div class="mat-detail">Delivered: 480 mÂ³ Â· Used: 320 mÂ³</div>
+                                <div class="mat-detail">Delivered: 480 m³ · Used: 320 m³</div>
                             </div>
                             <div class="mat-bar-wrap">
                                 <div class="mat-pct">66% remaining</div>
@@ -389,10 +432,9 @@ $userTitle = 'Project Supervisor';
                         </div>
 
                         <div class="mat-item">
-                            <div class="mat-icon">ðŸ”©</div>
                             <div class="mat-info">
-                                <div class="mat-name">Rebar (16mm) <span class="alert-flag">âš ï¸</span></div>
-                                <div class="mat-detail">Delivered: 12 tons Â· Used: 10.8 tons</div>
+                                <div class="mat-name">Rebar (16mm)</div>
+                                <div class="mat-detail">Delivered: 12 tons · Used: 10.8 tons</div>
                             </div>
                             <div class="mat-bar-wrap">
                                 <div class="mat-pct" style="color:var(--red);">10% left</div>
@@ -401,10 +443,9 @@ $userTitle = 'Project Supervisor';
                         </div>
 
                         <div class="mat-item">
-                            <div class="mat-icon">ðŸªµ</div>
                             <div class="mat-info">
-                                <div class="mat-name">Lumber (Formwork) <span class="alert-flag">âš ï¸</span></div>
-                                <div class="mat-detail">Delivered: 800 pcs Â· Used: 760 pcs</div>
+                                <div class="mat-name">Lumber (Formwork)</div>
+                                <div class="mat-detail">Delivered: 800 pcs · Used: 760 pcs</div>
                             </div>
                             <div class="mat-bar-wrap">
                                 <div class="mat-pct" style="color:var(--yellow);">5% left</div>
@@ -413,10 +454,9 @@ $userTitle = 'Project Supervisor';
                         </div>
 
                         <div class="mat-item">
-                            <div class="mat-icon">ðŸª£</div>
                             <div class="mat-info">
                                 <div class="mat-name">Portland Cement (40kg)</div>
-                                <div class="mat-detail">Delivered: 1,200 bags Â· Used: 680 bags</div>
+                                <div class="mat-detail">Delivered: 1,200 bags · Used: 680 bags</div>
                             </div>
                             <div class="mat-bar-wrap">
                                 <div class="mat-pct">43% remaining</div>
@@ -448,7 +488,7 @@ $userTitle = 'Project Supervisor';
                                 <select class="form-select">
                                     <option>tons</option>
                                     <option>bags</option>
-                                    <option>mÂ³</option>
+                                    <option>m³</option>
                                     <option>pcs</option>
                                 </select>
                             </div>
@@ -580,7 +620,7 @@ function seedAttendanceData() {
 }
 
 function formatClock(clockValue) {
-    if (!clockValue) return '—';
+    if (!clockValue) return '�';
     const [hoursPart, minutesPart] = String(clockValue).split(':');
     let hours = Number(hoursPart);
     const period = hours >= 12 ? 'PM' : 'AM';
@@ -655,7 +695,7 @@ function renderAttendanceModule() {
                     <div class="worker-roster-item">
                         <div>
                             <div class="worker-roster-name">${worker.name}</div>
-                            <div class="worker-roster-meta">${worker.id} · ${worker.role}${worker.photoName ? ` · ${worker.photoName}` : ''}</div>
+                            <div class="worker-roster-meta">${worker.id} � ${worker.role}${worker.photoName ? ` � ${worker.photoName}` : ''}</div>
                         </div>
                         <span class="roster-pill ${enrolled ? 'ready' : 'pending'}">${enrolled ? 'Enrolled' : 'Needs photo'}</span>
                     </div>`;
@@ -768,6 +808,7 @@ function clearGroupPhoto() {
     if (input) input.value = '';
     attendanceState.lastScan = { detected: 0, matched: 0, unknown: 0 };
     updateGroupPhotoPreview(null);
+    document.getElementById('groupPhotoResults').style.display = 'none';
     renderAttendanceModule();
     showAttendanceStatus('Upload a new group photo to run attendance again.');
     showFaceMeta('The current scan is cleared. Saved attendance logs remain in the browser.');
@@ -869,6 +910,7 @@ async function processGroupPhoto() {
             renderAttendanceModule();
             showAttendanceStatus('No faces were detected in the uploaded photo. Try a clearer group image.');
             showFaceMeta('Nothing matched because no faces were found in the upload.');
+            document.getElementById('groupPhotoResults').style.display = 'none';
             showToast('No faces detected.');
             return;
         }
@@ -876,6 +918,7 @@ async function processGroupPhoto() {
         let matchedCount = 0;
         let unknownCount = 0;
         const loggedWorkerIds = new Set();
+        const matchedWorkers = [];
 
         detections.forEach(detection => {
             const match = findBestMatch(Array.from(detection.descriptor));
@@ -886,6 +929,7 @@ async function processGroupPhoto() {
 
             loggedWorkerIds.add(match.worker.id);
             recordAttendance(match.worker, match.score);
+            matchedWorkers.push({ ...match.worker, matchScore: match.score });
             matchedCount += 1;
         });
 
@@ -895,6 +939,31 @@ async function processGroupPhoto() {
             unknown: Math.max(detections.length - matchedCount, 0),
         };
 
+        // Display matched workers in results section
+        const resultsDiv = document.getElementById('groupPhotoResults');
+        const resultsBody = document.getElementById('groupPhotoResultsBody');
+        if (resultsDiv && resultsBody) {
+            if (matchedWorkers.length) {
+                resultsBody.innerHTML = matchedWorkers.map(w => `
+                    <div style="padding:12px; border-radius:10px; background:rgba(245,166,35,0.08); border:1px solid rgba(245,166,35,0.15);">
+                        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:4px;">
+                            <div style="font-weight:700; font-size:13px; color:var(--text);">${w.name}</div>
+                            <div style="font-size:11px; font-weight:700; background:rgba(245,166,35,0.2); padding:4px 6px; border-radius:6px; color:var(--accent);">${(w.matchScore * 100).toFixed(0)}% match</div>
+                        </div>
+                        <div style="font-size:12px; color:var(--muted); display:flex; gap:8px;">
+                            <span>${w.id}</span>
+                            <span>�</span>
+                            <span>${w.role}</span>
+                        </div>
+                    </div>`
+                ).join('');
+                resultsDiv.style.display = 'block';
+            } else {
+                resultsBody.innerHTML = '<div style="text-align:center; color:var(--muted); font-size:12px; padding:12px;">No workers matched in this upload.</div>';
+                resultsDiv.style.display = 'block';
+            }
+        }
+
         renderAttendanceModule();
         showAttendanceStatus(`Matched ${matchedCount} of ${detections.length} detected face(s) from the uploaded group photo.`);
         showFaceMeta(`Unknown faces in the scan: ${attendanceState.lastScan.unknown}. Scores above 0.55 are treated as a safe match.`);
@@ -903,6 +972,7 @@ async function processGroupPhoto() {
         attendanceState.lastScan = { detected: 0, matched: 0, unknown: 0 };
         renderAttendanceModule();
         showAttendanceStatus('Group photo analysis failed. Upload a clearer image and try again.');
+        document.getElementById('groupPhotoResults').style.display = 'none';
         showToast('Face matching failed.');
     }
 }
@@ -973,12 +1043,8 @@ function primaryAction() {
 
 function doLogout() {
     if (confirm('Are you sure you want to sign out?')) {
-        window.location.href = 'landing.html';
+        window.location.href = 'logout.php';
     }
-}
-
-function goHome() {
-    window.location.href = 'landing.html';
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -986,6 +1052,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWbSxccPQtF3EpF3fnJHog6LaEVF+z4NhkxqHY4xZe3Z8L0L" crossorigin="anonymous"></script>
+
 </body>
 </html>
+
+
+
+
 
