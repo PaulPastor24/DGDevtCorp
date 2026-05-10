@@ -181,44 +181,56 @@ $brandName = 'D&G ConstructMonitor';
 
 <div class="login-modal" id="loginModal">
     <div class="login-card">
-        <button class="modal-close" onclick="closeLoginModal()">Close</button>
+        <!-- Left Section: Form -->
+        <div class="login-form-section">
+            <button class="modal-close" onclick="closeLoginModal()">×</button>
 
-        <div class="login-header">
-            <div class="login-logo"><img src="images/logo.jpg" alt="D&G Construction logo"></div>
-            <h2 class="login-title">D&G ConstructMonitor</h2>
-            <p class="login-subtitle">Project Management System</p>
-        </div>
-
-        <div class="role-tabs" id="roleTabs">
-            <button class="role-tab active" onclick="selectRole(this, 'admin')">Admin</button>
-            <button class="role-tab" onclick="selectRole(this, 'supervisor')">Supervisor</button>
-            <button class="role-tab" onclick="selectRole(this, 'client')">Client</button>
-        </div>
-
-        <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com" value="admin@dg-corp.ph" required>
+            <div class="login-header">
+                <div class="login-logo"><img src="images/logo.jpg" alt="D&G Construction logo"></div>
+                <h2 class="login-title">D&G ConstructMonitor</h2>
+                <p class="login-subtitle">Project Management System</p>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" value="password123" required>
+            <div class="role-tabs" id="roleTabs">
+                <button class="role-tab active" onclick="selectRole(this, 'admin')">Admin</button>
+                <button class="role-tab" onclick="selectRole(this, 'supervisor')">Supervisor</button>
+                <button class="role-tab" onclick="selectRole(this, 'client')">Client</button>
             </div>
 
-            <input type="hidden" id="selectedRole" name="role" value="admin">
+            <div id="loginError" class="login-message error" style="display:none;"></div>
 
-            <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+            <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com" value="admin@dg-corp.ph" required>
+                    <label class="form-label" for="loginEmail">Email Address</label>
+                </div>
 
-            <div id="loginError" style="display:none; margin-top:12px; padding:10px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); border-radius:6px; color:#ef4444; font-size:12px; text-align:center;"></div>
-        </form>
+                <div class="form-group password-group">
+                    <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" value="password123" required>
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <button type="button" class="password-toggle" id="passwordToggle" onclick="togglePasswordVisibility()">👁️</button>
+                </div>
 
-        <div class="demo-credentials">
-            <strong>Demo Credentials:</strong><br>
-            Admin: admin@dg-corp.ph<br>
-            Supervisor: supervisor@dg-corp.ph<br>
-            Client: client@dg-corp.ph<br>
-            Password: password123
+                <input type="hidden" id="selectedRole" name="role" value="admin">
+
+                <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+            </form>
+
+            <div class="demo-credentials">
+                <strong>Demo Credentials:</strong><br>
+                Admin: admin@dg-corp.ph<br>
+                Supervisor: supervisor@dg-corp.ph<br>
+                Client: client@dg-corp.ph<br>
+                Password: password123
+            </div>
+        </div>
+
+        <!-- Right Section: Pattern Background -->
+        <div class="login-pattern-section">
+            <div class="login-pattern-content">
+                <h3>Streamline Your Construction Operations</h3>
+                <p>Unified platform for project tracking, workforce management, and real-time site visibility.</p>
+            </div>
         </div>
     </div>
 </div>
@@ -279,6 +291,8 @@ $brandName = 'D&G ConstructMonitor';
             } else {
                 // Show error message
                 errorDiv.textContent = data.message || 'Login failed. Please try again.';
+                errorDiv.classList.add('error');
+                errorDiv.classList.remove('success');
                 errorDiv.style.display = 'block';
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Sign In';
@@ -286,9 +300,24 @@ $brandName = 'D&G ConstructMonitor';
         } catch (error) {
             console.error('Login error:', error);
             errorDiv.textContent = 'A network error occurred. Please try again.';
+            errorDiv.classList.add('error');
+            errorDiv.classList.remove('success');
             errorDiv.style.display = 'block';
             loginBtn.disabled = false;
             loginBtn.textContent = 'Sign In';
+        }
+    }
+
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('loginPassword');
+        const toggleBtn = document.getElementById('passwordToggle');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.textContent = '👁️‍🗨️';
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.textContent = '👁️';
         }
     }
 
