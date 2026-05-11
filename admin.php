@@ -14,6 +14,7 @@ $userTitle = 'Project Engineer';
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -24,47 +25,44 @@ $userTitle = 'Project Engineer';
             <div class="logo-badge">
                 <div class="logo-icon"><img src="images/logo.jpg" alt="D&G"></div>
                 <div>
-                    <div class="logo-text">ConstructMonitor</div>
+                    <div class="logo-text">D&G Devt Corp</div>
                 </div>
             </div>
-            <div class="logo-sub">D&G Dev't Corporation</div>
         </div>
 
         <nav class="sidebar-nav">
             <div class="nav-section-label">Overview</div>
             <div class="nav-item active" onclick="navigate('dashboard', this)">
+                <i class="bi bi-speedometer2"></i>
                 Management Dashboard
             </div>
 
             <div class="nav-section-label">Monitoring & Progress</div>
             <div class="nav-item" onclick="navigate('timeline', this)">
+                <i class="bi bi-calendar-event"></i>
                 Project Timeline
             </div>
             <div class="nav-item" onclick="navigate('report', this)">
+                <i class="bi bi-file-earmark-bar-graph"></i>
                 Progress Report
                 <span class="nav-badge">3</span>
             </div>
             <div class="nav-item" onclick="navigate('phase', this)">
+                <i class="bi bi-diagram-3"></i>
                 Phase Management
             </div>
 
             <div class="nav-section-label">Materials & Attendance</div>
             <div class="nav-item" onclick="navigate('attendance', this)">
+                <i class="bi bi-person-check"></i>
                 Worker Attendance
             </div>
             <div class="nav-item" onclick="navigate('materials', this)">
+                <i class="bi bi-boxes"></i>
                 Materials & Inventory
                 <span class="nav-badge red">!</span>
             </div>
 
-            <div class="nav-section-label">System</div>
-            <div class="nav-item" onclick="navigate('alerts', this)">
-                Alerts
-                <span class="nav-badge red">5</span>
-            </div>
-            <div class="nav-item" onclick="doLogout()">
-                Sign Out
-            </div>
         </nav>
 
         <div class="sidebar-footer">
@@ -72,7 +70,9 @@ $userTitle = 'Project Engineer';
                 <div class="user-avatar">EA</div>
                 <div class="user-info">
                     <div class="user-name"><?php echo htmlspecialchars($userName); ?></div>
-                    <div class="user-role"><?php echo htmlspecialchars($userTitle); ?></div>
+                </div>
+                <div class="logout-icon-btn" onclick="doLogout()">
+                    <i class="bi bi-box-arrow-right"></i>
                 </div>
             </div>
         </div>
@@ -80,13 +80,13 @@ $userTitle = 'Project Engineer';
 
     <div class="main">
         <div class="topbar">
-            <div class="topbar-title" id="pageTitle">Management Dashboard</div>
             <div class="topbar-right">
-                <span style="font-size:12px;color:var(--muted)">Mon, 28 Apr 2026</span>
-                <div class="topbar-notif">
+                <span id="liveDate" style="font-size:13px;color:var(--muted);min-width:140px;">Mon, 28 Apr 2026</span>
+                <div class="topbar-notif" onclick="navigate('attendance', document.querySelector('[onclick*=attendance]'))" style="cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                    <i class="bi bi-bell-fill" style="font-size: 18px;"></i>
                     <div class="notif-dot"></div>
                 </div>
-                <button class="topbar-btn primary" id="primaryAction" onclick="primaryAction()">+ New Project</button>
+                <button class="topbar-btn primary" id="primaryAction" onclick="primaryAction()">+ Register Worker</button>
             </div>
         </div>
 
@@ -97,26 +97,38 @@ $userTitle = 'Project Engineer';
                     <p>Real-time overview of all active construction projects â€” D&G Dev't Corp.</p>
                 </div>
 
-                <div class="stat-grid">
-                    <div class="stat-card" style="--accent-color: var(--accent);">
-                        <div class="stat-label">Active Projects</div>
-                        <div class="stat-value">7</div>
-                        <div class="stat-change up">↑ 2 from last quarter</div>
+                <div class="dashboard-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div class="stat-card-label">Active Projects</div>
+                        <div class="stat-card-value">7</div>
+                        <div class="stat-card-trend">↑ 2 from last quarter</div>
                     </div>
-                    <div class="stat-card" style="--accent-color: var(--green);">
-                        <div class="stat-label">On-Track Projects</div>
-                        <div class="stat-value">5</div>
-                        <div class="stat-change up">↑ 71.4% completion rate</div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(22,163,74,0.15);">
+                            <i class="bi bi-check-circle" style="color: var(--accent);"></i>
+                        </div>
+                        <div class="stat-card-label">On-Track Projects</div>
+                        <div class="stat-card-value">5</div>
+                        <div class="stat-card-trend">71.4% completion rate</div>
                     </div>
-                    <div class="stat-card" style="--accent-color: var(--blue);">
-                        <div class="stat-label">Total Workforce</div>
-                        <div class="stat-value">184</div>
-                        <div class="stat-change">Across all project sites</div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(59,130,246,0.15);">
+                            <i class="bi bi-people" style="color: var(--blue);"></i>
+                        </div>
+                        <div class="stat-card-label">Total Workforce</div>
+                        <div class="stat-card-value">184</div>
+                        <div class="stat-card-trend">Across all sites</div>
                     </div>
-                    <div class="stat-card" style="--accent-color: var(--red);">
-                        <div class="stat-label">Pending Reports</div>
-                        <div class="stat-value">3</div>
-                        <div class="stat-change down">Requires admin review</div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(220,38,38,0.15);">
+                            <i class="bi bi-exclamation-triangle" style="color: var(--red);"></i>
+                        </div>
+                        <div class="stat-card-label">Pending Reports</div>
+                        <div class="stat-card-value">3</div>
+                        <div class="stat-card-trend negative">Requires admin review</div>
                     </div>
                 </div>
 
@@ -597,6 +609,41 @@ $userTitle = 'Project Engineer';
                     <p>Upload one reference photo per worker so the supervisor can match a group photo against saved FaceNet descriptors.</p>
                 </div>
 
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(34,197,94,0.15);">
+                            <i class="bi bi-check-circle" style="color: var(--accent);"></i>
+                        </div>
+                        <div class="stat-card-label">Present</div>
+                        <div class="stat-card-value" id="attendancePresentCount">0</div>
+                        <div class="stat-card-trend">Verified today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(245,166,35,0.15);">
+                            <i class="bi bi-clock" style="color: var(--yellow);"></i>
+                        </div>
+                        <div class="stat-card-label">Late</div>
+                        <div class="stat-card-value" id="attendanceLateCount">0</div>
+                        <div class="stat-card-trend">After cutoff time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(220,38,38,0.15);">
+                            <i class="bi bi-x-circle" style="color: var(--red);"></i>
+                        </div>
+                        <div class="stat-card-label">Absent</div>
+                        <div class="stat-card-value" id="attendanceAbsentCount">0</div>
+                        <div class="stat-card-trend">No time-in recorded</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(59,130,246,0.15);">
+                            <i class="bi bi-face-id" style="color: var(--blue);"></i>
+                        </div>
+                        <div class="stat-card-label">Enrolled Faces</div>
+                        <div class="stat-card-value" id="attendanceEnrolledCount">0</div>
+                        <div class="stat-card-trend">Ready to scan</div>
+                    </div>
+                </div>
+
                 <div class="attendance-grid">
                     <div class="attendance-stack">
                         <div class="card">
@@ -608,27 +655,15 @@ $userTitle = 'Project Engineer';
                                 </select>
                             </div>
 
-                            <div class="attendance-summary">
-                                <div class="attendance-stat">
-                                    <div class="attendance-stat-label">Present</div>
-                                    <div class="attendance-stat-value" id="attendancePresentCount">0</div>
-                                    <div class="attendance-stat-hint">Verified today</div>
-                                </div>
-                                <div class="attendance-stat">
-                                    <div class="attendance-stat-label">Awaiting scan</div>
-                                    <div class="attendance-stat-value" id="attendancePendingCount">0</div>
-                                    <div class="attendance-stat-hint">No time-in yet</div>
-                                </div>
-                                <div class="attendance-stat">
-                                    <div class="attendance-stat-label">Enrolled faces</div>
-                                    <div class="attendance-stat-value" id="attendanceEnrolledCount">0</div>
-                                    <div class="attendance-stat-hint">Stored locally</div>
-                                </div>
-                            </div>
-
                             <table class="data-table attendance-table">
                                 <thead>
-                                    <tr><th>Worker</th><th>ID</th><th>Role</th><th>Time In</th><th>Status</th></tr>
+                                    <tr>
+                                        <th>Worker Name</th>
+                                        <th>Worker ID</th>
+                                        <th>Position/Role</th>
+                                        <th>Time In</th>
+                                        <th>Attendance Status</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="attendanceLogBody"></tbody>
                             </table>
@@ -640,74 +675,90 @@ $userTitle = 'Project Engineer';
                         </div>
                     </div>
 
-                    <div class="attendance-stack">
+                    <div class="attendance-stack" style="grid-column: 1 / -1;">
                         <div class="card">
-                            <div class="card-title" style="margin-bottom:16px;">Worker Profile Enrollment</div>
-                            <div class="face-panel">
-                                <div class="face-stage">
-                                    <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none;">
-                                    <div class="face-empty" id="workerPhotoEmpty">Upload a clear worker portrait to create a FaceNet reference.</div>
-                                </div>
-                                <div class="face-info">
-                                    <div class="form-grid" style="gap:12px; margin-bottom:12px;">
-                                        <div class="form-group">
-                                            <label class="form-label">Worker Name</label>
-                                            <input type="text" class="form-input" id="workerNameInput" placeholder="Enter worker name">
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group">
-                                                <label class="form-label">Worker ID</label>
-                                                <input type="text" class="form-input" id="workerIdInput" placeholder="W-0042">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Role</label>
-                                                <input type="text" class="form-input" id="workerRoleInput" placeholder="Carpenter">
+                            <div class="card-title" style="margin-bottom:20px;">Group Photo Attendance Scan</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                <div class="face-panel" style="margin-bottom: 0;">
+                                    <div class="face-stage" style="aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
+                                        <img id="groupPhotoPreview" alt="Group photo preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
+                                        <div class="face-empty" id="groupPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(145, 251, 137, 0.08);">
+                                            <div style="text-align: center;">
+                                                <i class="bi bi-image" style="font-size: 48px; color: var(--accent); margin-bottom: 12px; display: block;"></i>
+                                                <div style="font-size: 14px; color: var(--text);">Upload group photo</div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="form-label">Reference Photo</label>
-                                            <input type="file" class="form-input" id="workerPhotoInput" accept="image/*">
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div>
+                                        <div class="form-group" style="margin-bottom: 16px;">
+                                            <label class="form-label">Select Group Photo</label>
+                                            <input type="file" class="form-input" id="groupPhotoInput" accept="image/*" style="padding: 12px;">
+                                        </div>
+                                        <div class="face-status" id="groupPhotoStatus" style="background: rgba(145, 251, 137, 0.08); padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">Upload a group photo containing multiple workers to scan and record attendance.</div>
+                                        <div id="groupPhotoResults" style="margin-bottom: 16px; display: none;">
+                                            <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--accent);">✓ Matched Workers</div>
+                                            <div id="groupPhotoResultsBody" style="font-size: 12px; color: var(--text); background: rgba(34,197,94,0.08); padding: 12px; border-radius: 8px; max-height: 180px; overflow-y: auto;"></div>
                                         </div>
                                     </div>
-                                    <div class="face-status" id="attendanceStatus">Load FaceNet models, then upload one clear reference photo for each worker profile.</div>
-                                    <div class="face-actions">
-                                        <button class="topbar-btn primary" id="saveWorkerBtn" type="button">Save Profile</button>
-                                        <button class="topbar-btn" id="resetWorkerBtn" type="button">Clear Form</button>
+                                    <div class="face-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                        <button class="topbar-btn" id="resetGroupPhotoBtn" type="button" style="border-color: var(--border);">Clear Photo</button>
+                                        <button class="topbar-btn primary" id="runGroupPhotoBtn" type="button">Match Attendance</button>
                                     </div>
-                                    <div class="face-meta" id="faceMeta">Profiles are stored locally and reused by the supervisor group-photo scan.</div>
                                 </div>
+                            </div>
+                            <div class="face-meta" id="groupPhotoMeta" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted);">Detected faces will be matched against enrolled profiles and attendance automatically logged to the database.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Worker Enrollment Modal -->
+            <div class="modal-overlay" id="enrollmentModal">
+                <div class="modal-content" style="max-width: 700px; border-radius: 16px; overflow: hidden;">
+                    <div class="modal-header" style="background: linear-gradient(135deg, rgba(145, 251, 137, 0.17) 0%, rgba(34, 197, 94, 0.08) 100%); border-bottom: 1px solid rgba(145, 251, 137, 0.15); padding: 24px;">
+                        <h2 class="modal-title" style="color: var(--text); font-size: 22px; margin: 0;">Enroll New Worker</h2>
+                        <button class="modal-close" onclick="closeEnrollmentModal()" style="color: var(--muted); font-size: 28px;">×</button>
+                    </div>
+                    <div class="modal-body" style="padding: 24px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                            <div>
+                                <div class="face-stage" style="aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; background: rgba(145, 251, 137, 0.08); border: 1px solid rgba(145, 251, 137, 0.15);">
+                                    <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
+                                    <div class="face-empty" id="workerPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                                        <div style="text-align: center;">
+                                            <i class="bi bi-person-plus" style="font-size: 44px; color: var(--accent); margin-bottom: 12px; display: block;"></i>
+                                            <div style="font-size: 12px; color: var(--muted);">Add worker portrait</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 12px; padding: 12px; background: rgba(145, 251, 137, 0.08); border-radius: 8px; font-size: 11px; color: var(--muted); text-align: center;">Face must be clearly visible and well-lit</div>
+                            </div>
+                            <div style="display: flex; flex-direction: column;">
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label class="form-label">Worker Name</label>
+                                    <input type="text" class="form-input" id="workerNameInput" placeholder="e.g., Juan Santos" style="padding: 12px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label class="form-label">Worker ID</label>
+                                    <input type="text" class="form-input" id="workerIdInput" placeholder="e.g., W-0042" style="padding: 12px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 16px;">
+                                    <label class="form-label">Position / Role</label>
+                                    <input type="text" class="form-input" id="workerRoleInput" placeholder="e.g., Carpenter, Mason" style="padding: 12px;">
+                                </div>
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <label class="form-label">Reference Photo</label>
+                                    <input type="file" class="form-input" id="workerPhotoInput" accept="image/*" style="padding: 12px;">
+                                </div>
+                                <div class="face-status" id="enrollmentStatus" style="margin-top: 16px; background: rgba(145, 251, 137, 0.08); padding: 12px; border-radius: 8px; font-size: 12px; color: var(--muted);">Upload one clear reference photo for the worker profile.</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="attendance-stack">
-                        <div class="card">
-                            <div class="card-title" style="margin-bottom:16px;">Group Photo Attendance Scan</div>
-                            <div class="face-panel">
-                                <div class="face-stage">
-                                    <img id="groupPhotoPreview" alt="Group photo preview" style="display:none;">
-                                    <div class="face-empty" id="groupPhotoEmpty">Upload a group photo to match against enrolled worker profiles.</div>
-                                </div>
-                                <div class="face-info">
-                                    <div class="form-grid" style="gap:12px; margin-bottom:12px;">
-                                        <div class="form-group">
-                                            <label class="form-label">Group Photo</label>
-                                            <input type="file" class="form-input" id="groupPhotoInput" accept="image/*">
-                                        </div>
-                                    </div>
-                                    <div class="face-status" id="groupPhotoStatus">Upload a group photo containing multiple workers to scan and record attendance.</div>
-                                    <div class="face-actions">
-                                        <button class="topbar-btn primary" id="runGroupPhotoBtn" type="button">Run Attendance Match</button>
-                                        <button class="topbar-btn" id="resetGroupPhotoBtn" type="button">Clear Photo</button>
-                                    </div>
-                                    <div id="groupPhotoResults" style="margin-top:14px; display:none;">
-                                        <div style="font-size:12px; font-weight:600; margin-bottom:8px; color:var(--accent);">Matched Workers</div>
-                                        <div id="groupPhotoResultsBody" style="font-size:11px; color:var(--muted);"></div>
-                                    </div>
-                                    <div class="face-meta" id="groupPhotoMeta">Detected faces will be matched and attendance logged to the database.</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-footer" style="padding: 20px 24px; border-top: 1px solid var(--border); display: flex; gap: 12px; justify-content: flex-end;">
+                        <button class="topbar-btn" onclick="closeEnrollmentModal()">Cancel</button>
+                        <button class="topbar-btn primary" id="saveWorkerBtn" type="button" onclick="saveWorkerProfile()">Save Profile</button>
                     </div>
                 </div>
             </div>
@@ -729,7 +780,7 @@ $userTitle = 'Project Engineer';
                         <div class="stat-label">Low Stock Alerts</div>
                         <div class="stat-value">3</div>
                         <div class="stat-change down">Immediate reorder needed</div>
-                        <div class="stat-icon">Alerts</div>
+                        <div class="stat-icon">Notification</div>
                     </div>
                     <div class="stat-card" style="--accent-color: var(--green);">
                         <div class="stat-label">Total Inventory Value</div>
@@ -878,15 +929,15 @@ $userTitle = 'Project Engineer';
                 </div>
             </div>
 
-            <div class="page" id="pg-alerts">
+            <div class="page" id="pg-notifications">
                 <div class="page-header">
-                    <h1>Alerts & Notifications</h1>
-                    <p>System-generated flags for materials, schedules, and attendance anomalies.</p>
+                    <h1>Notifications</h1>
+                    <p>System-generated notifications for materials, schedules, and attendance anomalies.</p>
                 </div>
 
                 <div class="two-col" style="align-items:start;">
                     <div>
-                        <div class="section-header"><div class="section-title">Critical Alerts</div></div>
+                        <div class="section-header"><div class="section-title">Critical Notifications</div></div>
 
                         <div class="alert-bar danger">
                             <div class="alert-icon">Danger</div>
@@ -1140,7 +1191,7 @@ function navigate(page, el) {
 
 function primaryAction() {
     if (currentPage === 'attendance') {
-        registerWorker();
+        openEnrollmentModal();
         return;
     }
 
@@ -1196,11 +1247,12 @@ function showFaceMeta(message) {
     if (meta) meta.textContent = message;
 }
 
-function showToast(message) {
+function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     if (!toast) return;
 
     toast.textContent = message;
+    toast.className = type;
     toast.style.opacity = '1';
     toast.style.transform = 'translateY(0)';
 
@@ -1210,6 +1262,37 @@ function showToast(message) {
         toast.style.transform = 'translateY(20px)';
     }, 2800);
 }
+
+function openEnrollmentModal() {
+    const modal = document.getElementById('enrollmentModal');
+    if (modal) {
+        modal.classList.add('active');
+        resetWorkerForm();
+    }
+}
+
+function closeEnrollmentModal() {
+    const modal = document.getElementById('enrollmentModal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+function saveWorkerProfile() {
+    registerWorker();
+}
+
+function updateLiveDate() {
+    const dateEl = document.getElementById('liveDate');
+    if (!dateEl) return;
+    
+    const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+    const today = new Date().toLocaleDateString('en-US', options);
+    dateEl.textContent = today;
+}
+
+setInterval(updateLiveDate, 60000);
+updateLiveDate();
 
 function persistWorkers() {
     const deduped = dedupeWorkersById(attendanceState.workers);
@@ -1267,8 +1350,9 @@ function renderAttendanceModule() {
     const workers = attendanceState.workers.filter(worker => worker.project === currentProject);
     const logs = attendanceState.logs.filter(log => log.project === currentProject && log.dateKey === todayKey);
     const enrolledCount = attendanceState.workers.filter(worker => Array.isArray(worker.descriptor) && worker.descriptor.length).length;
-    const presentCount = logs.filter(log => log.status !== 'Absent').length;
-    const pendingCount = Math.max(workers.length - presentCount, 0);
+    const presentCount = logs.filter(log => log.status === 'Present').length;
+    const lateCount = logs.filter(log => log.status === 'Late').length;
+    const absentCount = logs.filter(log => log.status === 'Absent').length;
 
     const roster = document.getElementById('workerRoster');
     if (roster) {
@@ -1308,8 +1392,10 @@ function renderAttendanceModule() {
 
     const presentEl = document.getElementById('attendancePresentCount');
     if (presentEl) presentEl.textContent = String(presentCount);
-    const pendingEl = document.getElementById('attendancePendingCount');
-    if (pendingEl) pendingEl.textContent = String(pendingCount);
+    const lateEl = document.getElementById('attendanceLateCount');
+    if (lateEl) lateEl.textContent = String(lateCount);
+    const absentEl = document.getElementById('attendanceAbsentCount');
+    if (absentEl) absentEl.textContent = String(absentCount);
     const enrolledEl = document.getElementById('attendanceEnrolledCount');
     if (enrolledEl) enrolledEl.textContent = String(enrolledCount);
     const dateLabel = document.getElementById('attendanceDateLabel');
