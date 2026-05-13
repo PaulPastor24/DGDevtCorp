@@ -394,84 +394,82 @@ $userTitle = 'Project Engineer';
                     </div>
                 </div>
 
-                <div class="two-col" style="align-items: start;">
-                    <div class="card mb-0">
+                <div class="card" style="margin-bottom: 32px;">
+                    <div class="card-header">
+                        <div class="card-title">Supervisor Submissions Queue</div>
+                        <span class="tag yellow">5 Pending</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Supervisor</th>
+                                <th>Submitted</th>
+                                <th>Phase</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-project="Rizal Residential" data-supervisor="R. Santos Construction" data-period="Apr 22 - Apr 28, 2026" data-phase="Phase 3 — Structural Works" data-completion="67" data-description="Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6.">
+                                <td><strong>Rizal Residential</strong></td>
+                                <td>R. Santos</td>
+                                <td style="color:var(--muted);">Apr 28, 08:12 AM</td>
+                                <td><span class="phase-tag">Structural Works</span></td>
+                                <td><span class="att-badge late">Awaiting Review</span></td>
+                                <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="loadReportDetails(this)">Open</button></td>
+                            </tr>
+                            <tr data-project="San Pablo Hub" data-supervisor="M. Dela Cruz & Team" data-period="Apr 20 - Apr 28, 2026" data-phase="Phase 2 — Foundation" data-completion="54" data-description="Foundation inspection completed. Concrete footings poured for all zones. Waterproofing treatment applied. Awaiting structural approval before moving to next phase.">
+                                <td><strong>San Pablo Hub</strong></td>
+                                <td>M. Dela Cruz</td>
+                                <td style="color:var(--muted);">Apr 28, 07:44 AM</td>
+                                <td><span class="phase-tag">Foundation</span></td>
+                                <td><span class="att-badge late">Awaiting Review</span></td>
+                                <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="loadReportDetails(this)">Open</button></td>
+                            </tr>
+                            <tr data-project="Batangas Warehouse" data-supervisor="P. Mendoza Builders" data-period="Apr 18 - Apr 27, 2026" data-phase="Phase 4 — Finishing Works" data-completion="82" data-description="Interior wall finishing 85% complete. Electricals and plumbing installation in progress. Paint and fixtures scheduled for next week. Final inspections starting on priority areas.">
+                                <td><strong>Batangas Warehouse</strong></td>
+                                <td>P. Mendoza</td>
+                                <td style="color:var(--muted);">Apr 27, 05:16 PM</td>
+                                <td><span class="phase-tag">Finishing Works</span></td>
+                                <td><span class="att-badge late">In Review</span></td>
+                                <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="loadReportDetails(this)">Open</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="two-col">
+                    <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Supervisor Submissions Queue</div>
-                            <span class="tag yellow">5 Pending</span>
+                            <div class="card-title">Selected Report Details</div>
+                            <span class="tag" id="reportProjectTag">Rizal Residential</span>
                         </div>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Project</th>
-                                    <th>Supervisor</th>
-                                    <th>Submitted</th>
-                                    <th>Phase</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Rizal Residential</strong></td>
-                                    <td>R. Santos</td>
-                                    <td style="color:var(--muted);">Apr 28, 08:12 AM</td>
-                                    <td><span class="phase-tag">Structural Works</span></td>
-                                    <td><span class="att-badge late">Awaiting Review</span></td>
-                                    <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="showToast('Loaded report for review')">Open</button></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>San Pablo Hub</strong></td>
-                                    <td>M. Dela Cruz</td>
-                                    <td style="color:var(--muted);">Apr 28, 07:44 AM</td>
-                                    <td><span class="phase-tag">Foundation</span></td>
-                                    <td><span class="att-badge late">Awaiting Review</span></td>
-                                    <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="showToast('Loaded report for review')">Open</button></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Batangas Warehouse</strong></td>
-                                    <td>P. Mendoza</td>
-                                    <td style="color:var(--muted);">Apr 27, 05:16 PM</td>
-                                    <td><span class="phase-tag">Finishing Works</span></td>
-                                    <td><span class="att-badge late">In Review</span></td>
-                                    <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="showToast('Loaded report for review')">Open</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div style="display:grid; gap:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Supervisor</span><span style="color:var(--text);" id="reportSupervisor">R. Santos Construction</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Report Period</span><span style="color:var(--text);" id="reportPeriod">Apr 22 - Apr 28, 2026</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Current Phase</span><span style="color:var(--text);" id="reportPhase">Phase 3 — Structural Works</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Completion</span><span style="color:var(--accent); font-weight:700%;" id="reportCompletion">67%</span></div>
+                            <div style="padding:14px; min-height:120px; margin-top:2px; border:1px solid var(--border); border-radius:10px; background:rgba(0,0,0,0.01); font-size:12px; line-height:1.6; cursor:default; user-select:none;" id="reportDescription">
+                                Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6.
+                            </div>
+                        </div>
                     </div>
 
-                    <div>
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Selected Report Details</div>
-                                <span class="tag">Rizal Residential</span>
-                            </div>
-                            <div style="display:grid; gap:12px;">
-                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Supervisor</span><span style="color:var(--text);">R. Santos Construction</span></div>
-                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Report Period</span><span style="color:var(--text);">Apr 22 - Apr 28, 2026</span></div>
-                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Current Phase</span><span style="color:var(--text);">Phase 3 — Structural Works</span></div>
-                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Completion</span><span style="color:var(--accent); font-weight:700;">67%</span></div>
-                                <div style="padding:12px; border:1px solid var(--border); border-radius:10px; background:rgba(0,0,0,0.01); font-size:12px; line-height:1.5;">
-                                    Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6.
-                                </div>
-                            </div>
+                    <div class="card mb-0">
+                        <div class="card-title" style="margin-bottom:14px;">Evidence & Review Decision</div>
+                        <div style="display:grid; gap:8px; margin-bottom:14px;">
+                            <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span></div>
+                            <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> level4_slab_progress.jpg <span style="margin-left:auto; color:var(--muted);">1.7 MB</span></div>
+                            <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;"><span>📄</span> inspection_form_level4.pdf <span style="margin-left:auto; color:var(--muted);">0.8 MB</span></div>
                         </div>
-
-                        <div class="card mb-0">
-                            <div class="card-title" style="margin-bottom:14px;">Evidence & Review Decision</div>
-                            <div style="display:grid; gap:8px; margin-bottom:14px;">
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span></div>
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> level4_slab_progress.jpg <span style="margin-left:auto; color:var(--muted);">1.7 MB</span></div>
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;"><span>📄</span> inspection_form_level4.pdf <span style="margin-left:auto; color:var(--muted);">0.8 MB</span></div>
-                            </div>
-                            <div class="form-group" style="margin-bottom:12px;">
-                                <label class="form-label">Reviewer Notes</label>
-                                <textarea class="form-textarea" style="min-height:80px;" placeholder="Add findings, required revisions, or approval notes..."></textarea>
-                            </div>
-                            <div style="display:flex; justify-content:flex-end; gap:10px;">
-                                <button class="topbar-btn" onclick="showToast('Revision request sent to supervisor')">Request Revision</button>
-                                <button class="topbar-btn primary" onclick="showToast('Report approved and forwarded to phase management')">Approve Report</button>
-                            </div>
+                        <div class="form-group" style="margin-bottom:12px;">
+                            <label class="form-label">Reviewer Notes</label>
+                            <textarea class="form-textarea" style="min-height:80px;" placeholder="Add findings, required revisions, or approval notes..."></textarea>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:10px;">
+                            <button class="topbar-btn" onclick="showToast('Revision request sent to supervisor')">Request Revision</button>
+                            <button class="topbar-btn primary" onclick="showToast('Report approved and forwarded to phase management')">Approve Report</button>
                         </div>
                     </div>
                 </div>
@@ -617,64 +615,15 @@ $userTitle = 'Project Engineer';
                         </div>
 
                         <div class="card mb-0">
-                            <div class="card-title" style="margin-bottom:12px;">Recent Attendance</div>
-                            <div class="attendance-logs">
-                                <div class="log-entry">
-                                    <div class="log-time-wrap">
-                                        <div class="log-time">2:32 PM</div>
-                                        <div class="log-date">May 13, 2026</div>
-                                    </div>
-                                    <div class="log-info">
-                                        <div class="log-worker">Angelito Gonzales</div>
-                                        <div class="log-detail">W-003 · Carpenter</div>
-                                    </div>
-                                    <div class="log-status present">✓ Present</div>
-                                </div>
-                                <div class="log-entry">
-                                    <div class="log-time-wrap">
-                                        <div class="log-time">2:18 PM</div>
-                                        <div class="log-date">May 13, 2026</div>
-                                    </div>
-                                    <div class="log-info">
-                                        <div class="log-worker">Paul Pastor</div>
-                                        <div class="log-detail">W-001 · Carpenter</div>
-                                    </div>
-                                    <div class="log-status present">✓ Present</div>
-                                </div>
-                                <div class="log-entry">
-                                    <div class="log-time-wrap">
-                                        <div class="log-time">1:55 PM</div>
-                                        <div class="log-date">May 13, 2026</div>
-                                    </div>
-                                    <div class="log-info">
-                                        <div class="log-worker">Sheree Quan</div>
-                                        <div class="log-detail">W-002 · Carpenter</div>
-                                    </div>
-                                    <div class="log-status present">✓ Present</div>
-                                </div>
-                                <div class="log-entry">
-                                    <div class="log-time-wrap">
-                                        <div class="log-time">1:42 PM</div>
-                                        <div class="log-date">May 13, 2026</div>
-                                    </div>
-                                    <div class="log-info">
-                                        <div class="log-worker">Juan De La Cruz</div>
-                                        <div class="log-detail">W-004 · Welder</div>
-                                    </div>
-                                    <div class="log-status present">✓ Present</div>
-                                </div>
-                                <div class="log-entry">
-                                    <div class="log-time-wrap">
-                                        <div class="log-time">1:28 PM</div>
-                                        <div class="log-date">May 13, 2026</div>
-                                    </div>
-                                    <div class="log-info">
-                                        <div class="log-worker">Maria Santos</div>
-                                        <div class="log-detail">W-005 · Electrician</div>
-                                    </div>
-                                    <div class="log-status present">✓ Present</div>
+                            <div class="card-header">
+                                <div class="card-title">Recent Attendance</div>
+                                <div class="attendance-filter">
+                                    <input type="date" id="recentAttendanceDate" class="attendance-date-input">
+                                    <button class="topbar-btn" type="button" id="recentAttendanceFilterBtn">Filter</button>
+                                    <button class="topbar-btn" type="button" id="recentAttendanceClearBtn">Clear</button>
                                 </div>
                             </div>
+                            <div class="attendance-logs" id="recentAttendanceList"></div>
                         </div>
                     </div>
 
@@ -1055,6 +1004,7 @@ const attendanceState = {
     workers: [],
     logs: [],
     currentProject: 'Rizal Residential Complex',
+    recentAttendanceDate: '',
     loadingModels: null,
 };
 
@@ -1067,6 +1017,25 @@ function readJson(key, fallback) {
     }
 }
 
+function writeJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+async function sendAttendanceApi(action, payload = {}) {
+    const response = await fetch('attendance_api.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ action, ...payload }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Attendance API request failed.');
+    }
+
+    return response.json();
+}
+
 function dedupeWorkersById(workers) {
     const map = new Map();
     for (const w of (workers || [])) {
@@ -1074,40 +1043,6 @@ function dedupeWorkersById(workers) {
         if (!map.has(w.id)) map.set(w.id, w);
     }
     return Array.from(map.values());
-}
-
-function writeJson(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-}
-
-async function sendAttendanceApi(action, payload = {}) {
-    try {
-        const response = await fetch('attendance_api.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ action, ...payload }),
-        });
-
-        const data = await response.json();
-        console.log(`API ${action} response:`, data);
-
-        if (!response.ok) {
-            const errorMsg = data.message || `HTTP ${response.status}`;
-            console.error(`API error (${action}):`, errorMsg);
-            throw new Error(errorMsg);
-        }
-
-        if (!data.success) {
-            console.error(`API failure (${action}):`, data.message);
-            throw new Error(data.message || `API ${action} failed`);
-        }
-
-        return data;
-    } catch (error) {
-        console.error(`sendAttendanceApi(${action}) error:`, error);
-        throw error;
-    }
 }
 
 async function bootstrapAttendanceData() {
@@ -1250,6 +1185,105 @@ function showToast(message) {
     }, 2800);
 }
 
+function attachFilePickerScrollFix(fileInputId) {
+    const fileInput = document.getElementById(fileInputId);
+    if (!fileInput) return;
+
+    fileInput.addEventListener('click', (e) => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        
+        setTimeout(() => {
+            window.scrollTo(scrollLeft, scrollTop);
+        }, 0);
+    });
+}
+
+function loadReportDetails(button) {
+    const row = button.closest('tr');
+    if (!row) return;
+
+    const project = row.dataset.project;
+    const supervisor = row.dataset.supervisor;
+    const period = row.dataset.period;
+    const phase = row.dataset.phase;
+    const completion = row.dataset.completion;
+    const description = row.dataset.description;
+
+    document.getElementById('reportProjectTag').textContent = project;
+    document.getElementById('reportSupervisor').textContent = supervisor;
+    document.getElementById('reportPeriod').textContent = period;
+    document.getElementById('reportPhase').textContent = phase;
+    document.getElementById('reportCompletion').textContent = completion + '%';
+    document.getElementById('reportDescription').textContent = description;
+
+    showToast('Report loaded for review');
+}
+
+function formatAttendanceDate(dateKey) {
+    if (!dateKey) return '';
+    const [year, month, day] = String(dateKey).split('-').map(Number);
+    if (!year || !month || !day) return dateKey;
+    const date = new Date(year, month - 1, day);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function renderRecentAttendanceLogs() {
+    const list = document.getElementById('recentAttendanceList');
+    if (!list) return;
+
+    const currentProject = attendanceState.currentProject;
+    const selectedDate = attendanceState.recentAttendanceDate;
+    const logs = attendanceState.logs
+        .filter(log => log.project === currentProject)
+        .filter(log => !selectedDate || log.dateKey === selectedDate)
+        .slice()
+        .sort((a, b) => {
+            if (a.dateKey === b.dateKey) return String(b.timeIn).localeCompare(String(a.timeIn));
+            return String(b.dateKey).localeCompare(String(a.dateKey));
+        })
+        .slice(0, 6);
+
+    if (!logs.length) {
+        list.innerHTML = '<div class="worker-roster-empty">No attendance logs found for the selected date.</div>';
+        return;
+    }
+
+    list.innerHTML = logs.map(log => `
+        <div class="log-entry">
+            <div class="log-time-wrap">
+                <div class="log-time">${formatClock(log.timeIn)}</div>
+                <div class="log-date">${formatAttendanceDate(log.dateKey)}</div>
+            </div>
+            <div class="log-info">
+                <div class="log-worker">${log.workerName}</div>
+                <div class="log-detail">${log.workerId} · ${log.workerRole}</div>
+            </div>
+            <div class="log-status ${String(log.status || '').toLowerCase()}">${log.status === 'Present' ? '✓ Present' : log.status}</div>
+        </div>
+    `).join('');
+}
+
+async function applyRecentAttendanceFilter() {
+    const input = document.getElementById('recentAttendanceDate');
+    attendanceState.recentAttendanceDate = input?.value || '';
+
+    try {
+        await bootstrapAttendanceData();
+    } catch (error) {
+        console.error('Failed to refresh attendance logs:', error);
+    }
+
+    renderAttendanceModule();
+}
+
+function clearRecentAttendanceFilter() {
+    attendanceState.recentAttendanceDate = '';
+    const input = document.getElementById('recentAttendanceDate');
+    if (input) input.value = '';
+    renderAttendanceModule();
+}
+
 function persistWorkers() {
     const deduped = dedupeWorkersById(attendanceState.workers);
     attendanceState.workers = deduped;
@@ -1283,14 +1317,20 @@ async function initAttendanceModule() {
             showAttendanceStatus('Unable to preview the selected photo.');
         });
     });
+    attachFilePickerScrollFix('workerPhotoInput');
     document.getElementById('saveWorkerBtn')?.addEventListener('click', registerWorker);
     document.getElementById('resetWorkerBtn')?.addEventListener('click', resetWorkerForm);
+
+    document.getElementById('recentAttendanceFilterBtn')?.addEventListener('click', applyRecentAttendanceFilter);
+    document.getElementById('recentAttendanceClearBtn')?.addEventListener('click', clearRecentAttendanceFilter);
+    document.getElementById('recentAttendanceDate')?.addEventListener('change', applyRecentAttendanceFilter);
 
     document.getElementById('groupPhotoInput')?.addEventListener('change', function() {
         updateGroupPhotoPreview(this.files?.[0]).catch(() => {
             document.getElementById('groupPhotoStatus').textContent = 'Unable to preview the selected photo.';
         });
     });
+    attachFilePickerScrollFix('groupPhotoInput');
     document.getElementById('runGroupPhotoBtn')?.addEventListener('click', processGroupPhoto);
     document.getElementById('resetGroupPhotoBtn')?.addEventListener('click', resetGroupPhotoForm);
 
@@ -1353,6 +1393,13 @@ function renderAttendanceModule() {
     if (enrolledEl) enrolledEl.textContent = String(enrolledCount);
     const dateLabel = document.getElementById('attendanceDateLabel');
     if (dateLabel) dateLabel.textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    const recentDateInput = document.getElementById('recentAttendanceDate');
+    if (recentDateInput && !recentDateInput.value && attendanceState.recentAttendanceDate) {
+        recentDateInput.value = attendanceState.recentAttendanceDate;
+    }
+
+    renderRecentAttendanceLogs();
 }
 
 async function ensureFaceApiLoaded() {
@@ -1487,6 +1534,7 @@ async function registerWorker() {
 
         const descriptor = Array.from(detection.descriptor);
         const existingIndex = attendanceState.workers.findIndex(worker => worker.id === id);
+        let workerRecord;
 
         if (existingIndex >= 0) {
             const existing = attendanceState.workers[existingIndex];
@@ -1507,9 +1555,10 @@ async function registerWorker() {
 
             if (!isDuplicate) refs.push(descriptor);
 
-            attendanceState.workers[existingIndex] = { ...existing, name, role, project, descriptor: refs, photoName: photoFile.name };
+            workerRecord = { id, name, role, project, descriptor: refs, photoName: photoFile.name };
+            attendanceState.workers[existingIndex] = workerRecord;
         } else {
-            const workerRecord = { id, name, role, project, descriptor, photoName: photoFile.name };
+            workerRecord = { id, name, role, project, descriptor, photoName: photoFile.name };
             attendanceState.workers.push(workerRecord);
         }
 
@@ -1626,9 +1675,17 @@ async function processGroupPhoto() {
             return;
         }
 
-        if (statusEl) statusEl.textContent = `Detected ${detections.length} face(s). Matching against ${attendanceState.workers.filter(w => w.project === project && Array.isArray(w.descriptor) && w.descriptor.length).length} enrolled workers...`;
+        // Get workers to match against (prioritize current project, fall back to all if none found)
+        let workersToMatch = attendanceState.workers.filter(w => w.project === project && Array.isArray(w.descriptor) && w.descriptor.length);
+        if (!workersToMatch.length) {
+            console.warn(`No enrolled workers found for project '${project}'. Using all enrolled workers.`);
+            workersToMatch = attendanceState.workers.filter(w => Array.isArray(w.descriptor) && w.descriptor.length);
+        }
+
+        if (statusEl) statusEl.textContent = `Detected ${detections.length} face(s). Matching against ${workersToMatch.length} enrolled workers...`;
         console.log('Starting face matching');
-        console.log('Enrolled worker IDs:', attendanceState.workers.map(w => w.id));
+        console.log('Workers available for matching:', workersToMatch.map(w => `${w.name} (${w.project})`));
+        
         function getBox(det) {
             const b = (det && det.detection && det.detection.box) || det.box;
             if (!b) return null;
@@ -1685,8 +1742,8 @@ async function processGroupPhoto() {
             let bestScore = 0;
             const detectionScores = [];
 
-            for (const worker of attendanceState.workers) {
-                if (!worker || worker.project !== project) continue;
+            for (const worker of workersToMatch) {
+                if (!worker) continue;
 
                 let referenceDescriptors = [];
                 if (Array.isArray(worker.descriptor) && worker.descriptor.length) {
@@ -1716,7 +1773,11 @@ async function processGroupPhoto() {
             
             console.log('Face detection scores:', detectionScores);
             if (bestMatch) {
-                console.log('Matched:', bestMatch.worker.name, 'Score:', bestMatch.score.toFixed(3));
+                console.log('✓ Matched:', bestMatch.worker.name, 'Distance:', bestMatch.distance.toFixed(4), 'Score:', bestMatch.score.toFixed(3));
+            } else {
+                if (detectionScores.length) {
+                    console.warn('✗ No match - closest was:', detectionScores[0].name, 'at distance', detectionScores[0].distance);
+                }
             }
 
             if (bestMatch) {
@@ -1740,7 +1801,7 @@ async function processGroupPhoto() {
         const recordedAttendance = [];
         for (const worker of uniqueMatchedWorkers) {
             const existingLogIndex = attendanceState.logs.findIndex(
-                log => log.workerId === worker.id && log.project === project && log.dateKey === todayKey
+                log => log.workerId === worker.id && log.project === worker.project && log.dateKey === todayKey
             );
 
             const timeInStr = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
@@ -1748,7 +1809,7 @@ async function processGroupPhoto() {
                 workerId: worker.id,
                 workerName: worker.name,
                 workerRole: worker.role,
-                project: project,
+                project: worker.project,
                 dateKey: todayKey,
                 timeIn: timeInStr,
                 status: 'Present',

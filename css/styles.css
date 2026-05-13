@@ -306,36 +306,40 @@
   }
 
   .card {
+      display: flex;
+      flex-direction: column;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 18px;
+    padding: 24px;
     margin-bottom: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    transition: box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
     overflow: hidden;
   }
   
   .card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    border-color: rgba(245,166,35,0.2);
   }
 
   .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    gap: 8px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+    gap: 12px;
     flex-wrap: wrap;
   }
 
   .card-title {
     font-family: var(--heading);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--text);
+    letter-spacing: 0.01em;
   }
 
   .proj-grid {
@@ -467,25 +471,38 @@
   .data-table { width: 100%; border-collapse: collapse; }
 
   .data-table th {
-    padding: 16px 18px;
+    padding: 14px 18px;
     text-align: left;
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.15em;
     color: var(--muted);
     border-bottom: 2px solid var(--border);
     font-weight: 700;
+    background: linear-gradient(180deg, rgba(250,250,252,0.8), rgba(250,250,252,0.4));
   }
 
   .data-table td {
-    padding: 18px 18px;
-    font-size: 14px;
+    padding: 16px 18px;
+    font-size: 13px;
     border-bottom: 1px solid var(--border);
     color: var(--text);
+    vertical-align: middle;
   }
 
-  .data-table tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: rgba(245,166,35,0.03); }
+  .data-table tbody tr {
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .data-table tbody tr:nth-child(odd) {
+    background: rgba(250,250,252,0.5);
+  }
+
+  .data-table tbody tr:hover {
+    background: linear-gradient(90deg, rgba(245,166,35,0.06), rgba(245,166,35,0.03));
+  }
+
+  .data-table tr:last-child td { border-bottom: 1px solid var(--border); }
 
   .worker-row { display: flex; align-items: center; gap: 10px; }
 
@@ -652,8 +669,95 @@
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
+  .face-stage {
+    background: linear-gradient(135deg, rgba(128, 90, 213, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+    border-bottom: 1px solid var(--border);
+    height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .face-stage img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .face-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 20px;
+    line-height: 1.5;
+  }
+
   .face-info { padding: 16px 20px; }
   .face-status { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+
+  .face-actions {
+    display: flex;
+    gap: 10px;
+    margin: 12px 0;
+  }
+
+  .face-actions button {
+    flex: 1;
+  }
+
+  .face-meta {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-top: 8px;
+  }
+
+  .attendance-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .attendance-date-input {
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 12px;
+    min-height: 34px;
+  }
+
+  .attendance-date-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.1);
+  }
+
+  .attendance-logs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .worker-roster-empty {
+    padding: 14px;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+    font-size: 12px;
+    background: rgba(0,0,0,0.01);
+  }
 
   .client-banner {
     background: linear-gradient(135deg, #0f1929, #1a2540);
@@ -794,7 +898,10 @@
   .mini-bar:hover { background: var(--accent); }
   .mini-bar.active { background: var(--accent); }
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: stretch; }
+  .two-col > .card {
+    height: 100%;
+  }
   .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
   .col-7-5 { display: grid; grid-template-columns: 7fr 5fr; gap: 20px; }
 
@@ -840,10 +947,10 @@
 
   .tag {
     display: inline-block;
-    padding: 2px 9px;
-    border-radius: 4px;
-    font-size: 10.5px;
-    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
     background: rgba(0,0,0,0.08);
     color: var(--muted);
     margin-right: 4px;
