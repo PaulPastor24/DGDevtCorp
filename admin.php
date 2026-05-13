@@ -80,7 +80,9 @@ $userTitle = 'Project Engineer';
 
     <div class="main">
         <div class="topbar">
-            <div class="topbar-title" id="pageTitle">Management Dashboard</div>
+            <div class="topbar-left">
+                <div class="topbar-title" id="pageTitle">Management Dashboard</div>
+            </div>
             <div class="topbar-right">
                 <span style="font-size:12px;color:var(--muted)">Mon, 28 Apr 2026</span>
                 <div class="topbar-notif">
@@ -92,11 +94,6 @@ $userTitle = 'Project Engineer';
 
         <div class="content">
             <div class="page active" id="pg-dashboard">
-                <div class="page-header">
-                    <h1>Management Dashboard</h1>
-                    <p>Real-time overview of all active construction projects â€” D&G Dev't Corp.</p>
-                </div>
-
                 <div class="stat-grid">
                     <div class="stat-card" style="--accent-color: var(--accent);">
                         <div class="stat-label">Active Projects</div>
@@ -233,11 +230,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-timeline">
-                <div class="page-header">
-                    <h1>Project Timeline</h1>
-                    <p>Real-time construction phase milestones and progress visualization.</p>
-                </div>
-
                 <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center;">
                     <div style="min-width:260px; flex:0 0 auto;">
                         <label class="form-label" style="display:block; margin-bottom:6px; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);">Project</label>
@@ -294,11 +286,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-report">
-                <div class="page-header">
-                    <h1>Progress Report Review</h1>
-                    <p>Review supervisor-submitted reports, validate evidence, and approve or request revisions.</p>
-                </div>
-
                 <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:20px;">
                     <div class="stat-card" style="--accent-color: var(--yellow);">
                         <div class="stat-label">Awaiting Review</div>
@@ -404,11 +391,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-phase">
-                <div class="page-header">
-                    <h1>Admin Phase Management</h1>
-                    <p>Review contractor reports and assign/approve construction phases.</p>
-                </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Pending Contractor Reports</div>
@@ -495,11 +477,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-attendance">
-                <div class="page-header">
-                    <h1>Worker Face Profiles</h1>
-                    <p>Upload one reference photo per worker so the supervisor can match a group photo against saved FaceNet descriptors.</p>
-                </div>
-
                 <div class="attendance-grid">
                     <div class="attendance-stack">
                         <div class="card">
@@ -626,11 +603,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-materials">
-                <div class="page-header">
-                    <h1>Materials & Inventory</h1>
-                    <p>Track material deliveries, usage, logistics, and low-stock alerts.</p>
-                </div>
-
                 <div class="stat-grid" style="grid-template-columns: repeat(3,1fr);">
                     <div class="stat-card" style="--accent-color: var(--blue);">
                         <div class="stat-label">Active Deliveries</div>
@@ -725,11 +697,6 @@ $userTitle = 'Project Engineer';
                                     </tr>
                                     <tr>
                                         <td style="font-size:11px; color:var(--muted);">T-203</td>
-                                        <td>Cement (200 bags)</td>
-                                        <td style="font-size:11px;">XYZ-891</td>
-                                        <td><span class="tag green">Delivered</span></td>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -737,11 +704,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-alerts">
-                <div class="page-header">
-                    <h1>Alerts & Notifications</h1>
-                    <p>System-generated flags for materials, schedules, and attendance anomalies.</p>
-                </div>
-
                 <div class="two-col" style="align-items:start;">
                     <div>
                         <div class="section-header"><div class="section-title">Critical Alerts</div></div>

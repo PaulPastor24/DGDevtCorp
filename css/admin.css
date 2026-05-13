@@ -48,8 +48,10 @@ body {
 }
 
 .sidebar-logo {
-    padding: 24px 20px 20px;
+    min-height: 84px;
+    padding: 18px 20px 16px;
     border-bottom: 1px solid var(--border);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.04);
 }
 
 .logo-badge {
@@ -213,19 +215,65 @@ body {
 }
 
 .topbar {
-    background: transparent;
-    border-bottom: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(248,250,247,0.96) 100%);
+    border-bottom: 1px solid rgba(61, 107, 61, 0.14);
     padding: 0 28px;
-    height: 56px;
+    height: 84px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     position: sticky;
     top: 0;
     z-index: 50;
+    box-shadow: 0 8px 24px rgba(22, 34, 22, 0.06);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: sticky;
+}
+
+.topbar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(61, 107, 61, 0.35) 18%, rgba(61, 107, 61, 0.55) 50%, rgba(61, 107, 61, 0.35) 82%, transparent 100%);
+    pointer-events: none;
 }
 
 .topbar-right { display: flex; align-items: center; gap: 24px; }
+
+.topbar-title {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(61, 107, 61, 0.08);
+    border: 1px solid rgba(61, 107, 61, 0.12);
+    box-shadow: 0 2px 8px rgba(22, 34, 22, 0.04);
+}
+
+.topbar-title::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(61, 107, 61, 0.12);
+}
+
+.topbar-title {
+    font-family: var(--heading);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
 .topbar-btn {
     padding: 8px 16px;
     border-radius: 8px;
@@ -288,22 +336,6 @@ body {
 .content { padding: 28px; flex: 1; overflow-y: auto; }
 .page { display: none; }
 .page.active { display: block; }
-
-.page-header {
-    margin-bottom: 24px;
-}
-
-.page-header h1 {
-    font-family: var(--heading);
-    font-size: 22px;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-
-.page-header p {
-    font-size: 13px;
-    color: var(--muted);
-}
 
 .face-panel {
     display: grid;

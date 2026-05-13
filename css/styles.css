@@ -169,20 +169,31 @@
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     padding: 0 28px;
-    height: 56px;
+    height: 76px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
     z-index: 50;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    flex: 1;
   }
 
   .topbar-title {
     font-family: var(--heading);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--text);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .topbar-right { display: flex; align-items: center; gap: 12px; }
@@ -1115,18 +1126,3 @@
   .tag.yellow { background: rgba(245,166,35,0.15); color: var(--yellow); }
   .tag.red { background: rgba(239,68,68,0.15); color: var(--red); }
 
-  .page-header {
-    margin-bottom: 16px;
-  }
-
-  .page-header h1 {
-    font-family: var(--heading);
-    font-size: 22px;
-    font-weight: 800;
-    margin-bottom: 4px;
-  }
-
-  .page-header p {
-    font-size: 13px;
-    color: var(--muted);
-  }
