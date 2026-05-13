@@ -307,12 +307,12 @@ body {
 
 .face-panel {
     display: grid;
-    gap: 14px;
+    gap: 10px;
 }
 
 .face-stage {
     position: relative;
-    height: 240px;
+    height: 160px;
     overflow: hidden;
     border: 1px solid var(--border);
     border-radius: 12px;
@@ -350,7 +350,7 @@ body {
 .face-info {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
 .face-status {
@@ -388,7 +388,7 @@ body {
     position: relative;
     height: 240px;
     overflow: hidden;
-    background: radial-gradient(circle at center, rgba(245,166,35,0.15), rgba(6,9,18,0.98) 60%);
+    background: radial-gradient(circle at center, rgba(57, 86, 38, 0.15), rgba(6,9,18,0.98) 60%);
 }
 
 .face-stage video,
