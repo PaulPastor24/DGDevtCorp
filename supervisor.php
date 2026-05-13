@@ -13,6 +13,7 @@ $userTitle = 'Project Supervisor';
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/supervisor.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -32,24 +33,24 @@ $userTitle = 'Project Supervisor';
         <nav class="sidebar-nav">
             <div class="nav-section-label">Site Operations</div>
             <div class="nav-item active" onclick="navigate('timeline', this)">
-                Project Timeline
+                <i class="bi bi-calendar-event"></i>Project Timeline
             </div>
             <div class="nav-item" onclick="navigate('report', this)">
-                Submit Report
+                <i class="bi bi-file-earmark-bar-graph"></i>Submit Report
                 <span class="nav-badge">2</span>
             </div>
 
             <div class="nav-section-label">Workforce & Materials</div>
             <div class="nav-item" onclick="navigate('attendance', this)">
-                Attendance Logs
+                <i class="bi bi-people"></i>Group Attendance
             </div>
             <div class="nav-item" onclick="navigate('materials', this)">
-                Material Tracking
+                <i class="bi bi-boxes"></i>Material Tracking
             </div>
 
             <div class="nav-section-label">System</div>
             <div class="nav-item" onclick="doLogout()">
-                Sign Out
+                <i class="bi bi-box-arrow-right"></i>Sign Out
             </div>
         </nav>
 
@@ -60,6 +61,9 @@ $userTitle = 'Project Supervisor';
                     <div class="user-name"><?php echo htmlspecialchars($userName); ?></div>
                     <div class="user-role"><?php echo htmlspecialchars($userTitle); ?></div>
                 </div>
+                <div class="logout-icon-btn" onclick="doLogout()">
+                    <i class="bi bi-box-arrow-right"></i>
+                </div>
             </div>
         </div>
     </aside>
@@ -68,8 +72,9 @@ $userTitle = 'Project Supervisor';
         <div class="topbar">
             <div class="topbar-title" id="pageTitle">Project Timeline</div>
             <div class="topbar-right">
-                <span style="font-size:12px;color:var(--muted)">Mon, 28 Apr 2026</span>
-                <div class="topbar-notif">
+                <span id="liveDate" style="font-size:13px;color:var(--muted);min-width:140px;">Mon, 28 Apr 2026</span>
+                <div class="topbar-notif" style="cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                    <i class="bi bi-bell-fill" style="font-size: 18px;"></i>
                     <div class="notif-dot"></div>
                 </div>
                 <button class="topbar-btn primary" id="primaryAction" onclick="primaryAction()" style="display:none;">+ New Report</button>
@@ -319,79 +324,132 @@ Weather delays of 2 days noted.</textarea>
                     <p>Upload one site photo and the system will match every visible face against the worker profiles saved by admin.</p>
                 </div>
 
-                <div class="attendance-grid">
-                    <div class="attendance-stack">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Today's Attendance � <span id="attendanceDateLabel">Apr 28, 2026</span></div>
-                                <select class="form-select attendance-select" id="attendanceProjectSelect">
+                <!-- 3-Column Layout: Enrolled Workers | Upload Group Photo | Today's Attendance -->
+                <div style="display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr) minmax(0, 1fr); gap: 28px; margin-bottom: 32px; align-items: start;">
+                    
+                    <!-- LEFT: Enrolled Workers -->
+                    <div>
+                        <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; height: 100%;">
+                            <div class="card-header" style="margin-bottom: 16px;">
+                                <div class="card-title">
+                                    <i class="bi bi-people-fill" style="color: var(--accent); margin-right: 8px;"></i>Enrolled Workers
+                                </div>
+                            </div>
+                            <div class="worker-roster" id="workerRoster" style="flex: 1; overflow-y: auto; max-height: 600px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- MIDDLE: Upload Group Photo -->
+                    <div>
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="card-header" style="margin-bottom: 20px;">
+                                <div class="card-title">
+                                    <i class="bi bi-camera-fill" style="color: var(--accent); margin-right: 8px;"></i>Upload Group Photo
+                                </div>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <!-- Photo Preview -->
+                                <div class="face-stage" style="aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%); border: 2px solid rgba(34, 197, 94, 0.2); box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                    <img id="groupPhotoPreview" alt="Uploaded group photo" style="display:none; width: 100%; height: 100%; object-fit: cover;">
+                                    <canvas id="groupPhotoOverlay" style="width: 100%; height: 100%; display: none;"></canvas>
+                                    <div class="face-empty" id="groupPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column; text-align: center;">
+                                        <i class="bi bi-image" style="font-size: 48px; color: var(--accent); margin-bottom: 12px; opacity: 0.7;"></i>
+                                        <div style="font-size: 13px; color: var(--text); font-weight: 500;">Group photo</div>
+                                        <div style="font-size: 11px; color: var(--muted); margin-top: 6px;">Portrait or landscape</div>
+                                    </div>
+                                </div>
+
+                                <!-- File Input -->
+                                <div class="form-group" style="margin: 0;">
+                                    <label class="form-label" style="margin-bottom: 8px;">
+                                        <i class="bi bi-cloud-upload" style="margin-right: 6px;"></i>Select Photo
+                                    </label>
+                                    <input type="file" class="form-input" id="groupPhotoInput" accept="image/*" style="padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;">
+                                </div>
+
+                                <!-- Status Message -->
+                                <div class="face-status" id="attendanceStatus" style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%); padding: 11px 13px; border-radius: 8px; border-left: 4px solid var(--accent); font-size: 11px; color: var(--text); line-height: 1.5;">Upload to scan and match faces against enrolled profiles.</div>
+
+                                <!-- Matched Results -->
+                                <div id="groupPhotoResults" style="margin: 0; display: none;">
+                                    <div style="font-size: 11px; font-weight: 600; margin-bottom: 8px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
+                                        <i class="bi bi-check-circle"></i>Matched Workers
+                                    </div>
+                                    <div id="groupPhotoResultsBody" style="font-size: 10px; color: var(--text); background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(16,185,129,0.05) 100%); padding: 11px 13px; border-radius: 8px; max-height: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;"></div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div style="display: flex; gap: 10px; justify-content: center;">
+                                    <button class="topbar-btn" id="clearGroupBtn" type="button" style="padding: 10px 18px; font-weight: 600; font-size: 12px; min-width: 100px;">
+                                        <i class="bi bi-trash" style="margin-right: 4px;"></i>Clear
+                                    </button>
+                                    <button class="topbar-btn primary" id="processGroupBtn" type="button" style="padding: 10px 18px; font-weight: 600; font-size: 12px; min-width: 100px;">
+                                        <i class="bi bi-play-fill" style="margin-right: 4px;"></i>Match Attendance
+                                    </button>
+                                </div>
+
+                                <div class="face-meta" id="faceMeta" style="padding-top: 12px; border-top: 1px solid var(--border); font-size: 10px; color: var(--muted); text-align: center; line-height: 1.4;">
+                                    <i class="bi bi-info-circle" style="margin-right: 3px;"></i>Faces matched against profiles
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Today's Attendance Table -->
+                    <div>
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="card-header" style="margin-bottom: 16px; flex-direction: column; align-items: flex-start; gap: 12px;">
+                                <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                                    <i class="bi bi-calendar-check" style="color: var(--accent); font-size: 18px;"></i>
+                                    <div>
+                                        <div class="card-title" style="margin: 0; font-size: 14px;">Today's Attendance</div>
+                                        <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span id="attendanceDateLabel">May 13, 2026</span></div>
+                                    </div>
+                                </div>
+                                <select class="form-select attendance-select" id="attendanceProjectSelect" style="min-width: 160px; font-size: 12px; width: 100%; max-width: 100%;">
                                     <option value="Rizal Residential Complex">Rizal Residential Complex</option>
                                     <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
                                 </select>
                             </div>
 
-                            <div class="attendance-summary">
-                                <div class="attendance-stat">
-                                    <div class="attendance-stat-label">Detected faces</div>
-                                    <div class="attendance-stat-value" id="attendanceDetectedCount">0</div>
-                                    <div class="attendance-stat-hint">Faces found in the upload</div>
+                            <!-- Summary Stats -->
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
+                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
+                                    <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Detected</div>
+                                    <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceDetectedCount">0</div>
                                 </div>
-                                <div class="attendance-stat">
-                                    <div class="attendance-stat-label">Matched workers</div>
-                                    <div class="attendance-stat-value" id="attendanceMatchedCount">0</div>
-                                    <div class="attendance-stat-hint">Recognized from profiles</div>
+                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
+                                    <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Matched</div>
+                                    <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceMatchedCount">0</div>
                                 </div>
-                                <div class="attendance-stat">
-                                    <div class="attendance-stat-label">Enrolled profiles</div>
-                                    <div class="attendance-stat-value" id="attendanceEnrolledCount">0</div>
-                                    <div class="attendance-stat-hint">Saved by admin</div>
+                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
+                                    <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Enrolled</div>
+                                    <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceEnrolledCount">0</div>
                                 </div>
                             </div>
 
-                            <table class="data-table attendance-table">
-                                <thead>
-                                    <tr><th>Worker</th><th>ID</th><th>Role</th><th>Time In</th><th>Status</th></tr>
-                                </thead>
-                                <tbody id="attendanceLogBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="attendance-stack">
-                        <div class="card">
-                            <div class="card-title" style="margin-bottom:16px;">Upload Group Photo</div>
-                            <div class="face-panel">
-                                <div class="face-stage">
-                                    <img id="groupPhotoPreview" alt="Uploaded group photo" style="display:none;">
-                                    <canvas id="groupPhotoOverlay"></canvas>
-                                    <div class="face-empty" id="groupPhotoEmpty">Upload the supervisor group photo to match every face against enrolled profiles.</div>
-                                </div>
-                                <div class="face-info">
-                                    <div class="face-status" id="attendanceStatus">Upload a group photo and run the FaceNet matcher to mark attendance.</div>
-                                    <div class="face-actions">
-                                        <button class="topbar-btn primary" id="processGroupBtn" type="button">Run Attendance Match</button>
-                                        <button class="topbar-btn" id="clearGroupBtn" type="button">Clear Photo</button>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Group Photo</label>
-                                        <input type="file" class="form-input" id="groupPhotoInput" accept="image/*">
-                                    </div>
-                                    <div id="groupPhotoResults" style="margin-top:14px; display:none;">
-                                        <div style="font-size:12px; font-weight:600; margin-bottom:12px; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em;">Matched Workers</div>
-                                        <div id="groupPhotoResultsBody" style="display:flex; flex-direction:column; gap:10px;"></div>
-                                    </div>
-                                    <div class="face-meta" id="faceMeta">The supervisor scan compares every detected face with the worker profiles stored by admin.</div>
-                                </div>
+                            <!-- Attendance Table -->
+                            <div style="overflow-x: auto;">
+                                <table class="data-table attendance-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Worker</th>
+                                            <th>ID</th>
+                                            <th>Role</th>
+                                            <th>Time In</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendanceLogBody"></tbody>
+                                </table>
                             </div>
-                        </div>
-
-                        <div class="card mb-0">
-                            <div class="card-title" style="margin-bottom:10px;">Enrolled Workers</div>
-                            <div class="worker-roster" id="workerRoster"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
+ 
 
             <div class="page" id="pg-materials">
                 <div class="page-header">
@@ -523,7 +581,7 @@ const pageTitles = {
 const primaryActions = {
     timeline: '',
     report: '+ New Report',
-    attendance: '+ Upload Photo',
+    attendance: '',
     materials: '',
 };
 
