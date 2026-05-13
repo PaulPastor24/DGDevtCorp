@@ -249,6 +249,7 @@ const pageTitles = {
 };
 
 function navigate(page, el) {
+    localStorage.setItem('dg-client-current-page', page);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
@@ -265,6 +266,18 @@ function doLogout() {
         window.location.href = 'logout.php';
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Restore the previously viewed page
+    const savedPage = localStorage.getItem('dg-client-current-page');
+    if (savedPage && pageTitles[savedPage]) {
+        const navItem = document.querySelector(`[onclick*="navigate('${savedPage}'"]`);
+        navigate(savedPage, navItem);
+    } else {
+        // Default to dashboard if no saved page
+        navigate('dashboard', document.querySelector("[onclick*=\"navigate('dashboard'\""));
+    }
+});
 
 </script>
 
