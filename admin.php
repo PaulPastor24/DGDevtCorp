@@ -13,9 +13,8 @@ $userTitle = 'Project Engineer';
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin.css?v=<?php echo filemtime('css/admin.css'); ?>">
 </head>
 <body>
 
@@ -25,44 +24,47 @@ $userTitle = 'Project Engineer';
             <div class="logo-badge">
                 <div class="logo-icon"><img src="images/logo.jpg" alt="D&G"></div>
                 <div>
-                    <div class="logo-text">D&G Devt Corp</div>
+                    <div class="logo-text">ConstructMonitor</div>
                 </div>
             </div>
+            <div class="logo-sub">D&G Dev't Corporation</div>
         </div>
 
         <nav class="sidebar-nav">
             <div class="nav-section-label">Overview</div>
             <div class="nav-item active" onclick="navigate('dashboard', this)">
-                <i class="bi bi-speedometer2"></i>
                 Management Dashboard
             </div>
 
             <div class="nav-section-label">Monitoring & Progress</div>
             <div class="nav-item" onclick="navigate('timeline', this)">
-                <i class="bi bi-calendar-event"></i>
                 Project Timeline
             </div>
             <div class="nav-item" onclick="navigate('report', this)">
-                <i class="bi bi-file-earmark-bar-graph"></i>
                 Progress Report
                 <span class="nav-badge">3</span>
             </div>
             <div class="nav-item" onclick="navigate('phase', this)">
-                <i class="bi bi-diagram-3"></i>
                 Phase Management
             </div>
 
             <div class="nav-section-label">Materials & Attendance</div>
             <div class="nav-item" onclick="navigate('attendance', this)">
-                <i class="bi bi-person-check"></i>
                 Worker Attendance
             </div>
             <div class="nav-item" onclick="navigate('materials', this)">
-                <i class="bi bi-boxes"></i>
                 Materials & Inventory
                 <span class="nav-badge red">!</span>
             </div>
 
+            <div class="nav-section-label">System</div>
+            <div class="nav-item" onclick="navigate('alerts', this)">
+                Alerts
+                <span class="nav-badge red">5</span>
+            </div>
+            <div class="nav-item" onclick="doLogout()">
+                Sign Out
+            </div>
         </nav>
 
         <div class="sidebar-footer">
@@ -70,9 +72,7 @@ $userTitle = 'Project Engineer';
                 <div class="user-avatar">EA</div>
                 <div class="user-info">
                     <div class="user-name"><?php echo htmlspecialchars($userName); ?></div>
-                </div>
-                <div class="logout-icon-btn" onclick="doLogout()">
-                    <i class="bi bi-box-arrow-right"></i>
+                    <div class="user-role"><?php echo htmlspecialchars($userTitle); ?></div>
                 </div>
             </div>
         </div>
@@ -80,22 +80,20 @@ $userTitle = 'Project Engineer';
 
     <div class="main">
         <div class="topbar">
+            <div class="topbar-left">
+                <div class="topbar-title" id="pageTitle">Management Dashboard</div>
+            </div>
             <div class="topbar-right">
-                <span id="liveDate" style="font-size:13px;color:var(--muted);min-width:140px;">Mon, 28 Apr 2026</span>
-                <div class="topbar-notif" onclick="navigate('attendance', document.querySelector('[onclick*=attendance]'))" style="cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent);">
-                    <i class="bi bi-bell-fill" style="font-size: 18px;"></i>
+                <span style="font-size:12px;color:var(--muted)">Mon, 28 Apr 2026</span>
+                <div class="topbar-notif">
                     <div class="notif-dot"></div>
                 </div>
+                <button class="topbar-btn primary" id="primaryAction" onclick="primaryAction()">+ New Project</button>
             </div>
         </div>
 
         <div class="content">
             <div class="page active" id="pg-dashboard">
-                <div class="page-header">
-                    <h1>Management Dashboard</h1>
-                    <p>Real-time overview of all active construction projects â€” D&G Dev't Corp.</p>
-                </div>
-
                 <div class="stat-grid">
                     <div class="stat-card" style="--accent-color: var(--accent);">
                         <div class="stat-label">Active Projects</div>
@@ -232,144 +230,62 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-timeline">
-                <div class="page-header">
-                    <h1>Project Timeline</h1>
-                    <p>Real-time construction phase milestones and progress visualization.</p>
-                </div>
-
-                <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
-                    <select class="form-select" style="width:240px;">
-                        <option>Rizal Residential Complex</option>
-                        <option>San Pablo Commercial Hub</option>
-                        <option>Batangas Warehouse Facility</option>
-                        <option>Lipa City Townhouse Dev.</option>
-                    </select>
-                    <div style="display:flex; gap:8px; align-items:center;">
-                        <span class="tag green">On Track</span>
-                        <span class="tag">62% Complete</span>
-                        <span class="tag blue">Structural Works Phase</span>
+                <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; align-items:center;">
+                    <div style="min-width:260px; flex:0 0 auto;">
+                        <label class="form-label" style="display:block; margin-bottom:6px; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);">Project</label>
+                        <select id="timeline-project-select" class="form-select timeline-select" onchange="handleTimelineProjectChange(this)">
+                            <option value="Rizal Residential Complex" selected>Rizal Residential Complex</option>
+                            <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
+                            <option value="Batangas Warehouse Facility">Batangas Warehouse Facility</option>
+                            <option value="Lipa City Townhouse Dev.">Lipa City Townhouse Dev.</option>
+                        </select>
+                    </div>
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <span class="tag green" id="timeline-overall-status">On Track</span>
+                        <span class="tag" id="timeline-complete-badge">62% Complete</span>
+                        <span class="tag blue" id="timeline-phase-badge">Structural Works Phase</span>
                     </div>
                 </div>
 
                 <div class="col-7-5">
                     <div class="card mb-0">
                         <div class="card-header">
-                            <div class="card-title">Construction Phases — Rizal Residential Complex</div>
-                            <div style="font-size:12px; color:var(--muted);">Target: Aug 2026</div>
+                            <div class="card-title" id="timeline-card-title">Construction Phases — Rizal Residential Complex</div>
+                            <div style="font-size:12px; color:var(--muted);" id="timeline-target-label">Target: Aug 2026</div>
                         </div>
 
-                        <div class="timeline-wrap">
-                            <div class="timeline-phase">
-                                <div class="phase-dot done"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 1 — Site Preparation & Earthworks</div>
-                                    <div class="phase-dates">Jan 15 – Feb 28, 2026 · Completed on time</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--green);">100%</div>
-                                    <div class="phase-status">Completed</div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot done"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 2 — Foundation Works</div>
-                                    <div class="phase-dates">Mar 1 – Apr 10, 2026 · Completed 3 days early</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--green);">100%</div>
-                                    <div class="phase-status">Completed</div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot current"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 3 — Structural Works ← Current</div>
-                                    <div class="phase-dates">Apr 11 – Jun 30, 2026 · In progress</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--accent);">67%</div>
-                                    <div class="phase-status">On Track</div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot upcoming"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 4 — MEP Installation</div>
-                                    <div class="phase-dates">Jul 1 – Jul 31, 2026 · Upcoming</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--muted);">0%</div>
-                                    <div class="phase-status">Not Started</div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot upcoming"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 5 — Finishing & Turnover</div>
-                                    <div class="phase-dates">Aug 1 – Aug 31, 2026 · Upcoming</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--muted);">0%</div>
-                                    <div class="phase-status">Not Started</div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="timeline-wrap" id="timeline-list"></div>
                     </div>
 
                     <div>
-                        <div class="card" style="margin-bottom:16px;">
-                            <div class="card-title" style="margin-bottom:14px;">Phase Progress</div>
-                            <svg width="100%" height="160" viewBox="0 0 200 160" class="donut">
-                                <circle cx="80" cy="80" r="55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="20"/>
-                                <circle cx="80" cy="80" r="55" fill="none" stroke="#22c55e" stroke-width="20"
-                                  stroke-dasharray="138 207" stroke-dashoffset="52" stroke-linecap="round"/>
-                                <circle cx="80" cy="80" r="55" fill="none" stroke="#f5a623" stroke-width="20"
-                                  stroke-dasharray="90 207" stroke-dashoffset="-86" stroke-linecap="round"/>
-                                <text x="80" y="75" text-anchor="middle" font-size="18" font-weight="800" fill="#e8eaf0" font-family="Syne,sans-serif">62%</text>
-                                <text x="80" y="93" text-anchor="middle" font-size="9" fill="#7a8299">Overall</text>
-                                <circle cx="158" cy="45" r="6" fill="#22c55e"/>
-                                <text x="168" y="49" font-size="9" fill="#7a8299">Done (2)</text>
-                                <circle cx="158" cy="65" r="6" fill="#f5a623"/>
-                                <text x="168" y="69" font-size="9" fill="#7a8299">In Progress (1)</text>
-                                <circle cx="158" cy="85" r="6" fill="rgba(255,255,255,0.12)"/>
-                                <text x="168" y="89" font-size="9" fill="#7a8299">Upcoming (2)</text>
-                            </svg>
-                        </div>
+                                                <div class="card" style="margin-bottom:16px;">
+                                                        <div class="card-title" style="margin-bottom:14px;">Phase Progress</div>
+                                                        <div class="donut-wrap timeline-donut-wrap">
+                                                                <div class="timeline-donut-shell">
+                                                                        <svg width="220" height="220" viewBox="0 0 200 200" class="donut timeline-donut">
+                                                                                <circle cx="100" cy="100" r="58" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="18"/>
+                                                                                <circle id="timeline-full-guide" cx="100" cy="100" r="70" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1.5" stroke-dasharray="4 5"/>
+                                                                                <circle id="timeline-upcoming-ring" cx="100" cy="100" r="58" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="18" stroke-linecap="butt" transform="rotate(-90 100 100)"/>
+                                                                                <circle id="timeline-done-ring" cx="100" cy="100" r="58" fill="none" stroke="#22c55e" stroke-width="18" stroke-linecap="butt" transform="rotate(-90 100 100)"/>
+                                                                                <circle id="timeline-current-ring" cx="100" cy="100" r="58" fill="none" stroke="#f5a623" stroke-width="18" stroke-linecap="butt" transform="rotate(-90 100 100)"/>
+                                                                                <text id="timeline-donut-value" x="100" y="95" text-anchor="middle" font-size="26" font-weight="800" fill="#1a1a1a" font-family="Syne,sans-serif">62%</text>
+                                                                                <text id="timeline-donut-label" x="100" y="116" text-anchor="middle" font-size="10" fill="#7a8299">Overall</text>
+                                                                                <text x="100" y="24" text-anchor="middle" font-size="9" font-weight="700" fill="rgba(255,255,255,0.7)" letter-spacing="0.08em">FULL = 100%</text>
+                                                                        </svg>
+                                                                </div>
+                                                                <div class="donut-legend" id="timeline-legend"></div>
+                                                        </div>
+                                                </div>
 
                         <div class="card mb-0">
                             <div class="card-title" style="margin-bottom:14px;">Milestone Flags</div>
-                            <div class="alert-bar warning">
-                                <div class="alert-icon">Warning</div>
-                                <div class="alert-text">
-                                    <strong>Rebar delivery 2 days late</strong>
-                                    May impact structural phase end date
-                                    <div class="alert-time">Flagged Apr 26</div>
-                                </div>
-                            </div>
-                            <div class="alert-bar info">
-                                <div class="alert-icon">Info</div>
-                                <div class="alert-text">
-                                    <strong>MEP contractor confirmed</strong>
-                                    Ready to mobilize Jul 1 as planned
-                                    <div class="alert-time">Apr 24</div>
-                                </div>
-                            </div>
+                            <div id="timeline-flags"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="page" id="pg-report">
-                <div class="page-header">
-                    <h1>Progress Report Review</h1>
-                    <p>Review supervisor-submitted reports, validate evidence, and approve or request revisions.</p>
-                </div>
-
                 <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:20px;">
                     <div class="stat-card" style="--accent-color: var(--yellow);">
                         <div class="stat-label">Awaiting Review</div>
@@ -475,11 +391,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-phase">
-                <div class="page-header">
-                    <h1>Admin Phase Management</h1>
-                    <p>Review contractor reports and assign/approve construction phases.</p>
-                </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Pending Contractor Reports</div>
@@ -566,11 +477,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-attendance">
-                <div class="page-header">
-                    <h1>Worker Face Profiles</h1>
-                    <p>Upload one reference photo per worker so the supervisor can match a group photo against saved FaceNet descriptors.</p>
-                </div>
-
                 <div class="attendance-grid">
                     <div class="attendance-stack">
                         <div class="card">
@@ -617,66 +523,47 @@ $userTitle = 'Project Engineer';
                             <div class="card-header">
                                 <div class="card-title">Recent Attendance</div>
                                 <div class="attendance-filter">
-                                    <button class="topbar-btn icon-btn" type="button" id="recentAttendanceFilterBtn" title="Filter"><i class="bi bi-funnel"></i></button>
-                                    <button class="topbar-btn icon-btn" type="button" id="recentAttendanceClearBtn" title="Clear"><i class="bi bi-x-circle"></i></button>
                                     <input type="date" id="recentAttendanceDate" class="attendance-date-input">
+                                    <button class="topbar-btn" type="button" id="recentAttendanceFilterBtn">Filter</button>
+                                    <button class="topbar-btn" type="button" id="recentAttendanceClearBtn">Clear</button>
                                 </div>
                             </div>
-                            <table class="data-table recent-attendance-table">
-                                <thead>
-                                    <tr><th>Time</th><th>Worker</th><th>ID</th><th>Role</th><th>Status</th></tr>
-                                </thead>
-                                <tbody id="recentAttendanceList"></tbody>
-                            </table>
+                            <div class="attendance-logs" id="recentAttendanceList"></div>
                         </div>
                     </div>
 
-                    <div class="enrollment-section">
+                    <div class="attendance-stack">
                         <div class="card">
                             <div class="card-title" style="margin-bottom:16px;">Worker Profile Enrollment</div>
-                            <div class="face-panel enrollment-panel">
-                                <div class="enrollment-photo-wrapper">
-                                    <div class="face-stage enrollment-photo-area" id="workerPhotoStage">
-                                        <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none;">
-                                        <div class="face-empty" id="workerPhotoEmpty">
-                                            <div style="text-align: center;">
-                                                <i class="bi bi-cloud-arrow-up" style="font-size: 32px; color: var(--accent); margin-bottom: 8px; display: block;"></i>
-                                                Upload a clear worker portrait
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="face-panel">
+                                <div class="face-stage">
+                                    <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none;">
+                                    <div class="face-empty" id="workerPhotoEmpty">Upload a clear worker portrait to create a FaceNet reference.</div>
                                 </div>
                                 <div class="face-info">
-                                    <div class="form-grid" style="gap:12px; margin-bottom:12px;">
+                                    <div class="form-grid" style="gap:8px; margin-bottom:8px;">
                                         <div class="form-group">
                                             <label class="form-label">Worker Name</label>
-                                            <input type="text" class="form-input" id="workerNameInput" placeholder="e.g., Juan Santos">
+                                            <input type="text" class="form-input" id="workerNameInput" placeholder="Name">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Worker ID</label>
-                                            <input type="text" class="form-input" id="workerIdInput" placeholder="e.g., W-0042">
+                                            <input type="text" class="form-input" id="workerIdInput" placeholder="W-0042">
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label">Position / Role</label>
-                                            <input type="text" class="form-input" id="workerRoleInput" placeholder="e.g., Carpenter, Mason">
+                                            <label class="form-label">Role</label>
+                                            <input type="text" class="form-input" id="workerRoleInput" placeholder="Carpenter">
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Reference Photo</label>
-                                        <label class="btn-choose-photo" for="workerPhotoInput">
-                                            <i class="bi bi-image"></i>
-                                            Choose Photo
-                                        </label>
-                                        <input type="file" id="workerPhotoInput" accept="image/*" class="file-input-hidden">
+                                        <div class="form-group">
+                                            <label class="form-label">Reference Photo</label>
+                                            <button type="button" class="topbar-btn" onclick="document.getElementById('workerPhotoInput').click()" style="width:100%;">Choose File</button>
+                                            <input type="file" id="workerPhotoInput" accept="image/*" style="display:none;">
+                                        </div>
                                     </div>
                                     <div class="face-status" id="attendanceStatus">Load FaceNet models, then upload one clear reference photo for each worker profile.</div>
                                     <div class="face-actions">
-                                        <div class="btn-group-left">
-                                            <button class="btn btn-secondary" id="resetWorkerBtn" type="button"><i class="bi bi-arrow-counterclockwise"></i> Clear Form</button>
-                                        </div>
-                                        <div class="btn-group-right">
-                                            <button class="btn btn-primary" id="saveWorkerBtn" type="button"><i class="bi bi-check-circle"></i> Save Profile</button>
-                                        </div>
+                                        <button class="topbar-btn primary" id="saveWorkerBtn" type="button">Save Profile</button>
+                                        <button class="topbar-btn" id="resetWorkerBtn" type="button">Clear Form</button>
                                     </div>
                                     <div class="face-meta" id="faceMeta">Profiles are stored locally and reused by the supervisor group-photo scan.</div>
                                 </div>
@@ -685,30 +572,23 @@ $userTitle = 'Project Engineer';
 
                         <div class="card">
                             <div class="card-title" style="margin-bottom:16px;">Group Photo Attendance Scan</div>
-                            <div class="face-panel group-photo-panel">
-                                <div class="group-photo-wrapper">
-                                    <div class="face-stage group-photo-area" id="groupPhotoStage">
-                                        <img id="groupPhotoPreview" alt="Group photo preview" style="display:none;">
-                                        <div class="face-empty" id="groupPhotoEmpty">Upload a group photo to match against enrolled worker profiles.</div>
-                                    </div>
+                            <div class="face-panel">
+                                <div class="face-stage">
+                                    <img id="groupPhotoPreview" alt="Group photo preview" style="display:none;">
+                                    <div class="face-empty" id="groupPhotoEmpty">Upload a group photo to match against enrolled worker profiles.</div>
                                 </div>
                                 <div class="face-info">
-                                    <div class="form-group">
-                                        <label class="form-label">Group Photo</label>
-                                        <label class="btn-choose-photo" for="groupPhotoInput">
-                                            <i class="bi bi-images"></i>
-                                            Choose Group Photo
-                                        </label>
-                                        <input type="file" id="groupPhotoInput" accept="image/*" class="file-input-hidden">
+                                    <div class="form-grid" style="gap:8px; margin-bottom:8px;">
+                                        <div class="form-group">
+                                            <label class="form-label">Group Photo</label>
+                                            <button type="button" class="topbar-btn" onclick="document.getElementById('groupPhotoInput').click()" style="width:100%;">Choose File</button>
+                                            <input type="file" id="groupPhotoInput" accept="image/*" style="display:none;">
+                                        </div>
                                     </div>
                                     <div class="face-status" id="groupPhotoStatus">Upload a group photo containing multiple workers to scan and record attendance.</div>
                                     <div class="face-actions">
-                                        <div class="btn-group-left">
-                                            <button class="btn btn-secondary" id="resetGroupPhotoBtn" type="button"><i class="bi bi-trash"></i> Clear Photo</button>
-                                        </div>
-                                        <div class="btn-group-right">
-                                            <button class="btn btn-primary" id="runGroupPhotoBtn" type="button"><i class="bi bi-play-circle"></i> Run Attendance Match</button>
-                                        </div>
+                                        <button class="topbar-btn primary" id="runGroupPhotoBtn" type="button">Run Attendance Match</button>
+                                        <button class="topbar-btn" id="resetGroupPhotoBtn" type="button">Clear Photo</button>
                                     </div>
                                     <div id="groupPhotoResults" style="margin-top:14px; display:none;">
                                         <div style="font-size:12px; font-weight:600; margin-bottom:8px; color:var(--accent);">Matched Workers</div>
@@ -723,11 +603,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-materials">
-                <div class="page-header">
-                    <h1>Materials & Inventory</h1>
-                    <p>Track material deliveries, usage, logistics, and low-stock alerts.</p>
-                </div>
-
                 <div class="stat-grid" style="grid-template-columns: repeat(3,1fr);">
                     <div class="stat-card" style="--accent-color: var(--blue);">
                         <div class="stat-label">Active Deliveries</div>
@@ -751,11 +626,16 @@ $userTitle = 'Project Engineer';
 
                 <div class="two-col" style="align-items:start;">
                     <div class="card mb-0">
-                        <div class="card-header">
-                            <div class="card-title">Inventory Status — 
-                                <select id="inventory-location" class="location-select" onchange="handleInventoryLocationChange(this)">
+                        <div class="card-header inventory-header">
+                            <div>
+                                <div class="card-title" style="margin-bottom:4px;">Inventory Status</div>
+                                <div class="inventory-caption">Switch by project to review local stock, not just the overall total.</div>
+                            </div>
+                            <div class="inventory-select-wrap">
+                                <span class="inventory-select-label">Project</span>
+                                <select id="inventory-location" class="form-select inventory-select" onchange="handleInventoryLocationChange(this)">
                                     <option value="Overall" selected>Overall</option>
-                                    <option value="Rizal Residential">Rizal Residential</option>
+                                    <option value="Rizal Residential Complex">Rizal Residential Complex</option>
                                     <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
                                     <option value="Batangas Warehouse Facility">Batangas Warehouse Facility</option>
                                     <option value="Lipa City Townhouse Dev.">Lipa City Townhouse Dev.</option>
@@ -763,67 +643,7 @@ $userTitle = 'Project Engineer';
                             </div>
                         </div>
 
-                        <div id="inventory-list">
-                            <div class="mat-item">
-                                <div class="mat-icon">🪨</div>
-                                <div class="mat-info">
-                                    <div class="mat-name">Ready-Mix Concrete</div>
-                                    <div class="mat-detail">Delivered: 480 m³ · Used: 320 m³</div>
-                                </div>
-                                <div class="mat-bar-wrap">
-                                    <div class="mat-pct">66% remaining</div>
-                                    <div class="progress-bar-wrap"><div class="progress-bar-fill green" style="width:66%"></div></div>
-                                </div>
-                            </div>
-
-                            <div class="mat-item">
-                                <div class="mat-icon">🔩</div>
-                                <div class="mat-info">
-                                    <div class="mat-name">Rebar (16mm) <span class="alert-flag">Low stock</span></div>
-                                    <div class="mat-detail">Delivered: 12 tons · Used: 10.8 tons</div>
-                                </div>
-                                <div class="mat-bar-wrap">
-                                    <div class="mat-pct" style="color:var(--red);">10% left</div>
-                                    <div class="progress-bar-wrap"><div class="progress-bar-fill red" style="width:10%"></div></div>
-                                </div>
-                            </div>
-
-                            <div class="mat-item">
-                                <div class="mat-icon">🪵</div>
-                                <div class="mat-info">
-                                    <div class="mat-name">Lumber (Formwork) <span class="alert-flag">Low stock</span></div>
-                                    <div class="mat-detail">Delivered: 800 pcs · Used: 760 pcs</div>
-                                </div>
-                                <div class="mat-bar-wrap">
-                                    <div class="mat-pct" style="color:var(--yellow);">5% left</div>
-                                    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:5%; background:var(--red);"></div></div>
-                                </div>
-                            </div>
-
-                            <div class="mat-item">
-                                <div class="mat-icon">🪣</div>
-                                <div class="mat-info">
-                                    <div class="mat-name">Portland Cement (40kg)</div>
-                                    <div class="mat-detail">Delivered: 1,200 bags · Used: 680 bags</div>
-                                </div>
-                                <div class="mat-bar-wrap">
-                                    <div class="mat-pct">43% remaining</div>
-                                    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:43%"></div></div>
-                                </div>
-                            </div>
-
-                            <div class="mat-item">
-                                <div class="mat-icon">🏖️</div>
-                                <div class="mat-info">
-                                    <div class="mat-name">Sand & Gravel</div>
-                                    <div class="mat-detail">Delivered: 200 m³ · Used: 120 m³</div>
-                                </div>
-                                <div class="mat-bar-wrap">
-                                    <div class="mat-pct">40% remaining</div>
-                                    <div class="progress-bar-wrap"><div class="progress-bar-fill blue" style="width:40%"></div></div>
-                                </div>
-                            </div>
-                        </div>
+                        <div id="inventory-list"></div>
                     </div>
 
                     <div>
@@ -877,11 +697,6 @@ $userTitle = 'Project Engineer';
                                     </tr>
                                     <tr>
                                         <td style="font-size:11px; color:var(--muted);">T-203</td>
-                                        <td>Cement (200 bags)</td>
-                                        <td style="font-size:11px;">XYZ-891</td>
-                                        <td><span class="tag green">Delivered</span></td>
-                                    </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -889,11 +704,6 @@ $userTitle = 'Project Engineer';
             </div>
 
             <div class="page" id="pg-alerts">
-                <div class="page-header">
-                    <h1>Alerts & Notifications</h1>
-                    <p>System-generated flags for materials, schedules, and attendance anomalies.</p>
-                </div>
-
                 <div class="two-col" style="align-items:start;">
                     <div>
                         <div class="section-header"><div class="section-title">Critical Alerts</div></div>
@@ -1132,6 +942,10 @@ function navigate(page, el) {
 
     if (page === 'attendance') {
         initAttendanceModule();
+    } else if (page === 'materials') {
+        renderInventoryStatus(document.getElementById('inventory-location')?.value || 'Overall');
+    } else if (page === 'timeline') {
+        renderTimelineProject(document.getElementById('timeline-project-select')?.value || 'Rizal Residential Complex');
     }
 }
 
@@ -1151,18 +965,7 @@ function doLogout() {
 }
 
 function handleInventoryLocationChange(sel) {
-    const totalEl = document.getElementById('total-inventory-value');
-    if (!sel || !totalEl) return;
-
-    const totalsByLocation = {
-        'Overall': '₱4.93M',
-        'Rizal Residential': '₱1.62M',
-        'San Pablo Commercial Hub': '₱1.28M',
-        'Batangas Warehouse Facility': '₱1.10M',
-        'Lipa City Townhouse Dev.': '₱0.93M',
-    };
-
-    totalEl.textContent = totalsByLocation[sel.value] || totalsByLocation.Overall;
+    renderInventoryStatus(sel?.value || 'Overall');
 }
 
 function formatClock(clockValue) {
@@ -1206,6 +1009,249 @@ function showToast(message) {
         toast.style.opacity = '0';
         toast.style.transform = 'translateY(20px)';
     }, 2800);
+}
+
+const timelineData = {
+    'Rizal Residential Complex': {
+        target: 'Aug 2026',
+        overallStatus: 'On Track',
+        completion: 62,
+        phaseBadge: 'Structural Works Phase',
+        donutLabel: 'Rizal Residential Complex',
+        counts: { done: 2, progress: 1, upcoming: 2 },
+        phases: [
+            { title: 'Phase 1 — Site Preparation & Earthworks', dates: 'Jan 15 – Feb 28, 2026 · Completed on time', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 2 — Foundation Works', dates: 'Mar 1 – Apr 10, 2026 · Completed 3 days early', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 3 — Structural Works ← Current', dates: 'Apr 11 – Jun 30, 2026 · In progress', pct: 67, status: 'On Track', dot: 'current', color: 'accent' },
+            { title: 'Phase 4 — MEP Installation', dates: 'Jul 1 – Jul 31, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+            { title: 'Phase 5 — Finishing & Turnover', dates: 'Aug 1 – Aug 31, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+        ],
+        flags: [
+            { tone: 'warning', icon: 'Warning', title: 'Rebar delivery 2 days late', body: 'May impact structural phase end date', time: 'Flagged Apr 26' },
+            { tone: 'info', icon: 'Info', title: 'MEP contractor confirmed', body: 'Ready to mobilize Jul 1 as planned', time: 'Apr 24' },
+        ],
+    },
+    'San Pablo Commercial Hub': {
+        target: 'Sep 2026',
+        overallStatus: 'On Track',
+        completion: 54,
+        phaseBadge: 'Foundation Phase',
+        donutLabel: 'San Pablo Commercial Hub',
+        counts: { done: 1, progress: 1, upcoming: 3 },
+        phases: [
+            { title: 'Phase 1 — Mobilization & Clearing', dates: 'Jan 10 – Feb 2, 2026 · Completed on time', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 2 — Foundation Works ← Current', dates: 'Feb 3 – Apr 30, 2026 · In progress', pct: 54, status: 'On Track', dot: 'current', color: 'accent' },
+            { title: 'Phase 3 — Column & Beam Works', dates: 'May 1 – Jun 30, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+            { title: 'Phase 4 — Architectural Shell', dates: 'Jul 1 – Aug 15, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+            { title: 'Phase 5 — Interior Fit-Out', dates: 'Aug 16 – Sep 30, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+        ],
+        flags: [
+            { tone: 'warning', icon: 'Warning', title: 'Excavation permit pending', body: 'Release needed before Phase 3 starts', time: 'Flagged Apr 27' },
+            { tone: 'info', icon: 'Info', title: 'Survey stakeout verified', body: 'Foundation grid matches approved plan', time: 'Apr 25' },
+        ],
+    },
+    'Batangas Warehouse Facility': {
+        target: 'Oct 2026',
+        overallStatus: 'Ahead of Schedule',
+        completion: 82,
+        phaseBadge: 'Finishing Works Phase',
+        donutLabel: 'Batangas Warehouse Facility',
+        counts: { done: 3, progress: 1, upcoming: 1 },
+        phases: [
+            { title: 'Phase 1 — Site Preparation', dates: 'Jan 5 – Jan 28, 2026 · Completed on time', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 2 — Foundation Works', dates: 'Jan 29 – Mar 20, 2026 · Completed early', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 3 — Structural & Roofing', dates: 'Mar 21 – May 30, 2026 · Completed', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 4 — MEP Installation ← Current', dates: 'Jun 1 – Jul 31, 2026 · In progress', pct: 82, status: 'Ahead', dot: 'current', color: 'accent' },
+            { title: 'Phase 5 — Finishing & Turnover', dates: 'Aug 1 – Oct 15, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+        ],
+        flags: [
+            { tone: 'info', icon: 'Info', title: 'Steel delivery verified', body: 'Remaining load scheduled for next week', time: 'Apr 24' },
+            { tone: 'warning', icon: 'Warning', title: 'Roofing punch-list open', body: 'Minor sealant works remain in Zone B', time: 'Apr 26' },
+        ],
+    },
+    'Lipa City Townhouse Dev.': {
+        target: 'Nov 2026',
+        overallStatus: 'Needs Attention',
+        completion: 31,
+        phaseBadge: 'Foundation Phase',
+        donutLabel: 'Lipa City Townhouse Dev.',
+        counts: { done: 1, progress: 1, upcoming: 3 },
+        phases: [
+            { title: 'Phase 1 — Site Clearing & Layout', dates: 'Jan 20 – Feb 25, 2026 · Completed', pct: 100, status: 'Completed', dot: 'done', color: 'green' },
+            { title: 'Phase 2 — Foundation Works ← Current', dates: 'Feb 26 – May 31, 2026 · In progress', pct: 31, status: 'Behind', dot: 'current', color: 'accent' },
+            { title: 'Phase 3 — Structural Frame', dates: 'Jun 1 – Aug 15, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+            { title: 'Phase 4 — Roofing & MEP', dates: 'Aug 16 – Oct 15, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+            { title: 'Phase 5 — Finishing & Turnover', dates: 'Oct 16 – Nov 30, 2026 · Upcoming', pct: 0, status: 'Not Started', dot: 'upcoming', color: 'muted' },
+        ],
+        flags: [
+            { tone: 'warning', icon: 'Warning', title: 'Foundation pour schedule tightened', body: 'Concrete window needs recheck for next week', time: 'Flagged Apr 28' },
+            { tone: 'info', icon: 'Info', title: 'Formwork materials requested', body: 'Request queued for admin approval', time: 'Apr 25' },
+        ],
+    },
+};
+
+function renderTimelineProject(projectName) {
+    const data = timelineData[projectName] || timelineData['Rizal Residential Complex'];
+    const titleEl = document.getElementById('timeline-card-title');
+    const targetEl = document.getElementById('timeline-target-label');
+    const statusEl = document.getElementById('timeline-overall-status');
+    const completeEl = document.getElementById('timeline-complete-badge');
+    const phaseEl = document.getElementById('timeline-phase-badge');
+    const listEl = document.getElementById('timeline-list');
+    const donutValueEl = document.getElementById('timeline-donut-value');
+    const donutLabelEl = document.getElementById('timeline-donut-label');
+    const legendEl = document.getElementById('timeline-legend');
+    const doneCountEl = document.getElementById('timeline-done-count');
+    const progressCountEl = document.getElementById('timeline-progress-count');
+    const upcomingCountEl = document.getElementById('timeline-upcoming-count');
+    const upcomingRing = document.getElementById('timeline-upcoming-ring');
+    const doneRing = document.getElementById('timeline-done-ring');
+    const currentRing = document.getElementById('timeline-current-ring');
+
+    if (titleEl) titleEl.textContent = `Construction Phases — ${projectName}`;
+    if (targetEl) targetEl.textContent = `Target: ${data.target}`;
+    if (statusEl) {
+        statusEl.textContent = data.overallStatus;
+        statusEl.className = 'tag ' + (data.overallStatus === 'Ahead of Schedule' ? 'green' : data.overallStatus === 'Needs Attention' ? 'red' : 'green');
+    }
+    if (completeEl) completeEl.textContent = `${data.completion}% Complete`;
+    if (phaseEl) phaseEl.textContent = data.phaseBadge;
+    if (donutValueEl) donutValueEl.textContent = `${data.completion}%`;
+    if (donutLabelEl) donutLabelEl.textContent = data.donutLabel;
+    if (legendEl) {
+        legendEl.innerHTML = `
+            <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Done (${data.counts.done})</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f5a623"></span>In Progress (${data.counts.progress})</div>
+            <div class="legend-item"><span class="legend-dot" style="background:rgba(255,255,255,0.12)"></span>Upcoming (${data.counts.upcoming})</div>
+            <div class="timeline-legend-note">Project mix for the selected construction phase set.</div>
+        `;
+    }
+    if (doneCountEl) doneCountEl.textContent = `Done (${data.counts.done})`;
+    if (progressCountEl) progressCountEl.textContent = `In Progress (${data.counts.progress})`;
+    if (upcomingCountEl) upcomingCountEl.textContent = `Upcoming (${data.counts.upcoming})`;
+
+    if (upcomingRing && doneRing && currentRing) {
+        const radius = 58;
+        const circumference = 2 * Math.PI * radius;
+        const total = Math.max((data.counts.done || 0) + (data.counts.progress || 0) + (data.counts.upcoming || 0), 1);
+        const doneLen = circumference * ((data.counts.done || 0) / total);
+        const currentLen = circumference * ((data.counts.progress || 0) / total);
+        const upcomingLen = circumference * ((data.counts.upcoming || 0) / total);
+        const gap = 3;
+
+        const setArc = (circle, start, length) => {
+            const visibleLength = Math.max(length - gap, 0);
+            circle.setAttribute('stroke-dasharray', `${visibleLength} ${circumference}`);
+            circle.setAttribute('stroke-dashoffset', `${-start}`);
+        };
+
+        setArc(doneRing, 0, doneLen);
+        setArc(currentRing, doneLen, currentLen);
+        setArc(upcomingRing, doneLen + currentLen, upcomingLen);
+    }
+
+    if (listEl) {
+        listEl.innerHTML = data.phases.map(phase => `
+            <div class="timeline-phase">
+                <div class="phase-dot ${phase.dot}"></div>
+                <div class="phase-info">
+                    <div class="phase-name">${phase.title}</div>
+                    <div class="phase-dates">${phase.dates}</div>
+                </div>
+                <div class="phase-right">
+                    <div class="phase-pct" style="color:${phase.color === 'green' ? 'var(--green)' : phase.color === 'accent' ? 'var(--accent)' : 'var(--muted)'};">${phase.pct}%</div>
+                    <div class="phase-status">${phase.status}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    const flagsEl = document.getElementById('timeline-flags');
+    if (flagsEl) {
+        flagsEl.innerHTML = data.flags.map(flag => `
+            <div class="alert-bar ${flag.tone} timeline-flag-card">
+                <div class="alert-icon">${flag.icon}</div>
+                <div class="alert-text">
+                    <strong>${flag.title}</strong>
+                    ${flag.body}
+                    <div class="alert-time">${flag.time}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+function handleTimelineProjectChange(sel) {
+    renderTimelineProject(sel?.value || 'Rizal Residential Complex');
+}
+
+const inventoryData = {
+    Overall: {
+        total: '₱4.93M',
+        items: [
+            { icon: '🪨', name: 'Ready-Mix Concrete', detail: 'Across projects: Delivered: 1,280 m³ · Used: 804 m³', pct: 37, label: '37% remaining', bar: 'green' },
+            { icon: '🔩', name: 'Rebar (16mm)', detail: 'Across projects: Delivered: 35 tons · Used: 26.3 tons', pct: 25, label: '25% remaining', bar: 'yellow', alert: true },
+            { icon: '🪵', name: 'Lumber (Formwork)', detail: 'Across projects: Delivered: 1,140 pcs · Used: 1,035 pcs', pct: 9, label: '9% left', bar: 'red', alert: true },
+            { icon: '🪣', name: 'Portland Cement (40kg)', detail: 'Across projects: Delivered: 3,000 bags · Used: 1,795 bags', pct: 40, label: '40% remaining', bar: 'blue' },
+            { icon: '🏖️', name: 'Sand & Gravel', detail: 'Across projects: Delivered: 560 m³ · Used: 332 m³', pct: 41, label: '41% remaining', bar: 'blue' },
+        ],
+    },
+    'Rizal Residential Complex': {
+        total: '₱1.62M',
+        items: [
+            { icon: '🪨', name: 'Ready-Mix Concrete', detail: 'Delivered: 480 m³ · Used: 320 m³', pct: 66, label: '66% remaining', bar: 'green' },
+            { icon: '🔩', name: 'Rebar (16mm)', detail: 'Delivered: 12 tons · Used: 10.8 tons', pct: 10, label: '10% left', bar: 'red', alert: true },
+            { icon: '🪵', name: 'Lumber (Formwork)', detail: 'Delivered: 800 pcs · Used: 760 pcs', pct: 5, label: '5% left', bar: 'red', alert: true },
+            { icon: '🪣', name: 'Portland Cement (40kg)', detail: 'Delivered: 700 bags · Used: 430 bags', pct: 39, label: '39% remaining', bar: 'blue' },
+        ],
+    },
+    'San Pablo Commercial Hub': {
+        total: '₱1.28M',
+        items: [
+            { icon: '🪣', name: 'Portland Cement (40kg)', detail: 'Delivered: 1,200 bags · Used: 680 bags', pct: 43, label: '43% remaining', bar: 'blue' },
+            { icon: '🏖️', name: 'Sand & Gravel', detail: 'Delivered: 200 m³ · Used: 120 m³', pct: 40, label: '40% remaining', bar: 'blue' },
+            { icon: '🔩', name: 'Rebar (16mm)', detail: 'Delivered: 15 tons · Used: 9.5 tons', pct: 37, label: '37% remaining', bar: 'blue' },
+        ],
+    },
+    'Batangas Warehouse Facility': {
+        total: '₱1.10M',
+        items: [
+            { icon: '🔩', name: 'Rebar (16mm)', detail: 'Delivered: 8 tons · Used: 5.5 tons', pct: 31, label: '31% remaining', bar: 'blue' },
+            { icon: '🪣', name: 'Portland Cement (40kg)', detail: 'Delivered: 600 bags · Used: 370 bags', pct: 38, label: '38% remaining', bar: 'blue' },
+            { icon: '🏖️', name: 'Sand & Gravel', detail: 'Delivered: 160 m³ · Used: 92 m³', pct: 43, label: '43% remaining', bar: 'blue' },
+        ],
+    },
+    'Lipa City Townhouse Dev.': {
+        total: '₱0.93M',
+        items: [
+            { icon: '🪨', name: 'Ready-Mix Concrete', detail: 'Delivered: 260 m³ · Used: 182 m³', pct: 30, label: '30% remaining', bar: 'yellow' },
+            { icon: '🪵', name: 'Lumber (Formwork)', detail: 'Delivered: 340 pcs · Used: 290 pcs', pct: 15, label: '15% remaining', bar: 'yellow' },
+            { icon: '🪣', name: 'Portland Cement (40kg)', detail: 'Delivered: 500 bags · Used: 315 bags', pct: 37, label: '37% remaining', bar: 'blue' },
+        ],
+    },
+};
+
+function renderInventoryStatus(location) {
+    const totalEl = document.getElementById('total-inventory-value');
+    const list = document.getElementById('inventory-list');
+    const view = inventoryData[location] || inventoryData.Overall;
+
+    if (totalEl) totalEl.textContent = view.total;
+    if (!list) return;
+
+    list.innerHTML = view.items.map(item => `
+        <div class="mat-item${item.alert ? ' low-stock' : ''}">
+            <div class="mat-icon">${item.icon}</div>
+            <div class="mat-info">
+                <div class="mat-name">${item.name}${item.alert ? ' <span class="alert-flag">Low stock</span>' : ''}</div>
+                <div class="mat-detail">${item.detail}</div>
+            </div>
+            <div class="mat-bar-wrap">
+                <div class="mat-pct" style="${item.bar === 'red' ? 'color:var(--red);' : item.bar === 'yellow' ? 'color:#d97706;' : ''}">${item.label}</div>
+                <div class="progress-bar-wrap"><div class="progress-bar-fill ${item.bar}" style="width:${item.pct}%"></div></div>
+            </div>
+        </div>
+    `).join('');
 }
 
 function attachFilePickerScrollFix(fileInputId) {
@@ -1273,16 +1319,17 @@ function renderRecentAttendanceLogs() {
     }
 
     list.innerHTML = logs.map(log => `
-        <tr>
-            <td style="color:var(--muted); font-size:12px;">
-                <div style="font-weight:600;">${formatClock(log.timeIn)}</div>
-                <div style="font-size:11px;">${formatAttendanceDate(log.dateKey)}</div>
-            </td>
-            <td style="font-weight:500;">${log.workerName}</td>
-            <td style="color:var(--muted); font-size:12px;">${log.workerId}</td>
-            <td style="color:var(--muted); font-size:12px;">${log.workerRole}</td>
-            <td><span class="att-badge ${String(log.status || '').toLowerCase()}">${log.status === 'Present' ? '✓ Present' : log.status}</span></td>
-        </tr>
+        <div class="log-entry">
+            <div class="log-time-wrap">
+                <div class="log-time">${formatClock(log.timeIn)}</div>
+                <div class="log-date">${formatAttendanceDate(log.dateKey)}</div>
+            </div>
+            <div class="log-info">
+                <div class="log-worker">${log.workerName}</div>
+                <div class="log-detail">${log.workerId} · ${log.workerRole}</div>
+            </div>
+            <div class="log-status ${String(log.status || '').toLowerCase()}">${log.status === 'Present' ? '✓ Present' : log.status}</div>
+        </div>
     `).join('');
 }
 
@@ -1880,7 +1927,7 @@ async function processGroupPhoto() {
         renderAttendanceModule();
         showToast(`Attendance recorded for ${matchedWorkers.length} worker(s).`);
     } catch (error) {
-        console.error('❌ Group photo processing FAILED:', error.message);
+        console.error('Group photo processing FAILED:', error.message);
         console.error('Full error:', error);
         if (statusEl) statusEl.textContent = `Error: ${error.message}. Check console (F12) for details.`;
         showToast(`Error: ${error.message}`);
@@ -1900,8 +1947,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initAttendanceModule();
 
+    renderInventoryStatus(document.getElementById('inventory-location')?.value || 'Overall');
+    renderTimelineProject(document.getElementById('timeline-project-select')?.value || 'Rizal Residential Complex');
+
     const sel = document.getElementById('inventory-location');
     if (sel) handleInventoryLocationChange(sel);
+    const timelineSel = document.getElementById('timeline-project-select');
+    if (timelineSel) {
+        timelineSel.addEventListener('change', function() {
+            handleTimelineProjectChange(this);
+        });
+    }
     const primary = document.getElementById('primaryAction');
     if (primary) primary.style.display = 'block';
 });
