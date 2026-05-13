@@ -609,156 +609,217 @@ $userTitle = 'Project Engineer';
                     <p>Upload one reference photo per worker so the supervisor can match a group photo against saved FaceNet descriptors.</p>
                 </div>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(34,197,94,0.15);">
-                            <i class="bi bi-check-circle" style="color: var(--accent);"></i>
-                        </div>
-                        <div class="stat-card-label">Present</div>
-                        <div class="stat-card-value" id="attendancePresentCount">0</div>
-                        <div class="stat-card-trend">Verified today</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(245,166,35,0.15);">
-                            <i class="bi bi-clock" style="color: var(--yellow);"></i>
-                        </div>
-                        <div class="stat-card-label">Late</div>
-                        <div class="stat-card-value" id="attendanceLateCount">0</div>
-                        <div class="stat-card-trend">After cutoff time</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(220,38,38,0.15);">
-                            <i class="bi bi-x-circle" style="color: var(--red);"></i>
-                        </div>
-                        <div class="stat-card-label">Absent</div>
-                        <div class="stat-card-value" id="attendanceAbsentCount">0</div>
-                        <div class="stat-card-trend">No time-in recorded</div>
-                    </div>
+                <!-- TOP: Stat Cards Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 32px;">
+                    <!-- Enrolled Faces Stat Card -->
                     <div class="stat-card">
                         <div class="stat-card-icon" style="background: rgba(59,130,246,0.15);">
-                            <i class="bi bi-face-id" style="color: var(--blue);"></i>
+                            <i class="bi bi-person-badge" style="color: var(--blue); font-size: 26px;"></i>
                         </div>
                         <div class="stat-card-label">Enrolled Faces</div>
                         <div class="stat-card-value" id="attendanceEnrolledCount">0</div>
                         <div class="stat-card-trend">Ready to scan</div>
                     </div>
+                    
+                    <!-- Present Stat Card -->
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(34,197,94,0.15);">
+                            <i class="bi bi-check-circle" style="color: var(--accent); font-size: 26px;"></i>
+                        </div>
+                        <div class="stat-card-label">Present</div>
+                        <div class="stat-card-value" id="attendancePresentCount">0</div>
+                        <div class="stat-card-trend">Verified today</div>
+                    </div>
+                    
+                    <!-- Late Stat Card -->
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(245,166,35,0.15);">
+                            <i class="bi bi-clock" style="color: var(--yellow); font-size: 26px;"></i>
+                        </div>
+                        <div class="stat-card-label">Late</div>
+                        <div class="stat-card-value" id="attendanceLateCount">0</div>
+                        <div class="stat-card-trend">After cutoff time</div>
+                    </div>
+                    
+                    <!-- Absent Stat Card -->
+                    <div class="stat-card">
+                        <div class="stat-card-icon" style="background: rgba(220,38,38,0.15);">
+                            <i class="bi bi-x-circle" style="color: var(--red); font-size: 26px;"></i>
+                        </div>
+                        <div class="stat-card-label">Absent</div>
+                        <div class="stat-card-value" id="attendanceAbsentCount">0</div>
+                        <div class="stat-card-trend">No time-in recorded</div>
+                    </div>
                 </div>
 
-                <div class="attendance-grid">
-                    <div class="attendance-stack">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">Today's Attendance — <span id="attendanceDateLabel">Apr 28, 2026</span></div>
-                                <select class="form-select attendance-select" id="attendanceProjectSelect">
+                  <!-- Main Attendance Section: Side-by-Side Layout -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; align-items: start;">
+                    <!-- LEFT: Group Photo Attendance -->
+                    <div>
+                        <div class="card attendance-card" style="margin-bottom: 0;">
+                            <div class="card-header" style="margin-bottom: 20px;">
+                                <div class="card-title">
+                                    <i class="bi bi-camera" style="color: var(--accent); margin-right: 8px;"></i>Group Photo
+                                </div>
+                            </div>
+                            
+                            <!-- Side-by-side layout: Photo left, Controls right -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+                                <!-- Photo Preview Section (Left) -->
+                                <div>
+                                    <div class="face-stage attendance-photo" style="aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(145, 251, 137, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%); border: 2px solid rgba(34, 197, 94, 0.2); box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                                        <img id="groupPhotoPreview" alt="Group photo preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
+                                        <div class="face-empty" id="groupPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
+                                            <i class="bi bi-image" style="font-size: 48px; color: var(--accent); margin-bottom: 14px; opacity: 0.7;"></i>
+                                            <div style="font-size: 13px; color: var(--text); font-weight: 500;">Group photo</div>
+                                            <div style="font-size: 11px; color: var(--muted); margin-top: 6px;">Portrait or landscape</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Controls Section (Right) -->
+                                <div style="display: flex; flex-direction: column; gap: 14px;">
+                                    <div class="form-group" style="margin: 0;">
+                                        <label class="form-label" style="margin-bottom: 8px;">
+                                            <i class="bi bi-cloud-upload" style="margin-right: 6px;"></i>Select Photo
+                                        </label>
+                                        <input type="file" class="form-input" id="groupPhotoInput" accept="image/*" style="padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;">
+                                    </div>
+
+                                    <div class="face-status" id="groupPhotoStatus" style="background: linear-gradient(135deg, rgba(145, 251, 137, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%); padding: 11px 13px; border-radius: 8px; border-left: 4px solid var(--accent); font-size: 11px; color: var(--text); line-height: 1.5;">Upload to scan and record attendance.</div>
+
+                                    <div id="groupPhotoResults" style="margin: 0; display: none;">
+                                        <div style="font-size: 11px; font-weight: 600; margin-bottom: 7px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
+                                            <i class="bi bi-check-circle"></i>Matched
+                                        </div>
+                                        <div id="groupPhotoResultsBody" style="font-size: 10px; color: var(--text); background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(16,185,129,0.05) 100%); padding: 11px 13px; border-radius: 8px; max-height: 120px; overflow-y: auto;"></div>
+                                    </div>
+
+                                    <div class="face-actions" style="display: flex; gap: 10px;">
+                                        <button class="topbar-btn" id="resetGroupPhotoBtn" type="button" style="border-color: var(--border); padding: 10px 16px; font-weight: 600; font-size: 12px; flex: 1; text-align: center;">Clear</button>
+                                        <button class="topbar-btn primary" id="runGroupPhotoBtn" type="button" style="padding: 10px 16px; font-weight: 600; font-size: 12px; flex: 1; text-align: center;">Match</button>
+                                    </div>
+
+                                    <div class="face-meta" id="groupPhotoMeta" style="padding-top: 12px; border-top: 1px solid var(--border); font-size: 10px; color: var(--muted); text-align: center; line-height: 1.4;">
+                                        <i class="bi bi-info-circle" style="margin-right: 3px;"></i>Faces matched against profiles
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Today's Attendance Table -->
+                    <div>
+                        <div class="card attendance-card" style="margin-bottom: 0;">
+                            <div class="card-header" style="margin-bottom: 18px;">
+                                <div class="card-title">
+                                    <i class="bi bi-calendar-check" style="color: var(--accent); margin-right: 8px;"></i>Today's Attendance — <span id="attendanceDateLabel">May 12, 2026</span>
+                                </div>
+                                <select class="form-select attendance-select" id="attendanceProjectSelect" style="min-width: 180px;">
                                     <option value="Rizal Residential Complex">Rizal Residential Complex</option>
                                     <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
                                 </select>
                             </div>
 
-                            <table class="data-table attendance-table">
-                                <thead>
-                                    <tr>
-                                        <th>Worker Name</th>
-                                        <th>Worker ID</th>
-                                        <th>Position/Role</th>
-                                        <th>Time In</th>
-                                        <th>Attendance Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="attendanceLogBody"></tbody>
-                            </table>
-                        </div>
-
-                        <div class="card mb-0">
-                            <div class="card-title" style="margin-bottom:10px;">Enrolled Workers</div>
-                            <div class="worker-roster" id="workerRoster"></div>
-                        </div>
-                    </div>
-
-                    <div class="attendance-stack" style="grid-column: 1 / -1;">
-                        <div class="card">
-                            <div class="card-title" style="margin-bottom:20px;">Group Photo Attendance Scan</div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                                <div class="face-panel" style="margin-bottom: 0;">
-                                    <div class="face-stage" style="aspect-ratio: 16/9; border-radius: 12px; overflow: hidden;">
-                                        <img id="groupPhotoPreview" alt="Group photo preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
-                                        <div class="face-empty" id="groupPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; background: rgba(145, 251, 137, 0.08);">
-                                            <div style="text-align: center;">
-                                                <i class="bi bi-image" style="font-size: 48px; color: var(--accent); margin-bottom: 12px; display: block;"></i>
-                                                <div style="font-size: 14px; color: var(--text);">Upload group photo</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="display: flex; flex-direction: column; justify-content: space-between;">
-                                    <div>
-                                        <div class="form-group" style="margin-bottom: 16px;">
-                                            <label class="form-label">Select Group Photo</label>
-                                            <input type="file" class="form-input" id="groupPhotoInput" accept="image/*" style="padding: 12px;">
-                                        </div>
-                                        <div class="face-status" id="groupPhotoStatus" style="background: rgba(145, 251, 137, 0.08); padding: 12px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">Upload a group photo containing multiple workers to scan and record attendance.</div>
-                                        <div id="groupPhotoResults" style="margin-bottom: 16px; display: none;">
-                                            <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--accent);">✓ Matched Workers</div>
-                                            <div id="groupPhotoResultsBody" style="font-size: 12px; color: var(--text); background: rgba(34,197,94,0.08); padding: 12px; border-radius: 8px; max-height: 180px; overflow-y: auto;"></div>
-                                        </div>
-                                    </div>
-                                    <div class="face-actions" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                                        <button class="topbar-btn" id="resetGroupPhotoBtn" type="button" style="border-color: var(--border);">Clear Photo</button>
-                                        <button class="topbar-btn primary" id="runGroupPhotoBtn" type="button">Match Attendance</button>
-                                    </div>
-                                </div>
+                            <div style="overflow-x: auto;">
+                                <table class="data-table attendance-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Worker</th>
+                                            <th>ID</th>
+                                            <th>Role</th>
+                                            <th>Time In</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendanceLogBody"></tbody>
+                                </table>
                             </div>
-                            <div class="face-meta" id="groupPhotoMeta" style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted);">Detected faces will be matched against enrolled profiles and attendance automatically logged to the database.</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             <!-- Worker Enrollment Modal -->
-            <div class="modal-overlay" id="enrollmentModal">
-                <div class="modal-content" style="max-width: 700px; border-radius: 16px; overflow: hidden;">
-                    <div class="modal-header" style="background: linear-gradient(135deg, rgba(145, 251, 137, 0.17) 0%, rgba(34, 197, 94, 0.08) 100%); border-bottom: 1px solid rgba(145, 251, 137, 0.15); padding: 24px;">
-                        <h2 class="modal-title" style="color: var(--text); font-size: 22px; margin: 0;">Enroll New Worker</h2>
-                        <button class="modal-close" onclick="closeEnrollmentModal()" style="color: var(--muted); font-size: 28px;">×</button>
+            <div class="modal-overlay" id="enrollmentModal" onclick="if(event.target === this) closeEnrollmentModal()">
+                <div class="modal-content enrollment-modal" style="max-width: 760px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 80px rgba(0,0,0,0.28); max-height: 90vh; display: flex; flex-direction: column;">
+                    <!-- Green Header spanning full width -->
+                    <div class="modal-header-enrollment" style="background: linear-gradient(135deg, var(--accent) 0%, rgba(22, 163, 74, 0.85) 100%); padding: 28px 32px; position: relative; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;">
+                        <div>
+                            <h2 class="modal-title" style="color: #fff; font-size: 24px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 10px;">
+                                <i class="bi bi-plus-circle" style="font-size: 26px;"></i>Enroll New Worker
+                            </h2>
+                            <p style="color: rgba(255,255,255,0.85); font-size: 12px; margin: 4px 0 0 0;">Add a new worker profile</p>
+                        </div>
+                        <button class="modal-close-enrollment" onclick="closeEnrollmentModal()" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 26px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 300; line-height: 1;">
+                            <i class="bi bi-x" style="font-size: 18px;"></i>
+                        </button>
                     </div>
-                    <div class="modal-body" style="padding: 24px;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                    
+                    <div class="modal-body enrollment-modal-body" style="padding: 28px 32px; overflow-y: auto; flex: 1;">
+                        <div style="display: grid; grid-template-columns: minmax(240px, 280px) 1fr; gap: 32px;">
+                            <!-- Left: Photo Preview (1:1 Square) -->
                             <div>
-                                <div class="face-stage" style="aspect-ratio: 3/4; border-radius: 12px; overflow: hidden; background: rgba(145, 251, 137, 0.08); border: 1px solid rgba(145, 251, 137, 0.15);">
+                                <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+                                    <i class="bi bi-image-fill" style="color: var(--accent);"></i>Photo
+                                </label>
+                                <div class="face-stage enrollment-photo" style="aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(145, 251, 137, 0.14) 0%, rgba(34, 197, 94, 0.08) 100%); border: 2px solid rgba(34, 197, 94, 0.28); position: relative; box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12); cursor: pointer; transition: all 0.3s ease;" onclick="document.getElementById('workerPhotoInput').click()">
                                     <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
-                                    <div class="face-empty" id="workerPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%;">
-                                        <div style="text-align: center;">
-                                            <i class="bi bi-person-plus" style="font-size: 44px; color: var(--accent); margin-bottom: 12px; display: block;"></i>
-                                            <div style="font-size: 12px; color: var(--muted);">Add worker portrait</div>
-                                        </div>
+                                    <div class="face-empty" id="workerPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
+                                        <i class="bi bi-camera-fill" style="font-size: 48px; color: var(--accent); margin-bottom: 12px; opacity: 0.75;"></i>
+                                        <div style="font-size: 13px; color: var(--text); font-weight: 600;">Click to add</div>
+                                        <div style="font-size: 11px; color: var(--muted); margin-top: 6px;">Clear, front-facing</div>
                                     </div>
                                 </div>
-                                <div style="margin-top: 12px; padding: 12px; background: rgba(145, 251, 137, 0.08); border-radius: 8px; font-size: 11px; color: var(--muted); text-align: center;">Face must be clearly visible and well-lit</div>
+                                <input type="file" class="form-input" id="workerPhotoInput" accept="image/*" style="display: none;">
                             </div>
-                            <div style="display: flex; flex-direction: column;">
-                                <div class="form-group" style="margin-bottom: 16px;">
-                                    <label class="form-label">Worker Name</label>
-                                    <input type="text" class="form-input" id="workerNameInput" placeholder="e.g., Juan Santos" style="padding: 12px;">
+
+                            <!-- Right: Form Fields -->
+                            <div style="display: flex; flex-direction: column; gap: 14px;">
+                                <div class="form-group" style="margin: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                        <label class="form-label" style="margin: 0;">
+                                            <i class="bi bi-person-fill" style="margin-right: 6px; color: var(--accent);"></i>Worker Name
+                                        </label>
+                                        <span id="nameValidation" style="font-size: 11px; color: #ff9800; display: none; font-weight: 600;">Required</span>
+                                    </div>
+                                    <input type="text" class="form-input enrollment-input" id="workerNameInput" placeholder="e.g., Juan Santos" style="padding: 12px 14px; border-radius: 8px; font-size: 13px; margin: 0;">
                                 </div>
-                                <div class="form-group" style="margin-bottom: 16px;">
-                                    <label class="form-label">Worker ID</label>
-                                    <input type="text" class="form-input" id="workerIdInput" placeholder="e.g., W-0042" style="padding: 12px;">
+
+                                <div class="form-group" style="margin: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                        <label class="form-label" style="margin: 0;">
+                                            <i class="bi bi-tag-fill" style="margin-right: 6px; color: var(--accent);"></i>Worker ID
+                                        </label>
+                                        <span id="idValidation" style="font-size: 11px; color: #ff9800; display: none; font-weight: 600;">Required</span>
+                                    </div>
+                                    <input type="text" class="form-input enrollment-input" id="workerIdInput" placeholder="e.g., W-0042" style="padding: 12px 14px; border-radius: 8px; font-size: 13px; margin: 0;">
                                 </div>
-                                <div class="form-group" style="margin-bottom: 16px;">
-                                    <label class="form-label">Position / Role</label>
-                                    <input type="text" class="form-input" id="workerRoleInput" placeholder="e.g., Carpenter, Mason" style="padding: 12px;">
+
+                                <div class="form-group" style="margin: 0;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                        <label class="form-label" style="margin: 0;">
+                                            <i class="bi bi-briefcase-fill" style="margin-right: 6px; color: var(--accent);"></i>Position / Role
+                                        </label>
+                                        <span id="roleValidation" style="font-size: 11px; color: #ff9800; display: none; font-weight: 600;">Required</span>
+                                    </div>
+                                    <input type="text" class="form-input enrollment-input" id="workerRoleInput" placeholder="e.g., Carpenter, Mason" style="padding: 12px 14px; border-radius: 8px; font-size: 13px; margin: 0;">
                                 </div>
-                                <div class="form-group" style="margin-bottom: 0;">
-                                    <label class="form-label">Reference Photo</label>
-                                    <input type="file" class="form-input" id="workerPhotoInput" accept="image/*" style="padding: 12px;">
+
+                                <!-- Validation Message - Bottom Alert -->
+                                <div class="enrollment-status" id="enrollmentStatus" style="background: #fff3cd; border: 1px solid #ffc107; padding: 12px 14px; border-radius: 8px; border-left: 4px solid #ff9800; font-size: 12px; color: #856404; line-height: 1.5; margin-top: 8px; display: none;">
+                                    <i class="bi bi-exclamation-circle" style="color: #ff9800; margin-right: 6px;"></i><span id="validationMessage"></span>
                                 </div>
-                                <div class="face-status" id="enrollmentStatus" style="margin-top: 16px; background: rgba(145, 251, 137, 0.08); padding: 12px; border-radius: 8px; font-size: 12px; color: var(--muted);">Upload one clear reference photo for the worker profile.</div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer" style="padding: 20px 24px; border-top: 1px solid var(--border); display: flex; gap: 12px; justify-content: flex-end;">
-                        <button class="topbar-btn" onclick="closeEnrollmentModal()">Cancel</button>
-                        <button class="topbar-btn primary" id="saveWorkerBtn" type="button" onclick="saveWorkerProfile()">Save Profile</button>
+
+                    <div class="modal-footer enrollment-footer" style="padding: 16px 32px; border-top: 1px solid var(--border); display: flex; gap: 12px; justify-content: flex-end; background: rgba(250, 250, 250, 0.5); flex-shrink: 0;">
+                        <button class="enrollment-btn-cancel" onclick="closeEnrollmentModal()" style="padding: 11px 28px; font-size: 13px; font-weight: 700; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; color: var(--text); cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; height: 40px;">
+                            <i class="bi bi-x-circle" style="margin-right: 2px; font-size: 14px;"></i>Cancel
+                        </button>
+                        <button class="topbar-btn primary enrollment-btn-save" id="saveWorkerBtn" type="button" onclick="saveWorkerProfile()" style="padding: 11px 28px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; height: 40px;">
+                            <i class="bi bi-check-circle" style="font-size: 14px;"></i>Save Profile
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1505,6 +1566,26 @@ async function extractDescriptorFromFile(file) {
     return { detection, dataUrl };
 }
 
+function showValidationMessage(message) {
+    const statusEl = document.getElementById('enrollmentStatus');
+    const msgEl = document.getElementById('validationMessage');
+    if (statusEl && msgEl) {
+        msgEl.textContent = message;
+        statusEl.style.display = 'block';
+        // Scroll to make visible
+        setTimeout(() => {
+            statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+}
+
+function hideValidationMessage() {
+    const statusEl = document.getElementById('enrollmentStatus');
+    if (statusEl) {
+        statusEl.style.display = 'none';
+    }
+}
+
 async function registerWorker() {
     const name = document.getElementById('workerNameInput')?.value.trim();
     const id = document.getElementById('workerIdInput')?.value.trim();
@@ -1513,13 +1594,36 @@ async function registerWorker() {
     const photoFile = photoInput?.files?.[0] || null;
     const project = attendanceState.currentProject;
 
-    if (!name || !id || !role) {
-        showToast('Enter the worker name, ID, and role before saving.');
-        return;
+    // Clear all validation indicators first
+    document.getElementById('nameValidation').style.display = 'none';
+    document.getElementById('idValidation').style.display = 'none';
+    document.getElementById('roleValidation').style.display = 'none';
+    hideValidationMessage();
+
+    let hasError = false;
+
+    // Validate inputs
+    if (!name) {
+        document.getElementById('nameValidation').style.display = 'inline';
+        hasError = true;
+    }
+
+    if (!id) {
+        document.getElementById('idValidation').style.display = 'inline';
+        hasError = true;
+    }
+
+    if (!role) {
+        document.getElementById('roleValidation').style.display = 'inline';
+        hasError = true;
     }
 
     if (!photoFile) {
-        showToast('Upload a reference photo for the worker profile.');
+        showValidationMessage('Upload a photo by clicking the preview area');
+        hasError = true;
+    }
+
+    if (hasError) {
         return;
     }
 
@@ -1850,6 +1954,72 @@ async function processGroupPhoto() {
         showToast(`Error: ${error.message}`);
     }
 }
+
+function openEnrollmentModal() {
+    const modal = document.getElementById('enrollmentModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Clear form on open
+        document.getElementById('workerNameInput').value = '';
+        document.getElementById('workerIdInput').value = '';
+        document.getElementById('workerRoleInput').value = '';
+        document.getElementById('workerPhotoInput').value = '';
+        document.getElementById('workerPhotoPreview').style.display = 'none';
+        document.getElementById('workerPhotoEmpty').style.display = 'flex';
+        hideValidationMessage();
+    }
+}
+
+function closeEnrollmentModal() {
+    const modal = document.getElementById('enrollmentModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function showValidationMessage(message) {
+    const statusEl = document.getElementById('enrollmentStatus');
+    const msgEl = document.getElementById('validationMessage');
+    if (statusEl && msgEl) {
+        msgEl.textContent = message;
+        statusEl.style.display = 'block';
+        statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+}
+
+function hideValidationMessage() {
+    const statusEl = document.getElementById('enrollmentStatus');
+    if (statusEl) {
+        statusEl.style.display = 'none';
+    }
+}
+
+function saveWorkerProfile() {
+    registerWorker();
+}
+
+// Handle photo input change
+document.addEventListener('DOMContentLoaded', () => {
+    const photoInput = document.getElementById('workerPhotoInput');
+    if (photoInput) {
+        photoInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('workerPhotoPreview');
+                    const empty = document.getElementById('workerPhotoEmpty');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    empty.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     initAttendanceModule();

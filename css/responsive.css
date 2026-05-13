@@ -554,6 +554,26 @@ input:focus, textarea:focus, select:focus, button:focus, a:focus {
 }
 
 /* ============================================
+   ATTENDANCE RESPONSIVE LAYOUT
+   ============================================ */
+
+@media (max-width: 1200px) {
+    /* Attendance side-by-side stacks on smaller screens */
+    [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Group Photo card: photo and controls stack on mobile */
+    .attendance-card [style*="display: grid; grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+}
+
+/* ============================================
    PRINT STYLES
    ============================================ */
 
