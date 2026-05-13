@@ -413,7 +413,7 @@ body {
 
 .attendance-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
     gap: 32px;
     align-items: start;
 }
@@ -427,8 +427,8 @@ body {
 .attendance-summary {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 16px;
+    margin-bottom: 24px;
 }
 
 .attendance-stat {
@@ -973,6 +973,77 @@ body:has(.modal-overlay.active) .sidebar {
     transform: translateY(-1px);
 }
 
+/* ==================== ENROLLMENT FORM ==================== */
+.enrollment-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--body);
+    background: #ffffff;
+    color: var(--text);
+    transition: all 0.2s ease;
+}
+
+.enrollment-input:hover {
+    border-color: rgba(22, 163, 74, 0.4);
+}
+
+.enrollment-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.12);
+}
+
+.enrollment-photo-area {
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.08), rgba(16, 185, 129, 0.04));
+    border: 2px dashed rgba(34, 197, 94, 0.25);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.enrollment-photo-area:hover {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.12), rgba(16, 185, 129, 0.08));
+}
+
+.enrollment-modal {
+    animation: slideUp 0.3s ease;
+}
+
+.modal-header-enrollment {
+    background: linear-gradient(135deg, var(--accent) 0%, rgba(22, 163, 74, 0.85) 100%);
+    color: #ffffff;
+}
+
+.enrollment-btn-cancel,
+.enrollment-btn-save {
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.enrollment-status {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-left: 4px solid #ff9800;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #856404;
+    line-height: 1.5;
+}
+
 /* ==================== RESPONSIVE ==================== */
 @media (max-width: 1024px) {
     .sidebar {
@@ -985,6 +1056,10 @@ body:has(.modal-overlay.active) .sidebar {
     
     .dashboard-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .attendance-grid {
+        grid-template-columns: 1fr;
     }
 }
 

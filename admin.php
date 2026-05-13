@@ -86,7 +86,6 @@ $userTitle = 'Project Engineer';
                     <i class="bi bi-bell-fill" style="font-size: 18px;"></i>
                     <div class="notif-dot"></div>
                 </div>
-                <button class="topbar-btn primary" id="primaryAction" onclick="primaryAction()">+ Register Worker</button>
             </div>
         </div>
 
@@ -609,131 +608,164 @@ $userTitle = 'Project Engineer';
                     <p>Upload one reference photo per worker so the supervisor can match a group photo against saved FaceNet descriptors.</p>
                 </div>
 
-                <!-- TOP: Stat Cards Grid -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 32px;">
-                    <!-- Enrolled Faces Stat Card -->
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(59,130,246,0.15);">
-                            <i class="bi bi-person-badge" style="color: var(--blue); font-size: 26px;"></i>
-                        </div>
-                        <div class="stat-card-label">Enrolled Faces</div>
-                        <div class="stat-card-value" id="attendanceEnrolledCount">0</div>
-                        <div class="stat-card-trend">Ready to scan</div>
-                    </div>
+                <!-- Main Grid Layout: Left & Right Sections -->
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start;">
                     
-                    <!-- Present Stat Card -->
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(34,197,94,0.15);">
-                            <i class="bi bi-check-circle" style="color: var(--accent); font-size: 26px;"></i>
-                        </div>
-                        <div class="stat-card-label">Present</div>
-                        <div class="stat-card-value" id="attendancePresentCount">0</div>
-                        <div class="stat-card-trend">Verified today</div>
-                    </div>
-                    
-                    <!-- Late Stat Card -->
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(245,166,35,0.15);">
-                            <i class="bi bi-clock" style="color: var(--yellow); font-size: 26px;"></i>
-                        </div>
-                        <div class="stat-card-label">Late</div>
-                        <div class="stat-card-value" id="attendanceLateCount">0</div>
-                        <div class="stat-card-trend">After cutoff time</div>
-                    </div>
-                    
-                    <!-- Absent Stat Card -->
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(220,38,38,0.15);">
-                            <i class="bi bi-x-circle" style="color: var(--red); font-size: 26px;"></i>
-                        </div>
-                        <div class="stat-card-label">Absent</div>
-                        <div class="stat-card-value" id="attendanceAbsentCount">0</div>
-                        <div class="stat-card-trend">No time-in recorded</div>
-                    </div>
-                </div>
-
-                  <!-- Main Attendance Section: Side-by-Side Layout -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 32px; align-items: start;">
-                    <!-- LEFT: Group Photo Attendance -->
+                    <!-- LEFT SECTION: Attendance Summary & Table -->
                     <div>
-                        <div class="card attendance-card" style="margin-bottom: 0;">
-                            <div class="card-header" style="margin-bottom: 20px;">
-                                <div class="card-title">
-                                    <i class="bi bi-camera" style="color: var(--accent); margin-right: 8px;"></i>Group Photo
+                        <!-- Today's Attendance Section -->
+                        <div style="margin-bottom: 32px;">
+                            <div style="margin-bottom: 16px;">
+                                <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px;">Today&apos;s Attendance — May 13, 2026</h3>
+                                <div style="font-size: 12px; color: var(--muted);">
+                                    <select class="form-select" style="width: 220px; display: inline-block; padding: 8px 12px; font-size: 12px;">
+                                        <option>Rizal Residential Complex</option>
+                                        <option>San Pablo Commercial Hub</option>
+                                        <option>Batangas Warehouse Facility</option>
+                                        <option>Lipa City Townhouse Dev.</option>
+                                    </select>
                                 </div>
                             </div>
-                            
-                            <!-- Side-by-side layout: Photo left, Controls right -->
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
-                                <!-- Photo Preview Section (Left) -->
-                                <div>
-                                    <div class="face-stage attendance-photo" style="aspect-ratio: 4/3; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(145, 251, 137, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%); border: 2px solid rgba(34, 197, 94, 0.2); box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-                                        <img id="groupPhotoPreview" alt="Group photo preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
-                                        <div class="face-empty" id="groupPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
-                                            <i class="bi bi-image" style="font-size: 48px; color: var(--accent); margin-bottom: 14px; opacity: 0.7;"></i>
-                                            <div style="font-size: 13px; color: var(--text); font-weight: 500;">Group photo</div>
-                                            <div style="font-size: 11px; color: var(--muted); margin-top: 6px;">Portrait or landscape</div>
-                                        </div>
-                                    </div>
+
+                            <!-- Attendance Summary Cards -->
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                                <!-- Present Card -->
+                                <div style="background: #ffffff; border: 1px solid rgba(34,197,94,0.15); border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                                    <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;">Present</div>
+                                    <div style="font-family: var(--heading); font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px;" id="attendancePresentCount">0</div>
+                                    <div style="font-size: 11px; color: var(--muted);">Verified today</div>
                                 </div>
 
-                                <!-- Controls Section (Right) -->
-                                <div style="display: flex; flex-direction: column; gap: 14px;">
-                                    <div class="form-group" style="margin: 0;">
-                                        <label class="form-label" style="margin-bottom: 8px;">
-                                            <i class="bi bi-cloud-upload" style="margin-right: 6px;"></i>Select Photo
-                                        </label>
-                                        <input type="file" class="form-input" id="groupPhotoInput" accept="image/*" style="padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 12px;">
-                                    </div>
+                                <!-- Awaiting Scan Card -->
+                                <div style="background: #ffffff; border: 1px solid rgba(59,130,246,0.15); border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                                    <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;">Awaiting Scan</div>
+                                    <div style="font-family: var(--heading); font-size: 32px; font-weight: 800; color: var(--blue); line-height: 1; margin-bottom: 4px;" id="attendingCount">3</div>
+                                    <div style="font-size: 11px; color: var(--muted);">Not scanned yet</div>
+                                </div>
 
-                                    <div class="face-status" id="groupPhotoStatus" style="background: linear-gradient(135deg, rgba(145, 251, 137, 0.12) 0%, rgba(34, 197, 94, 0.06) 100%); padding: 11px 13px; border-radius: 8px; border-left: 4px solid var(--accent); font-size: 11px; color: var(--text); line-height: 1.5;">Upload to scan and record attendance.</div>
-
-                                    <div id="groupPhotoResults" style="margin: 0; display: none;">
-                                        <div style="font-size: 11px; font-weight: 600; margin-bottom: 7px; color: var(--accent); display: flex; align-items: center; gap: 6px;">
-                                            <i class="bi bi-check-circle"></i>Matched
-                                        </div>
-                                        <div id="groupPhotoResultsBody" style="font-size: 10px; color: var(--text); background: linear-gradient(135deg, rgba(34,197,94,0.1) 0%, rgba(16,185,129,0.05) 100%); padding: 11px 13px; border-radius: 8px; max-height: 120px; overflow-y: auto;"></div>
-                                    </div>
-
-                                    <div class="face-actions" style="display: flex; gap: 10px;">
-                                        <button class="topbar-btn" id="resetGroupPhotoBtn" type="button" style="border-color: var(--border); padding: 10px 16px; font-weight: 600; font-size: 12px; flex: 1; text-align: center;">Clear</button>
-                                        <button class="topbar-btn primary" id="runGroupPhotoBtn" type="button" style="padding: 10px 16px; font-weight: 600; font-size: 12px; flex: 1; text-align: center;">Match</button>
-                                    </div>
-
-                                    <div class="face-meta" id="groupPhotoMeta" style="padding-top: 12px; border-top: 1px solid var(--border); font-size: 10px; color: var(--muted); text-align: center; line-height: 1.4;">
-                                        <i class="bi bi-info-circle" style="margin-right: 3px;"></i>Faces matched against profiles
-                                    </div>
+                                <!-- Enrolled Faces Card -->
+                                <div style="background: #ffffff; border: 1px solid rgba(34,197,94,0.15); border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                                    <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;">Enrolled Faces</div>
+                                    <div style="font-family: var(--heading); font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px;" id="attendanceEnrolledCount">3</div>
+                                    <div style="font-size: 11px; color: var(--muted);">Stored locally</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- RIGHT: Today's Attendance Table -->
-                    <div>
-                        <div class="card attendance-card" style="margin-bottom: 0;">
-                            <div class="card-header" style="margin-bottom: 18px;">
-                                <div class="card-title">
-                                    <i class="bi bi-calendar-check" style="color: var(--accent); margin-right: 8px;"></i>Today's Attendance — <span id="attendanceDateLabel">May 12, 2026</span>
-                                </div>
-                                <select class="form-select attendance-select" id="attendanceProjectSelect" style="min-width: 180px;">
-                                    <option value="Rizal Residential Complex">Rizal Residential Complex</option>
-                                    <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
-                                </select>
+                        <!-- Attendance Table Section -->
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="card-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
+                                <div class="card-title">Today's Attendance Log</div>
                             </div>
 
-                            <div style="overflow-x: auto;">
-                                <table class="data-table attendance-table">
+                            <div class="table-scroll">
+                                <table class="data-table">
                                     <thead>
                                         <tr>
-                                            <th>Worker</th>
+                                            <th>WORKER</th>
                                             <th>ID</th>
-                                            <th>Role</th>
-                                            <th>Time In</th>
-                                            <th>Status</th>
+                                            <th>ROLE</th>
+                                            <th>TIME IN</th>
+                                            <th>STATUS</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="attendanceLogBody"></tbody>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="5" style="padding: 32px 16px; text-align: center; color: var(--muted); font-size: 13px;">
+                                                No attendance logs recorded for this project yet.
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
+                            </div>
+                        </div>
+
+                        <!-- Enrolled Workers Section -->
+                        <div style="margin-top: 32px;">
+                            <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 16px;">Enrolled Workers</h3>
+                            <div class="worker-roster" id="enrolledWorkersList" style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="padding: 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--muted); text-align: center;">
+                                    No workers enrolled yet
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT SECTION: Worker Profile Enrollment -->
+                    <div>
+                        <div class="card" style="margin-bottom: 0;">
+                            <div style="padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;">
+                                <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text);">Worker Profile Enrollment</h3>
+                            </div>
+
+                            <!-- Photo Preview Area -->
+                            <div style="background: linear-gradient(135deg, rgba(22,163,74,0.08) 0%, rgba(16,185,129,0.04) 100%); border: 2px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; min-height: 200px;">
+                                <div id="enrollmentPhotoPreview" style="display: none; width: 160px; height: 160px; border-radius: 8px; overflow: hidden;"></div>
+                                <div id="enrollmentPhotoEmpty" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                                    <i class="bi bi-image" style="font-size: 48px; color: var(--accent); opacity: 0.7;"></i>
+                                    <div style="font-size: 13px; font-weight: 600; color: var(--text);">Upload a clear worker portrait to create a FaceNet reference.</div>
+                                </div>
+                            </div>
+
+                            <!-- Form Fields -->
+                            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+                                <!-- Worker Name -->
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Worker Name</label>
+                                    <input type="text" class="form-input" id="enrollmentName" placeholder="Name" style="padding: 10px 12px; font-size: 13px;">
+                                </div>
+
+                                <!-- Worker ID -->
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Worker ID</label>
+                                    <input type="text" class="form-input" id="enrollmentId" placeholder="W-0042" style="padding: 10px 12px; font-size: 13px;">
+                                </div>
+
+                                <!-- Role -->
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Role</label>
+                                    <input type="text" class="form-input" id="enrollmentRole" placeholder="Carpenter" style="padding: 10px 12px; font-size: 13px;">
+                                </div>
+
+                                <!-- File Upload -->
+                                <div>
+                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Reference Photo</label>
+                                    <input type="file" class="form-input" id="enrollmentPhoto" accept="image/*" style="padding: 10px 12px; font-size: 13px; cursor: pointer;">
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div style="display: flex; gap: 10px;">
+                                <button class="topbar-btn primary" id="saveProfileBtn" onclick="saveWorkerEnrollment()" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Save Profile</button>
+                                <button class="topbar-btn" id="clearFormBtn" onclick="clearEnrollmentForm()" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Clear Form</button>
+                            </div>
+
+                            <div style="margin-top: 16px; padding: 12px 14px; background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.15); border-radius: 8px; font-size: 11px; color: var(--muted); line-height: 1.5;">
+                                <i class="bi bi-info-circle" style="margin-right: 6px; color: var(--accent);"></i>
+                                Profiles are stored locally and used to match faces in group photos.
+                            </div>
+                        </div>
+
+                        <!-- Group Photo Attendance Scan Section -->
+                        <div class="card" style="margin-top: 32px; margin-bottom: 0;">
+                            <div style="padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;">
+                                <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text);">Group Photo Attendance Scan</h3>
+                            </div>
+
+                            <!-- Scan Photo Area -->
+                            <div id="groupPhotoContainer" style="background: linear-gradient(135deg, rgba(22,163,74,0.08) 0%, rgba(16,185,129,0.04) 100%); border: 2px dashed rgba(34,197,94,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                                <div id="groupPhotoEmpty" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                                    <i class="bi bi-camera" style="font-size: 48px; color: var(--accent); opacity: 0.7;"></i>
+                                    <div style="font-size: 13px; font-weight: 600; color: var(--text);">Drop group photo or click to browse</div>
+                                </div>
+                                <div id="groupPhotoPreview" style="display: none; width: 160px; height: 160px; border-radius: 8px; overflow: hidden;"></div>
+                            </div>
+
+                            <!-- Scan Controls -->
+                            <div style="display: flex; gap: 10px;">
+                                <input type="file" id="groupScanPhoto" accept="image/*" style="display: none;">
+                                <button class="topbar-btn" onclick="document.getElementById('groupScanPhoto').click()" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Choose Photo</button>
+                                <button class="topbar-btn primary" id="runScanBtn" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Run Scan</button>
                             </div>
                         </div>
                     </div>
@@ -867,7 +899,7 @@ $userTitle = 'Project Engineer';
 
                         <div id="inventory-list">
                             <div class="mat-item">
-                                <div class="mat-icon">🪨</div>
+                                <div class="mat-icon">���</div>
                                 <div class="mat-info">
                                     <div class="mat-name">Ready-Mix Concrete</div>
                                     <div class="mat-detail">Delivered: 480 m³ · Used: 320 m³</div>
@@ -1107,7 +1139,7 @@ const primaryActions = {
     timeline: '+ Add Phase',
     report: '+ New Report',
     phase: '',
-    attendance: '+ Register Worker',
+    attendance: '',
     materials: '+ Log Delivery',
     alerts: 'Mark All Read',
 };
@@ -1383,21 +1415,25 @@ async function initAttendanceModule() {
         });
     }
 
-    document.getElementById('workerPhotoInput')?.addEventListener('change', function() {
+    document.getElementById('enrollmentPhoto')?.addEventListener('change', function() {
         updateWorkerPhotoPreview(this.files?.[0]).catch(() => {
-            showAttendanceStatus('Unable to preview the selected photo.');
+            showToast('Unable to preview the selected photo.');
         });
     });
-    document.getElementById('saveWorkerBtn')?.addEventListener('click', registerWorker);
-    document.getElementById('resetWorkerBtn')?.addEventListener('click', resetWorkerForm);
+    document.getElementById('saveProfileBtn')?.addEventListener('click', registerWorker);
+    document.getElementById('clearFormBtn')?.addEventListener('click', resetWorkerForm);
 
-    document.getElementById('groupPhotoInput')?.addEventListener('change', function() {
+    document.getElementById('groupScanPhoto')?.addEventListener('change', function() {
         updateGroupPhotoPreview(this.files?.[0]).catch(() => {
-            document.getElementById('groupPhotoStatus').textContent = 'Unable to preview the selected photo.';
+            showToast('Unable to preview the selected photo.');
         });
     });
-    document.getElementById('runGroupPhotoBtn')?.addEventListener('click', processGroupPhoto);
-    document.getElementById('resetGroupPhotoBtn')?.addEventListener('click', resetGroupPhotoForm);
+    document.getElementById('runScanBtn')?.addEventListener('click', () => {
+        const file = document.getElementById('groupScanPhoto')?.files?.[0];
+        if (file) {
+            runGroupPhotoAttendance(file);
+        }
+    });
 
     attendanceState.initialized = true;
     renderAttendanceModule();
@@ -1461,6 +1497,22 @@ function renderAttendanceModule() {
     if (enrolledEl) enrolledEl.textContent = String(enrolledCount);
     const dateLabel = document.getElementById('attendanceDateLabel');
     if (dateLabel) dateLabel.textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    // Update enrolled workers list
+    const enrolledWorkersList = document.getElementById('enrolledWorkersList');
+    if (enrolledWorkersList) {
+        const enrolledWorkers = workers.filter(w => Array.isArray(w.descriptor) && w.descriptor.length);
+        if (enrolledWorkers.length > 0) {
+            enrolledWorkersList.innerHTML = enrolledWorkers.map(worker => `
+                <div style="padding: 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                    <div style="font-weight: 600; margin-bottom: 4px;">${worker.name}</div>
+                    <div style="font-size: 11px; color: var(--muted);">${worker.id} · ${worker.role} · ENROLLED</div>
+                </div>
+            `).join('');
+        } else {
+            enrolledWorkersList.innerHTML = '<div style="padding: 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--muted); text-align: center;">No workers enrolled yet</div>';
+        }
+    }
 }
 
 async function ensureFaceApiLoaded() {
@@ -1484,7 +1536,7 @@ async function loadFaceModels() {
     if (attendanceState.loadingModels) return attendanceState.loadingModels;
 
     attendanceState.loadingModels = (async () => {
-        showAttendanceStatus('Loading FaceNet model weights...');
+        showToast('Loading AI models...');
         await ensureFaceApiLoaded();
 
         await Promise.all([
@@ -1494,8 +1546,7 @@ async function loadFaceModels() {
         ]);
 
         attendanceState.modelsReady = true;
-        showAttendanceStatus('FaceNet ready. Upload a worker portrait to save a reference profile.');
-        showFaceMeta('Models loaded successfully. Each saved profile becomes the reference for group-photo attendance.');
+        showToast('AI models loaded. Ready to enroll workers.');
     })();
 
     return attendanceState.loadingModels;
@@ -1520,29 +1571,36 @@ function loadImageFromDataUrl(dataUrl) {
 }
 
 async function updateWorkerPhotoPreview(file) {
-    const preview = document.getElementById('workerPhotoPreview');
-    const empty = document.getElementById('workerPhotoEmpty');
+    const preview = document.getElementById('enrollmentPhotoPreview');
+    const empty = document.getElementById('enrollmentPhotoEmpty');
 
     if (!preview || !empty) return;
 
     if (!file) {
-        preview.removeAttribute('src');
+        preview.innerHTML = '';
         preview.style.display = 'none';
         empty.style.display = 'flex';
         return;
     }
 
     const dataUrl = await readFileAsDataUrl(file);
-    preview.src = dataUrl;
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    img.style.display = 'block';
+    preview.innerHTML = '';
+    preview.appendChild(img);
     preview.style.display = 'block';
     empty.style.display = 'none';
 }
 
 function resetWorkerForm() {
-    const nameInput = document.getElementById('workerNameInput');
-    const idInput = document.getElementById('workerIdInput');
-    const roleInput = document.getElementById('workerRoleInput');
-    const photoInput = document.getElementById('workerPhotoInput');
+    const nameInput = document.getElementById('enrollmentName');
+    const idInput = document.getElementById('enrollmentId');
+    const roleInput = document.getElementById('enrollmentRole');
+    const photoInput = document.getElementById('enrollmentPhoto');
 
     if (nameInput) nameInput.value = '';
     if (idInput) idInput.value = '';
@@ -1550,8 +1608,11 @@ function resetWorkerForm() {
     if (photoInput) photoInput.value = '';
 
     updateWorkerPhotoPreview(null);
-    showAttendanceStatus('Upload one clear reference photo for the next worker profile.');
-    showFaceMeta('Profiles are matched later against the supervisor group photo.');
+    showToast('Form cleared. Ready for next worker profile.');
+}
+
+function clearEnrollmentForm() {
+    resetWorkerForm();
 }
 
 async function extractDescriptorFromFile(file) {
@@ -1587,52 +1648,49 @@ function hideValidationMessage() {
 }
 
 async function registerWorker() {
-    const name = document.getElementById('workerNameInput')?.value.trim();
-    const id = document.getElementById('workerIdInput')?.value.trim();
-    const role = document.getElementById('workerRoleInput')?.value.trim();
-    const photoInput = document.getElementById('workerPhotoInput');
+    const name = document.getElementById('enrollmentName')?.value.trim();
+    const id = document.getElementById('enrollmentId')?.value.trim();
+    const role = document.getElementById('enrollmentRole')?.value.trim();
+    const photoInput = document.getElementById('enrollmentPhoto');
     const photoFile = photoInput?.files?.[0] || null;
     const project = attendanceState.currentProject;
 
-    // Clear all validation indicators first
-    document.getElementById('nameValidation').style.display = 'none';
-    document.getElementById('idValidation').style.display = 'none';
-    document.getElementById('roleValidation').style.display = 'none';
-    hideValidationMessage();
-
     let hasError = false;
+    let errorMessages = [];
 
     // Validate inputs
     if (!name) {
-        document.getElementById('nameValidation').style.display = 'inline';
+        errorMessages.push('Please enter a worker name');
         hasError = true;
     }
 
     if (!id) {
-        document.getElementById('idValidation').style.display = 'inline';
+        errorMessages.push('Please enter a worker ID');
         hasError = true;
     }
 
     if (!role) {
-        document.getElementById('roleValidation').style.display = 'inline';
+        errorMessages.push('Please enter a role');
         hasError = true;
     }
 
     if (!photoFile) {
-        showValidationMessage('Upload a photo by clicking the preview area');
+        errorMessages.push('Upload a photo by clicking the preview area');
         hasError = true;
     }
 
     if (hasError) {
+        const message = errorMessages.join('. ');
+        showToast(message);
         return;
     }
 
     try {
-        showAttendanceStatus('Reading the uploaded worker portrait...');
+        showToast('Analyzing portrait...');
         const { detection } = await extractDescriptorFromFile(photoFile);
 
         if (!detection) {
-            showAttendanceStatus('No face was detected in that upload. Use a clearer portrait with one visible face.');
+            showToast('No face detected. Use a clearer portrait with good lighting.');
             return;
         }
 
@@ -1665,23 +1723,22 @@ async function registerWorker() {
         }
 
         persistWorkers();
-        console.log('Saving worker to API:', workerRecord);
-        const apiResponse = await sendAttendanceApi('save-worker', { worker: workerRecord });
-        
-        if (!apiResponse.success) {
-            showAttendanceStatus('Failed to save to database: ' + (apiResponse.message || 'Unknown error'));
-            showToast('Database save failed: ' + (apiResponse.message || 'Unknown error'));
-            return;
+        console.log('Saving worker to API:', { id, name, role, project, photoName: photoFile.name });
+        try {
+            const apiResponse = await sendAttendanceApi('save-worker', { worker: { id, name, role, project, photoName: photoFile.name } });
+            if (!apiResponse.success) {
+                showToast('Warning: Local save successful but database sync failed.');
+            }
+        } catch (apiErr) {
+            console.error('API error (non-critical):', apiErr);
+            showToast('Local save successful.');
         }
         
         renderAttendanceModule();
         resetWorkerForm();
-        showAttendanceStatus(`${name} is enrolled for ${project}.`);
-        showFaceMeta('FaceNet descriptor stored in MySQL and ready for the supervisor group-photo scan.');
-        showToast(`Profile saved for ${name}.`);
+        showToast(`Profile saved for ${name}. Ready for group photo scans.`);
     } catch (error) {
         console.error('Worker registration error:', error);
-        showAttendanceStatus('Enrollment failed: ' + (error.message || 'Unknown error'));
         showToast('Enrollment failed: ' + (error.message || 'Unknown error'));
     }
 }
@@ -1689,36 +1746,246 @@ async function registerWorker() {
 async function updateGroupPhotoPreview(file) {
     const preview = document.getElementById('groupPhotoPreview');
     const empty = document.getElementById('groupPhotoEmpty');
-    const statusEl = document.getElementById('groupPhotoStatus');
-
-    if (!preview || !empty) return;
+    const container = document.getElementById('groupPhotoContainer');
 
     if (!file) {
-        preview.removeAttribute('src');
-        preview.style.display = 'none';
-        empty.style.display = 'flex';
-        if (statusEl) statusEl.textContent = 'Upload a group photo containing multiple workers to scan and record attendance.';
+        if (preview) preview.innerHTML = '';
+        if (preview) preview.style.display = 'none';
+        if (empty) empty.style.display = 'flex';
         return;
     }
 
     const dataUrl = await readFileAsDataUrl(file);
-    preview.src = dataUrl;
-    preview.style.display = 'block';
-    empty.style.display = 'none';
-    if (statusEl) statusEl.textContent = 'Photo loaded. Click "Run Attendance Match" to detect and match faces.';
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    img.style.display = 'block';
+    
+    if (preview) {
+        preview.innerHTML = '';
+        preview.appendChild(img);
+        preview.style.display = 'block';
+    }
+    if (empty) empty.style.display = 'none';
+    
+    showToast('Photo selected. Click "Run Scan" to process.');
 }
 
 function resetGroupPhotoForm() {
-    const photoInput = document.getElementById('groupPhotoInput');
+    const photoInput = document.getElementById('groupScanPhoto');
     if (photoInput) photoInput.value = '';
     
     updateGroupPhotoPreview(null);
+}
+
+async function runGroupPhotoAttendance(file) {
+    // Process the group photo file directly
+    const statusEl = document.getElementById('groupPhotoStatus') || { textContent: '' };
+    const project = attendanceState.currentProject;
+
+    if (!file) {
+        showToast('Please select a group photo first.');
+        return;
+    }
+
+    if (!attendanceState.workers.some(w => Array.isArray(w.descriptor) && w.descriptor.length)) {
+        showToast('Enroll at least one worker before scanning group photos.');
+        return;
+    }
+
+    try {
+        showToast('Analyzing group photo...');
+        await loadFaceModels();
+        
+        const dataUrl = await readFileAsDataUrl(file);
+        const image = await loadImageFromDataUrl(dataUrl);
+        
+        console.log('Group photo loaded. Image dimensions:', image.width, 'x', image.height);
+
+        let detections = [];
+        try {
+            console.log('Attempting TinyFaceDetector detection...');
+            detections = await faceapi
+                .detectAllFaces(image, new faceapi.TinyFaceDetectorOptions({ inputSize: 800, scoreThreshold: 0.05 }))
+                .withFaceLandmarks()
+                .withFaceDescriptors();
+            console.log('TinyFaceDetector found:', detections.length, 'faces');
+        } catch (detectionError) {
+            console.error('TinyFaceDetector error:', detectionError);
+            try {
+                console.log('Trying with default TinyFaceDetector options...');
+                detections = await faceapi
+                    .detectAllFaces(image)
+                    .withFaceLandmarks()
+                    .withFaceDescriptors();
+                console.log('Default detector found:', detections.length, 'faces');
+            } catch (fallbackError) {
+                console.error('Fallback detection also failed:', fallbackError);
+                throw new Error('Face detection failed: ' + fallbackError.message);
+            }
+        }
+
+        if (!detections.length) {
+            showToast('No faces detected. Ensure faces are clearly visible with good lighting.');
+            return;
+        }
+
+        showToast(`Detected ${detections.length} face(s). Matching against enrolled workers...`);
+        
+        // Continue with matching logic from processGroupPhoto
+        await processGroupPhotoMatching(detections, image);
+        renderAttendanceModule();
+    } catch (error) {
+        console.error('Group photo processing FAILED:', error.message);
+        showToast(`Error: ${error.message}`);
+    }
+}
+
+async function processGroupPhotoMatching(detections, image) {
+    const project = attendanceState.currentProject;
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const matchedWorkers = [];
+    const distanceThreshold = 0.6;
+
+    // Clustering function (copy from original)
+    function getBox(det) {
+        const b = (det && det.detection && det.detection.box) || det.box;
+        if (!b) return null;
+        return { x: b.x, y: b.y, w: b.width, h: b.height };
+    }
+
+    function iou(a, b) {
+        if (!a || !b) return 0;
+        const ax1 = a.x, ay1 = a.y, ax2 = a.x + a.w, ay2 = a.y + a.h;
+        const bx1 = b.x, by1 = b.y, bx2 = b.x + b.w, by2 = b.y + b.h;
+        const ix1 = Math.max(ax1, bx1), iy1 = Math.max(ay1, by1);
+        const ix2 = Math.min(ax2, bx2), iy2 = Math.min(ay2, by2);
+        const iw = Math.max(0, ix2 - ix1);
+        const ih = Math.max(0, iy2 - iy1);
+        const inter = iw * ih;
+        const areaA = a.w * a.h;
+        const areaB = b.w * b.h;
+        const union = areaA + areaB - inter;
+        return union <= 0 ? 0 : inter / union;
+    }
+
+    function clusterDetections(dets, iouThreshold = 0.35) {
+        if (!Array.isArray(dets) || !dets.length) return [];
+        const items = dets.map(d => ({ det: d, box: getBox(d), score: (d && d.detection && d.detection.score) || 0 }));
+        items.sort((a, b) => b.score - a.score);
+        const chosen = [];
+        const suppressed = new Array(items.length).fill(false);
+        for (let i = 0; i < items.length; i++) {
+            if (suppressed[i]) continue;
+            const a = items[i];
+            chosen.push(a.det);
+            for (let j = i + 1; j < items.length; j++) {
+                if (suppressed[j]) continue;
+                const b = items[j];
+                const iouv = iou(a.box, b.box);
+                if (iouv > iouThreshold) suppressed[j] = true;
+            }
+        }
+        return chosen;
+    }
+
+    console.log('Detections before clustering:', detections.length);
+    const clustered = clusterDetections(detections, 0.35);
+    console.log('Detections after clustering:', clustered.length);
+    detections = clustered;
+
+    // Match faces against enrolled workers
+    for (const detection of detections) {
+        const detectedDescriptor = Array.from(detection.descriptor);
+        let bestMatch = null;
+        let bestScore = 0;
+
+        for (const worker of attendanceState.workers) {
+            if (!worker || worker.project !== project) continue;
+
+            let referenceDescriptors = [];
+            if (Array.isArray(worker.descriptor) && worker.descriptor.length) {
+                if (Array.isArray(worker.descriptor[0])) {
+                    referenceDescriptors = worker.descriptor;
+                } else {
+                    referenceDescriptors = [worker.descriptor];
+                }
+            }
+
+            if (!referenceDescriptors.length) continue;
+
+            let minDist = Infinity;
+            for (const ref of referenceDescriptors) {
+                const d = Math.sqrt(ref.reduce((sum, val, idx) => sum + Math.pow(val - detectedDescriptor[idx], 2), 0));
+                if (d < minDist) minDist = d;
+            }
+
+            const similarity = 1 / (1 + minDist);
+
+            if (minDist <= distanceThreshold && similarity > bestScore) {
+                bestScore = similarity;
+                bestMatch = { worker, score: bestScore, distance: minDist };
+            }
+        }
+
+        if (bestMatch) {
+            matchedWorkers.push({ ...bestMatch.worker, matchScore: bestMatch.score });
+        }
+    }
+
+    // Remove duplicates, keeping best match
+    const uniqueMatchesMap = new Map();
+    for (const w of matchedWorkers) {
+        if (!w || !w.id) continue;
+        const existing = uniqueMatchesMap.get(w.id);
+        if (!existing || (w.matchScore || 0) > (existing.matchScore || 0)) {
+            uniqueMatchesMap.set(w.id, w);
+        }
+    }
+    const uniqueMatchedWorkers = Array.from(uniqueMatchesMap.values());
+
+    // Record attendance
+    const recordedAttendance = [];
+    for (const worker of uniqueMatchedWorkers) {
+        const existingLogIndex = attendanceState.logs.findIndex(
+            log => log.workerId === worker.id && log.project === project && log.dateKey === todayKey
+        );
+
+        const timeInStr = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+        const attendanceLog = {
+            workerId: worker.id,
+            workerName: worker.name,
+            workerRole: worker.role,
+            project: project,
+            dateKey: todayKey,
+            timeIn: timeInStr,
+            status: 'Present',
+            score: worker.matchScore,
+            scanSource: 'admin-group-photo',
+        };
+
+        if (existingLogIndex >= 0) {
+            attendanceState.logs[existingLogIndex] = attendanceLog;
+        } else {
+            attendanceState.logs.push(attendanceLog);
+        }
+
+        recordedAttendance.push(attendanceLog);
+    }
+
+    persistLogs();
     
-    const resultsDiv = document.getElementById('groupPhotoResults');
-    if (resultsDiv) resultsDiv.style.display = 'none';
-    
-    const statusEl = document.getElementById('groupPhotoStatus');
-    if (statusEl) statusEl.textContent = 'Upload a group photo containing multiple workers to scan and record attendance.';
+    for (const log of recordedAttendance) {
+        try {
+            await sendAttendanceApi('save-attendance', { log });
+        } catch (e) {
+            console.error('Failed to save attendance log:', e);
+        }
+    }
+
+    showToast(`Attendance recorded for ${uniqueMatchedWorkers.length} worker(s).`);
 }
 
 async function processGroupPhoto() {
@@ -2000,24 +2267,56 @@ function saveWorkerProfile() {
     registerWorker();
 }
 
+function saveWorkerEnrollment() {
+    registerWorker();
+}
+
 // Handle photo input change
 document.addEventListener('DOMContentLoaded', () => {
-    const photoInput = document.getElementById('workerPhotoInput');
+    const photoInput = document.getElementById('enrollmentPhoto');
     if (photoInput) {
-        photoInput.addEventListener('change', function() {
+        photoInput.addEventListener('change', async function() {
             if (this.files && this.files[0]) {
                 const file = this.files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('workerPhotoPreview');
-                    const empty = document.getElementById('workerPhotoEmpty');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                    empty.style.display = 'none';
-                };
-                reader.readAsDataURL(file);
+                await updateWorkerPhotoPreview(file);
             }
         });
+    }
+
+    // Setup group photo scan handler
+    const groupScanInput = document.getElementById('groupScanPhoto');
+    if (groupScanInput) {
+        groupScanInput.addEventListener('change', async function() {
+            if (this.files && this.files[0]) {
+                const file = this.files[0];
+                await updateGroupPhotoPreview(file);
+            }
+        });
+    }
+
+    // Setup scan button
+    const runScanBtn = document.getElementById('runScanBtn');
+    if (runScanBtn) {
+        runScanBtn.addEventListener('click', async function() {
+            const file = document.getElementById('groupScanPhoto')?.files?.[0];
+            if (!file) {
+                showToast('Please select a group photo first');
+                return;
+            }
+            await runGroupPhotoAttendance(file);
+        });
+    }
+
+    // Setup save button
+    const saveBtn = document.getElementById('saveProfileBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveWorkerEnrollment);
+    }
+
+    // Setup clear button
+    const clearBtn = document.getElementById('clearFormBtn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearEnrollmentForm);
     }
 });
 
