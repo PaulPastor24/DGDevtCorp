@@ -12,10 +12,10 @@ $userTitle = 'Project Engineer';
     <title>Admin Dashboard D&G Construction Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
 
@@ -96,38 +96,26 @@ $userTitle = 'Project Engineer';
                     <p>Real-time overview of all active construction projects â€” D&G Dev't Corp.</p>
                 </div>
 
-                <div class="dashboard-grid">
-                    <div class="stat-card">
-                        <div class="stat-card-icon">
-                            <i class="bi bi-building"></i>
-                        </div>
-                        <div class="stat-card-label">Active Projects</div>
-                        <div class="stat-card-value">7</div>
-                        <div class="stat-card-trend">↑ 2 from last quarter</div>
+                <div class="stat-grid">
+                    <div class="stat-card" style="--accent-color: var(--accent);">
+                        <div class="stat-label">Active Projects</div>
+                        <div class="stat-value">7</div>
+                        <div class="stat-change up">↑ 2 from last quarter</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(22,163,74,0.15);">
-                            <i class="bi bi-check-circle" style="color: var(--accent);"></i>
-                        </div>
-                        <div class="stat-card-label">On-Track Projects</div>
-                        <div class="stat-card-value">5</div>
-                        <div class="stat-card-trend">71.4% completion rate</div>
+                    <div class="stat-card" style="--accent-color: var(--green);">
+                        <div class="stat-label">On-Track Projects</div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-change up">↑ 71.4% completion rate</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(59,130,246,0.15);">
-                            <i class="bi bi-people" style="color: var(--blue);"></i>
-                        </div>
-                        <div class="stat-card-label">Total Workforce</div>
-                        <div class="stat-card-value">184</div>
-                        <div class="stat-card-trend">Across all sites</div>
+                    <div class="stat-card" style="--accent-color: var(--blue);">
+                        <div class="stat-label">Total Workforce</div>
+                        <div class="stat-value">184</div>
+                        <div class="stat-change">Across all project sites</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-card-icon" style="background: rgba(220,38,38,0.15);">
-                            <i class="bi bi-exclamation-triangle" style="color: var(--red);"></i>
-                        </div>
-                        <div class="stat-card-label">Pending Reports</div>
-                        <div class="stat-card-value">3</div>
-                        <div class="stat-card-trend negative">Requires admin review</div>
+                    <div class="stat-card" style="--accent-color: var(--red);">
+                        <div class="stat-label">Pending Reports</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-change down">Requires admin review</div>
                     </div>
                 </div>
 
@@ -378,136 +366,111 @@ $userTitle = 'Project Engineer';
 
             <div class="page" id="pg-report">
                 <div class="page-header">
-                    <h1>Progress Report Submission</h1>
-                    <p>Submit accomplishment reports for admin review and phase assignment.</p>
+                    <h1>Progress Report Review</h1>
+                    <p>Review supervisor-submitted reports, validate evidence, and approve or request revisions.</p>
                 </div>
 
-                <div class="step-indicator" style="margin-bottom:24px;">
-                    <div class="step active">
-                        <div class="step-num">1</div>
-                        <div class="step-label">Project Info</div>
+                <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:20px;">
+                    <div class="stat-card" style="--accent-color: var(--yellow);">
+                        <div class="stat-label">Awaiting Review</div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-change">Submitted by supervisors today</div>
                     </div>
-                    <div class="step-connector"></div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div class="step-label">Accomplishments</div>
+                    <div class="stat-card" style="--accent-color: var(--blue);">
+                        <div class="stat-label">In Review</div>
+                        <div class="stat-value">2</div>
+                        <div class="stat-change">Assigned to admin reviewers</div>
                     </div>
-                    <div class="step-connector"></div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <div class="step-label">Documentation</div>
+                    <div class="stat-card" style="--accent-color: var(--green);">
+                        <div class="stat-label">Approved</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-change up">This week</div>
                     </div>
-                    <div class="step-connector"></div>
-                    <div class="step">
-                        <div class="step-num">4</div>
-                        <div class="step-label">Submit</div>
+                    <div class="stat-card" style="--accent-color: var(--red);">
+                        <div class="stat-label">Needs Revision</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-change down">Returned to supervisor</div>
                     </div>
                 </div>
 
-                <div class="two-col" style="align-items: start;">
+                <div class="card" style="margin-bottom: 32px;">
+                    <div class="card-header">
+                        <div class="card-title">Supervisor Submissions Queue</div>
+                        <span class="tag yellow">5 Pending</span>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Supervisor</th>
+                                <th>Submitted</th>
+                                <th>Phase</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-project="Rizal Residential" data-supervisor="R. Santos Construction" data-period="Apr 22 - Apr 28, 2026" data-phase="Phase 3 — Structural Works" data-completion="67" data-description="Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6.">
+                                <td><strong>Rizal Residential</strong></td>
+                                <td>R. Santos</td>
+                                <td style="color:var(--muted);">Apr 28, 08:12 AM</td>
+                                <td><span class="phase-tag">Structural Works</span></td>
+                                <td><span class="att-badge late">Awaiting Review</span></td>
+                                <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="loadReportDetails(this)">Open</button></td>
+                            </tr>
+                            <tr data-project="San Pablo Hub" data-supervisor="M. Dela Cruz & Team" data-period="Apr 20 - Apr 28, 2026" data-phase="Phase 2 — Foundation" data-completion="54" data-description="Foundation inspection completed. Concrete footings poured for all zones. Waterproofing treatment applied. Awaiting structural approval before moving to next phase.">
+                                <td><strong>San Pablo Hub</strong></td>
+                                <td>M. Dela Cruz</td>
+                                <td style="color:var(--muted);">Apr 28, 07:44 AM</td>
+                                <td><span class="phase-tag">Foundation</span></td>
+                                <td><span class="att-badge late">Awaiting Review</span></td>
+                                <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="loadReportDetails(this)">Open</button></td>
+                            </tr>
+                            <tr data-project="Batangas Warehouse" data-supervisor="P. Mendoza Builders" data-period="Apr 18 - Apr 27, 2026" data-phase="Phase 4 — Finishing Works" data-completion="82" data-description="Interior wall finishing 85% complete. Electricals and plumbing installation in progress. Paint and fixtures scheduled for next week. Final inspections starting on priority areas.">
+                                <td><strong>Batangas Warehouse</strong></td>
+                                <td>P. Mendoza</td>
+                                <td style="color:var(--muted);">Apr 27, 05:16 PM</td>
+                                <td><span class="phase-tag">Finishing Works</span></td>
+                                <td><span class="att-badge late">In Review</span></td>
+                                <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="loadReportDetails(this)">Open</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="two-col">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Selected Report Details</div>
+                            <span class="tag" id="reportProjectTag">Rizal Residential</span>
+                        </div>
+                        <div style="display:grid; gap:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Supervisor</span><span style="color:var(--text);" id="reportSupervisor">R. Santos Construction</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Report Period</span><span style="color:var(--text);" id="reportPeriod">Apr 22 - Apr 28, 2026</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Current Phase</span><span style="color:var(--text);" id="reportPhase">Phase 3 — Structural Works</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--muted);"><span>Completion</span><span style="color:var(--accent); font-weight:700%;" id="reportCompletion">67%</span></div>
+                            <div style="padding:14px; min-height:120px; margin-top:2px; border:1px solid var(--border); border-radius:10px; background:rgba(0,0,0,0.01); font-size:12px; line-height:1.6; cursor:default; user-select:none;" id="reportDescription">
+                                Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6.
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card mb-0">
-                        <div class="card-title" style="margin-bottom:18px;">Report Details</div>
-                        <div class="form-grid">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Project</label>
-                                    <select class="form-select">
-                                        <option>Rizal Residential Complex</option>
-                                        <option>San Pablo Commercial Hub</option>
-                                        <option>Batangas Warehouse Facility</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Report Period</label>
-                                    <input type="date" class="form-input" value="2026-04-28">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Current Phase</label>
-                                <select class="form-select">
-                                    <option>Phase 3 — Structural Works</option>
-                                    <option>Phase 2 — Foundation Works</option>
-                                    <option>Phase 4 — MEP Installation</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Completion Description</label>
-                                <textarea class="form-textarea" placeholder="Describe work accomplished this period, milestones reached, and any issues encountered...">Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6. Weather delays of 2 days noted.</textarea>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Completion % (Est.)</label>
-                                    <input type="number" class="form-input" value="67" min="0" max="100">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Workers On-Site</label>
-                                    <input type="number" class="form-input" value="42">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Issues / Blockers</label>
-                                <textarea class="form-textarea" placeholder="Any issues, risks, or blockers..." style="min-height:60px;">Rebar delivery delayed by supplier — ETA Apr 30. Awaiting inspector sign-off for Level 4 slab.</textarea>
-                            </div>
+                        <div class="card-title" style="margin-bottom:14px;">Evidence & Review Decision</div>
+                        <div style="display:grid; gap:8px; margin-bottom:14px;">
+                            <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span></div>
+                            <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> level4_slab_progress.jpg <span style="margin-left:auto; color:var(--muted);">1.7 MB</span></div>
+                            <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;"><span>📄</span> inspection_form_level4.pdf <span style="margin-left:auto; color:var(--muted);">0.8 MB</span></div>
+                        </div>
+                        <div class="form-group" style="margin-bottom:12px;">
+                            <label class="form-label">Reviewer Notes</label>
+                            <textarea class="form-textarea" style="min-height:80px;" placeholder="Add findings, required revisions, or approval notes..."></textarea>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:10px;">
+                            <button class="topbar-btn" onclick="showToast('Revision request sent to supervisor')">Request Revision</button>
+                            <button class="topbar-btn primary" onclick="showToast('Report approved and forwarded to phase management')">Approve Report</button>
                         </div>
                     </div>
-
-                    <div>
-                        <div class="card">
-                            <div class="card-title" style="margin-bottom:14px;">Supporting Documents</div>
-                            <div class="upload-zone">
-                                <div class="upload-icon">📎</div>
-                                <div class="upload-text">Drop files here or <span>browse</span></div>
-                                <div style="font-size:11px; color:var(--muted); margin-top:4px;">Photos, PDFs, inspection reports</div>
-                            </div>
-                            <div style="margin-top:12px;">
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;">
-                                    <span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span>
-                                </div>
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;">
-                                    <span>inspection_form_level4.pdf</span> <span style="margin-left:auto; color:var(--muted);">0.8 MB</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card mb-0">
-                            <div class="card-title" style="margin-bottom:14px;">Pending Admin Reviews</div>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Project</th>
-                                        <th>Submitted</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Rizal Complex</td>
-                                        <td style="color:var(--muted); font-size:11px;">Apr 21</td>
-                                        <td><span class="att-badge late">Reviewing</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>San Pablo Hub</td>
-                                        <td style="color:var(--muted); font-size:11px;">Apr 18</td>
-                                        <td><span class="att-badge absent">Revisions</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lipa Townhouse</td>
-                                        <td style="color:var(--muted); font-size:11px;">Apr 25</td>
-                                        <td><span class="att-badge present">Approved</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:12px;">
-                    <button class="topbar-btn">Save Draft</button>
-                    <button class="topbar-btn primary" onclick="showToast('Report submitted for admin review!')">Submit Report</button>
                 </div>
             </div>
 
@@ -608,250 +571,153 @@ $userTitle = 'Project Engineer';
                     <p>Upload one reference photo per worker so the supervisor can match a group photo against saved FaceNet descriptors.</p>
                 </div>
 
-                <!-- Main Grid Layout: Left & Right Sections -->
-                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: start;">
-                    
-                    <!-- LEFT SECTION: Attendance Summary & Table -->
-                    <div>
-                        <!-- Today's Attendance Section -->
-                        <div style="margin-bottom: 32px;">
-                            <div style="margin-bottom: 16px;">
-                                <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px;">Today&apos;s Attendance — May 13, 2026</h3>
-                                <div style="font-size: 12px; color: var(--muted);">
-                                    <select class="form-select" style="width: 220px; display: inline-block; padding: 8px 12px; font-size: 12px;">
-                                        <option>Rizal Residential Complex</option>
-                                        <option>San Pablo Commercial Hub</option>
-                                        <option>Batangas Warehouse Facility</option>
-                                        <option>Lipa City Townhouse Dev.</option>
-                                    </select>
+                <div class="attendance-grid">
+                    <div class="attendance-stack">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Today's Attendance — <span id="attendanceDateLabel">Apr 28, 2026</span></div>
+                                <select class="form-select attendance-select" id="attendanceProjectSelect">
+                                    <option value="Rizal Residential Complex">Rizal Residential Complex</option>
+                                    <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
+                                </select>
+                            </div>
+
+                            <div class="attendance-summary">
+                                <div class="attendance-stat">
+                                    <div class="attendance-stat-label">Present</div>
+                                    <div class="attendance-stat-value" id="attendancePresentCount">0</div>
+                                    <div class="attendance-stat-hint">Verified today</div>
+                                </div>
+                                <div class="attendance-stat">
+                                    <div class="attendance-stat-label">Awaiting scan</div>
+                                    <div class="attendance-stat-value" id="attendancePendingCount">0</div>
+                                    <div class="attendance-stat-hint">No time-in yet</div>
+                                </div>
+                                <div class="attendance-stat">
+                                    <div class="attendance-stat-label">Enrolled faces</div>
+                                    <div class="attendance-stat-value" id="attendanceEnrolledCount">0</div>
+                                    <div class="attendance-stat-hint">Stored locally</div>
                                 </div>
                             </div>
 
-                            <!-- Attendance Summary Cards -->
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
-                                <!-- Present Card -->
-                                <div style="background: #ffffff; border: 1px solid rgba(34,197,94,0.15); border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                                    <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;">Present</div>
-                                    <div style="font-family: var(--heading); font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px;" id="attendancePresentCount">0</div>
-                                    <div style="font-size: 11px; color: var(--muted);">Verified today</div>
-                                </div>
-
-                                <!-- Awaiting Scan Card -->
-                                <div style="background: #ffffff; border: 1px solid rgba(59,130,246,0.15); border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                                    <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;">Awaiting Scan</div>
-                                    <div style="font-family: var(--heading); font-size: 32px; font-weight: 800; color: var(--blue); line-height: 1; margin-bottom: 4px;" id="attendingCount">3</div>
-                                    <div style="font-size: 11px; color: var(--muted);">Not scanned yet</div>
-                                </div>
-
-                                <!-- Enrolled Faces Card -->
-                                <div style="background: #ffffff; border: 1px solid rgba(34,197,94,0.15); border-radius: 12px; padding: 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                                    <div style="font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 8px;">Enrolled Faces</div>
-                                    <div style="font-family: var(--heading); font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px;" id="attendanceEnrolledCount">3</div>
-                                    <div style="font-size: 11px; color: var(--muted);">Stored locally</div>
-                                </div>
-                            </div>
+                            <table class="data-table attendance-table">
+                                <thead>
+                                    <tr><th>Worker</th><th>ID</th><th>Role</th><th>Time In</th><th>Status</th></tr>
+                                </thead>
+                                <tbody id="attendanceLogBody"></tbody>
+                            </table>
                         </div>
 
-                        <!-- Attendance Table Section -->
-                        <div class="card" style="margin-bottom: 0;">
-                            <div class="card-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 16px;">
-                                <div class="card-title">Today's Attendance Log</div>
-                            </div>
-
-                            <div class="table-scroll">
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>WORKER</th>
-                                            <th>ID</th>
-                                            <th>ROLE</th>
-                                            <th>TIME IN</th>
-                                            <th>STATUS</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td colspan="5" style="padding: 32px 16px; text-align: center; color: var(--muted); font-size: 13px;">
-                                                No attendance logs recorded for this project yet.
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="card mb-0">
+                            <div class="card-title" style="margin-bottom:10px;">Enrolled Workers</div>
+                            <div class="worker-roster" id="workerRoster"></div>
                         </div>
 
-                        <!-- Enrolled Workers Section -->
-                        <div style="margin-top: 32px;">
-                            <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 16px;">Enrolled Workers</h3>
-                            <div class="worker-roster" id="enrolledWorkersList" style="display: flex; flex-direction: column; gap: 10px;">
-                                <div style="padding: 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--muted); text-align: center;">
-                                    No workers enrolled yet
+                        <div class="card mb-0">
+                            <div class="card-header">
+                                <div class="card-title">Recent Attendance</div>
+                                <div class="attendance-filter">
+                                    <button class="topbar-btn icon-btn" type="button" id="recentAttendanceFilterBtn" title="Filter"><i class="bi bi-funnel"></i></button>
+                                    <button class="topbar-btn icon-btn" type="button" id="recentAttendanceClearBtn" title="Clear"><i class="bi bi-x-circle"></i></button>
+                                    <input type="date" id="recentAttendanceDate" class="attendance-date-input">
                                 </div>
                             </div>
+                            <table class="data-table recent-attendance-table">
+                                <thead>
+                                    <tr><th>Time</th><th>Worker</th><th>ID</th><th>Role</th><th>Status</th></tr>
+                                </thead>
+                                <tbody id="recentAttendanceList"></tbody>
+                            </table>
                         </div>
                     </div>
 
-                    <!-- RIGHT SECTION: Worker Profile Enrollment -->
-                    <div>
-                        <div class="card" style="margin-bottom: 0;">
-                            <div style="padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;">
-                                <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text);">Worker Profile Enrollment</h3>
-                            </div>
-
-                            <!-- Photo Preview Area -->
-                            <div style="background: linear-gradient(135deg, rgba(22,163,74,0.08) 0%, rgba(16,185,129,0.04) 100%); border: 2px solid rgba(34,197,94,0.2); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; min-height: 200px;">
-                                <div id="enrollmentPhotoPreview" style="display: none; width: 160px; height: 160px; border-radius: 8px; overflow: hidden;"></div>
-                                <div id="enrollmentPhotoEmpty" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                                    <i class="bi bi-image" style="font-size: 48px; color: var(--accent); opacity: 0.7;"></i>
-                                    <div style="font-size: 13px; font-weight: 600; color: var(--text);">Upload a clear worker portrait to create a FaceNet reference.</div>
-                                </div>
-                            </div>
-
-                            <!-- Form Fields -->
-                            <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
-                                <!-- Worker Name -->
-                                <div>
-                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Worker Name</label>
-                                    <input type="text" class="form-input" id="enrollmentName" placeholder="Name" style="padding: 10px 12px; font-size: 13px;">
-                                </div>
-
-                                <!-- Worker ID -->
-                                <div>
-                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Worker ID</label>
-                                    <input type="text" class="form-input" id="enrollmentId" placeholder="W-0042" style="padding: 10px 12px; font-size: 13px;">
-                                </div>
-
-                                <!-- Role -->
-                                <div>
-                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Role</label>
-                                    <input type="text" class="form-input" id="enrollmentRole" placeholder="Carpenter" style="padding: 10px 12px; font-size: 13px;">
-                                </div>
-
-                                <!-- File Upload -->
-                                <div>
-                                    <label style="display: block; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;">Reference Photo</label>
-                                    <input type="file" class="form-input" id="enrollmentPhoto" accept="image/*" style="padding: 10px 12px; font-size: 13px; cursor: pointer;">
-                                </div>
-                            </div>
-
-                            <!-- Action Buttons -->
-                            <div style="display: flex; gap: 10px;">
-                                <button class="topbar-btn primary" id="saveProfileBtn" onclick="saveWorkerEnrollment()" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Save Profile</button>
-                                <button class="topbar-btn" id="clearFormBtn" onclick="clearEnrollmentForm()" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Clear Form</button>
-                            </div>
-
-                            <div style="margin-top: 16px; padding: 12px 14px; background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.15); border-radius: 8px; font-size: 11px; color: var(--muted); line-height: 1.5;">
-                                <i class="bi bi-info-circle" style="margin-right: 6px; color: var(--accent);"></i>
-                                Profiles are stored locally and used to match faces in group photos.
-                            </div>
-                        </div>
-
-                        <!-- Group Photo Attendance Scan Section -->
-                        <div class="card" style="margin-top: 32px; margin-bottom: 0;">
-                            <div style="padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;">
-                                <h3 style="font-family: var(--heading); font-size: 14px; font-weight: 700; color: var(--text);">Group Photo Attendance Scan</h3>
-                            </div>
-
-                            <!-- Scan Photo Area -->
-                            <div id="groupPhotoContainer" style="background: linear-gradient(135deg, rgba(22,163,74,0.08) 0%, rgba(16,185,129,0.04) 100%); border: 2px dashed rgba(34,197,94,0.3); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px; min-height: 200px; display: flex; align-items: center; justify-content: center;">
-                                <div id="groupPhotoEmpty" style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                                    <i class="bi bi-camera" style="font-size: 48px; color: var(--accent); opacity: 0.7;"></i>
-                                    <div style="font-size: 13px; font-weight: 600; color: var(--text);">Drop group photo or click to browse</div>
-                                </div>
-                                <div id="groupPhotoPreview" style="display: none; width: 160px; height: 160px; border-radius: 8px; overflow: hidden;"></div>
-                            </div>
-
-                            <!-- Scan Controls -->
-                            <div style="display: flex; gap: 10px;">
-                                <input type="file" id="groupScanPhoto" accept="image/*" style="display: none;">
-                                <button class="topbar-btn" onclick="document.getElementById('groupScanPhoto').click()" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Choose Photo</button>
-                                <button class="topbar-btn primary" id="runScanBtn" style="padding: 10px 20px; font-weight: 600; font-size: 13px; height: 40px; display: flex; align-items: center; justify-content: center;">Run Scan</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            <!-- Worker Enrollment Modal -->
-            <div class="modal-overlay" id="enrollmentModal" onclick="if(event.target === this) closeEnrollmentModal()">
-                <div class="modal-content enrollment-modal" style="max-width: 760px; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 80px rgba(0,0,0,0.28); max-height: 90vh; display: flex; flex-direction: column;">
-                    <!-- Green Header spanning full width -->
-                    <div class="modal-header-enrollment" style="background: linear-gradient(135deg, var(--accent) 0%, rgba(22, 163, 74, 0.85) 100%); padding: 28px 32px; position: relative; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;">
-                        <div>
-                            <h2 class="modal-title" style="color: #fff; font-size: 24px; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 10px;">
-                                <i class="bi bi-plus-circle" style="font-size: 26px;"></i>Enroll New Worker
-                            </h2>
-                            <p style="color: rgba(255,255,255,0.85); font-size: 12px; margin: 4px 0 0 0;">Add a new worker profile</p>
-                        </div>
-                        <button class="modal-close-enrollment" onclick="closeEnrollmentModal()" style="position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.4); color: #fff; font-size: 26px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 300; line-height: 1;">
-                            <i class="bi bi-x" style="font-size: 18px;"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="modal-body enrollment-modal-body" style="padding: 28px 32px; overflow-y: auto; flex: 1;">
-                        <div style="display: grid; grid-template-columns: minmax(240px, 280px) 1fr; gap: 32px;">
-                            <!-- Left: Photo Preview (1:1 Square) -->
-                            <div>
-                                <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-                                    <i class="bi bi-image-fill" style="color: var(--accent);"></i>Photo
-                                </label>
-                                <div class="face-stage enrollment-photo" style="aspect-ratio: 1/1; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(145, 251, 137, 0.14) 0%, rgba(34, 197, 94, 0.08) 100%); border: 2px solid rgba(34, 197, 94, 0.28); position: relative; box-shadow: 0 4px 16px rgba(34, 197, 94, 0.12); cursor: pointer; transition: all 0.3s ease;" onclick="document.getElementById('workerPhotoInput').click()">
-                                    <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none; width: 100%; height: 100%; object-fit: cover;">
-                                    <div class="face-empty" id="workerPhotoEmpty" style="display: flex; align-items: center; justify-content: center; height: 100%; flex-direction: column;">
-                                        <i class="bi bi-camera-fill" style="font-size: 48px; color: var(--accent); margin-bottom: 12px; opacity: 0.75;"></i>
-                                        <div style="font-size: 13px; color: var(--text); font-weight: 600;">Click to add</div>
-                                        <div style="font-size: 11px; color: var(--muted); margin-top: 6px;">Clear, front-facing</div>
+                    <div class="enrollment-section">
+                        <div class="card">
+                            <div class="card-title" style="margin-bottom:16px;">Worker Profile Enrollment</div>
+                            <div class="face-panel enrollment-panel">
+                                <div class="enrollment-photo-wrapper">
+                                    <div class="face-stage enrollment-photo-area" id="workerPhotoStage">
+                                        <img id="workerPhotoPreview" alt="Worker reference preview" style="display:none;">
+                                        <div class="face-empty" id="workerPhotoEmpty">
+                                            <div style="text-align: center;">
+                                                <i class="bi bi-cloud-arrow-up" style="font-size: 32px; color: var(--accent); margin-bottom: 8px; display: block;"></i>
+                                                Upload a clear worker portrait
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <input type="file" class="form-input" id="workerPhotoInput" accept="image/*" style="display: none;">
-                            </div>
-
-                            <!-- Right: Form Fields -->
-                            <div style="display: flex; flex-direction: column; gap: 14px;">
-                                <div class="form-group" style="margin: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                        <label class="form-label" style="margin: 0;">
-                                            <i class="bi bi-person-fill" style="margin-right: 6px; color: var(--accent);"></i>Worker Name
+                                <div class="face-info">
+                                    <div class="form-grid" style="gap:12px; margin-bottom:12px;">
+                                        <div class="form-group">
+                                            <label class="form-label">Worker Name</label>
+                                            <input type="text" class="form-input" id="workerNameInput" placeholder="e.g., Juan Santos">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Worker ID</label>
+                                            <input type="text" class="form-input" id="workerIdInput" placeholder="e.g., W-0042">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Position / Role</label>
+                                            <input type="text" class="form-input" id="workerRoleInput" placeholder="e.g., Carpenter, Mason">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Reference Photo</label>
+                                        <label class="btn-choose-photo" for="workerPhotoInput">
+                                            <i class="bi bi-image"></i>
+                                            Choose Photo
                                         </label>
-                                        <span id="nameValidation" style="font-size: 11px; color: #ff9800; display: none; font-weight: 600;">Required</span>
+                                        <input type="file" id="workerPhotoInput" accept="image/*" class="file-input-hidden">
                                     </div>
-                                    <input type="text" class="form-input enrollment-input" id="workerNameInput" placeholder="e.g., Juan Santos" style="padding: 12px 14px; border-radius: 8px; font-size: 13px; margin: 0;">
-                                </div>
-
-                                <div class="form-group" style="margin: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                        <label class="form-label" style="margin: 0;">
-                                            <i class="bi bi-tag-fill" style="margin-right: 6px; color: var(--accent);"></i>Worker ID
-                                        </label>
-                                        <span id="idValidation" style="font-size: 11px; color: #ff9800; display: none; font-weight: 600;">Required</span>
+                                    <div class="face-status" id="attendanceStatus">Load FaceNet models, then upload one clear reference photo for each worker profile.</div>
+                                    <div class="face-actions">
+                                        <div class="btn-group-left">
+                                            <button class="btn btn-secondary" id="resetWorkerBtn" type="button"><i class="bi bi-arrow-counterclockwise"></i> Clear Form</button>
+                                        </div>
+                                        <div class="btn-group-right">
+                                            <button class="btn btn-primary" id="saveWorkerBtn" type="button"><i class="bi bi-check-circle"></i> Save Profile</button>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-input enrollment-input" id="workerIdInput" placeholder="e.g., W-0042" style="padding: 12px 14px; border-radius: 8px; font-size: 13px; margin: 0;">
-                                </div>
-
-                                <div class="form-group" style="margin: 0;">
-                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-                                        <label class="form-label" style="margin: 0;">
-                                            <i class="bi bi-briefcase-fill" style="margin-right: 6px; color: var(--accent);"></i>Position / Role
-                                        </label>
-                                        <span id="roleValidation" style="font-size: 11px; color: #ff9800; display: none; font-weight: 600;">Required</span>
-                                    </div>
-                                    <input type="text" class="form-input enrollment-input" id="workerRoleInput" placeholder="e.g., Carpenter, Mason" style="padding: 12px 14px; border-radius: 8px; font-size: 13px; margin: 0;">
-                                </div>
-
-                                <!-- Validation Message - Bottom Alert -->
-                                <div class="enrollment-status" id="enrollmentStatus" style="background: #fff3cd; border: 1px solid #ffc107; padding: 12px 14px; border-radius: 8px; border-left: 4px solid #ff9800; font-size: 12px; color: #856404; line-height: 1.5; margin-top: 8px; display: none;">
-                                    <i class="bi bi-exclamation-circle" style="color: #ff9800; margin-right: 6px;"></i><span id="validationMessage"></span>
+                                    <div class="face-meta" id="faceMeta">Profiles are stored locally and reused by the supervisor group-photo scan.</div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="modal-footer enrollment-footer" style="padding: 16px 32px; border-top: 1px solid var(--border); display: flex; gap: 12px; justify-content: flex-end; background: rgba(250, 250, 250, 0.5); flex-shrink: 0;">
-                        <button class="enrollment-btn-cancel" onclick="closeEnrollmentModal()" style="padding: 11px 28px; font-size: 13px; font-weight: 700; border-radius: 8px; border: 1.5px solid var(--border); background: #fff; color: var(--text); cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; height: 40px;">
-                            <i class="bi bi-x-circle" style="margin-right: 2px; font-size: 14px;"></i>Cancel
-                        </button>
-                        <button class="topbar-btn primary enrollment-btn-save" id="saveWorkerBtn" type="button" onclick="saveWorkerProfile()" style="padding: 11px 28px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 6px; height: 40px;">
-                            <i class="bi bi-check-circle" style="font-size: 14px;"></i>Save Profile
-                        </button>
+                        <div class="card">
+                            <div class="card-title" style="margin-bottom:16px;">Group Photo Attendance Scan</div>
+                            <div class="face-panel group-photo-panel">
+                                <div class="group-photo-wrapper">
+                                    <div class="face-stage group-photo-area" id="groupPhotoStage">
+                                        <img id="groupPhotoPreview" alt="Group photo preview" style="display:none;">
+                                        <div class="face-empty" id="groupPhotoEmpty">Upload a group photo to match against enrolled worker profiles.</div>
+                                    </div>
+                                </div>
+                                <div class="face-info">
+                                    <div class="form-group">
+                                        <label class="form-label">Group Photo</label>
+                                        <label class="btn-choose-photo" for="groupPhotoInput">
+                                            <i class="bi bi-images"></i>
+                                            Choose Group Photo
+                                        </label>
+                                        <input type="file" id="groupPhotoInput" accept="image/*" class="file-input-hidden">
+                                    </div>
+                                    <div class="face-status" id="groupPhotoStatus">Upload a group photo containing multiple workers to scan and record attendance.</div>
+                                    <div class="face-actions">
+                                        <div class="btn-group-left">
+                                            <button class="btn btn-secondary" id="resetGroupPhotoBtn" type="button"><i class="bi bi-trash"></i> Clear Photo</button>
+                                        </div>
+                                        <div class="btn-group-right">
+                                            <button class="btn btn-primary" id="runGroupPhotoBtn" type="button"><i class="bi bi-play-circle"></i> Run Attendance Match</button>
+                                        </div>
+                                    </div>
+                                    <div id="groupPhotoResults" style="margin-top:14px; display:none;">
+                                        <div style="font-size:12px; font-weight:600; margin-bottom:8px; color:var(--accent);">Matched Workers</div>
+                                        <div id="groupPhotoResultsBody" style="font-size:11px; color:var(--muted);"></div>
+                                    </div>
+                                    <div class="face-meta" id="groupPhotoMeta">Detected faces will be matched and attendance logged to the database.</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -873,7 +739,7 @@ $userTitle = 'Project Engineer';
                         <div class="stat-label">Low Stock Alerts</div>
                         <div class="stat-value">3</div>
                         <div class="stat-change down">Immediate reorder needed</div>
-                        <div class="stat-icon">Notification</div>
+                        <div class="stat-icon">Alerts</div>
                     </div>
                     <div class="stat-card" style="--accent-color: var(--green);">
                         <div class="stat-label">Total Inventory Value</div>
@@ -899,7 +765,7 @@ $userTitle = 'Project Engineer';
 
                         <div id="inventory-list">
                             <div class="mat-item">
-                                <div class="mat-icon">���</div>
+                                <div class="mat-icon">🪨</div>
                                 <div class="mat-info">
                                     <div class="mat-name">Ready-Mix Concrete</div>
                                     <div class="mat-detail">Delivered: 480 m³ · Used: 320 m³</div>
@@ -1022,15 +888,15 @@ $userTitle = 'Project Engineer';
                 </div>
             </div>
 
-            <div class="page" id="pg-notifications">
+            <div class="page" id="pg-alerts">
                 <div class="page-header">
-                    <h1>Notifications</h1>
-                    <p>System-generated notifications for materials, schedules, and attendance anomalies.</p>
+                    <h1>Alerts & Notifications</h1>
+                    <p>System-generated flags for materials, schedules, and attendance anomalies.</p>
                 </div>
 
                 <div class="two-col" style="align-items:start;">
                     <div>
-                        <div class="section-header"><div class="section-title">Critical Notifications</div></div>
+                        <div class="section-header"><div class="section-title">Critical Alerts</div></div>
 
                         <div class="alert-bar danger">
                             <div class="alert-icon">Danger</div>
@@ -1139,7 +1005,7 @@ const primaryActions = {
     timeline: '+ Add Phase',
     report: '+ New Report',
     phase: '',
-    attendance: '',
+    attendance: '+ Register Worker',
     materials: '+ Log Delivery',
     alerts: 'Mark All Read',
 };
@@ -1161,6 +1027,7 @@ const attendanceState = {
     workers: [],
     logs: [],
     currentProject: 'Rizal Residential Complex',
+    recentAttendanceDate: '',
     loadingModels: null,
 };
 
@@ -1173,6 +1040,25 @@ function readJson(key, fallback) {
     }
 }
 
+function writeJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+async function sendAttendanceApi(action, payload = {}) {
+    const response = await fetch('attendance_api.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ action, ...payload }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Attendance API request failed.');
+    }
+
+    return response.json();
+}
+
 function dedupeWorkersById(workers) {
     const map = new Map();
     for (const w of (workers || [])) {
@@ -1180,40 +1066,6 @@ function dedupeWorkersById(workers) {
         if (!map.has(w.id)) map.set(w.id, w);
     }
     return Array.from(map.values());
-}
-
-function writeJson(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-}
-
-async function sendAttendanceApi(action, payload = {}) {
-    try {
-        const response = await fetch('attendance_api.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ action, ...payload }),
-        });
-
-        const data = await response.json();
-        console.log(`API ${action} response:`, data);
-
-        if (!response.ok) {
-            const errorMsg = data.message || `HTTP ${response.status}`;
-            console.error(`API error (${action}):`, errorMsg);
-            throw new Error(errorMsg);
-        }
-
-        if (!data.success) {
-            console.error(`API failure (${action}):`, data.message);
-            throw new Error(data.message || `API ${action} failed`);
-        }
-
-        return data;
-    } catch (error) {
-        console.error(`sendAttendanceApi(${action}) error:`, error);
-        throw error;
-    }
 }
 
 async function bootstrapAttendanceData() {
@@ -1260,6 +1112,7 @@ function seedAttendanceData() {
 
 function navigate(page, el) {
     currentPage = page;
+    localStorage.setItem('dg-admin-current-page', page);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
@@ -1284,7 +1137,7 @@ function navigate(page, el) {
 
 function primaryAction() {
     if (currentPage === 'attendance') {
-        openEnrollmentModal();
+        registerWorker();
         return;
     }
 
@@ -1340,12 +1193,11 @@ function showFaceMeta(message) {
     if (meta) meta.textContent = message;
 }
 
-function showToast(message, type = 'success') {
+function showToast(message) {
     const toast = document.getElementById('toast');
     if (!toast) return;
 
     toast.textContent = message;
-    toast.className = type;
     toast.style.opacity = '1';
     toast.style.transform = 'translateY(0)';
 
@@ -1356,36 +1208,103 @@ function showToast(message, type = 'success') {
     }, 2800);
 }
 
-function openEnrollmentModal() {
-    const modal = document.getElementById('enrollmentModal');
-    if (modal) {
-        modal.classList.add('active');
-        resetWorkerForm();
+function attachFilePickerScrollFix(fileInputId) {
+    const fileInput = document.getElementById(fileInputId);
+    if (!fileInput) return;
+
+    fileInput.addEventListener('click', (e) => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollLeft = window.scrollX || document.documentElement.scrollLeft;
+        
+        setTimeout(() => {
+            window.scrollTo(scrollLeft, scrollTop);
+        }, 0);
+    });
+}
+
+function loadReportDetails(button) {
+    const row = button.closest('tr');
+    if (!row) return;
+
+    const project = row.dataset.project;
+    const supervisor = row.dataset.supervisor;
+    const period = row.dataset.period;
+    const phase = row.dataset.phase;
+    const completion = row.dataset.completion;
+    const description = row.dataset.description;
+
+    document.getElementById('reportProjectTag').textContent = project;
+    document.getElementById('reportSupervisor').textContent = supervisor;
+    document.getElementById('reportPeriod').textContent = period;
+    document.getElementById('reportPhase').textContent = phase;
+    document.getElementById('reportCompletion').textContent = completion + '%';
+    document.getElementById('reportDescription').textContent = description;
+
+    showToast('Report loaded for review');
+}
+
+function formatAttendanceDate(dateKey) {
+    if (!dateKey) return '';
+    const [year, month, day] = String(dateKey).split('-').map(Number);
+    if (!year || !month || !day) return dateKey;
+    const date = new Date(year, month - 1, day);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function renderRecentAttendanceLogs() {
+    const list = document.getElementById('recentAttendanceList');
+    if (!list) return;
+
+    const currentProject = attendanceState.currentProject;
+    const selectedDate = attendanceState.recentAttendanceDate;
+    const logs = attendanceState.logs
+        .filter(log => log.project === currentProject)
+        .filter(log => !selectedDate || log.dateKey === selectedDate)
+        .slice()
+        .sort((a, b) => {
+            if (a.dateKey === b.dateKey) return String(b.timeIn).localeCompare(String(a.timeIn));
+            return String(b.dateKey).localeCompare(String(a.dateKey));
+        })
+        .slice(0, 6);
+
+    if (!logs.length) {
+        list.innerHTML = '<div class="worker-roster-empty">No attendance logs found for the selected date.</div>';
+        return;
     }
+
+    list.innerHTML = logs.map(log => `
+        <tr>
+            <td style="color:var(--muted); font-size:12px;">
+                <div style="font-weight:600;">${formatClock(log.timeIn)}</div>
+                <div style="font-size:11px;">${formatAttendanceDate(log.dateKey)}</div>
+            </td>
+            <td style="font-weight:500;">${log.workerName}</td>
+            <td style="color:var(--muted); font-size:12px;">${log.workerId}</td>
+            <td style="color:var(--muted); font-size:12px;">${log.workerRole}</td>
+            <td><span class="att-badge ${String(log.status || '').toLowerCase()}">${log.status === 'Present' ? '✓ Present' : log.status}</span></td>
+        </tr>
+    `).join('');
 }
 
-function closeEnrollmentModal() {
-    const modal = document.getElementById('enrollmentModal');
-    if (modal) {
-        modal.classList.remove('active');
+async function applyRecentAttendanceFilter() {
+    const input = document.getElementById('recentAttendanceDate');
+    attendanceState.recentAttendanceDate = input?.value || '';
+
+    try {
+        await bootstrapAttendanceData();
+    } catch (error) {
+        console.error('Failed to refresh attendance logs:', error);
     }
+
+    renderAttendanceModule();
 }
 
-function saveWorkerProfile() {
-    registerWorker();
+function clearRecentAttendanceFilter() {
+    attendanceState.recentAttendanceDate = '';
+    const input = document.getElementById('recentAttendanceDate');
+    if (input) input.value = '';
+    renderAttendanceModule();
 }
-
-function updateLiveDate() {
-    const dateEl = document.getElementById('liveDate');
-    if (!dateEl) return;
-    
-    const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
-    const today = new Date().toLocaleDateString('en-US', options);
-    dateEl.textContent = today;
-}
-
-setInterval(updateLiveDate, 60000);
-updateLiveDate();
 
 function persistWorkers() {
     const deduped = dedupeWorkersById(attendanceState.workers);
@@ -1415,25 +1334,27 @@ async function initAttendanceModule() {
         });
     }
 
-    document.getElementById('enrollmentPhoto')?.addEventListener('change', function() {
+    document.getElementById('workerPhotoInput')?.addEventListener('change', function() {
         updateWorkerPhotoPreview(this.files?.[0]).catch(() => {
-            showToast('Unable to preview the selected photo.');
+            showAttendanceStatus('Unable to preview the selected photo.');
         });
     });
-    document.getElementById('saveProfileBtn')?.addEventListener('click', registerWorker);
-    document.getElementById('clearFormBtn')?.addEventListener('click', resetWorkerForm);
+    attachFilePickerScrollFix('workerPhotoInput');
+    document.getElementById('saveWorkerBtn')?.addEventListener('click', registerWorker);
+    document.getElementById('resetWorkerBtn')?.addEventListener('click', resetWorkerForm);
 
-    document.getElementById('groupScanPhoto')?.addEventListener('change', function() {
+    document.getElementById('recentAttendanceFilterBtn')?.addEventListener('click', applyRecentAttendanceFilter);
+    document.getElementById('recentAttendanceClearBtn')?.addEventListener('click', clearRecentAttendanceFilter);
+    document.getElementById('recentAttendanceDate')?.addEventListener('change', applyRecentAttendanceFilter);
+
+    document.getElementById('groupPhotoInput')?.addEventListener('change', function() {
         updateGroupPhotoPreview(this.files?.[0]).catch(() => {
-            showToast('Unable to preview the selected photo.');
+            document.getElementById('groupPhotoStatus').textContent = 'Unable to preview the selected photo.';
         });
     });
-    document.getElementById('runScanBtn')?.addEventListener('click', () => {
-        const file = document.getElementById('groupScanPhoto')?.files?.[0];
-        if (file) {
-            runGroupPhotoAttendance(file);
-        }
-    });
+    attachFilePickerScrollFix('groupPhotoInput');
+    document.getElementById('runGroupPhotoBtn')?.addEventListener('click', processGroupPhoto);
+    document.getElementById('resetGroupPhotoBtn')?.addEventListener('click', resetGroupPhotoForm);
 
     attendanceState.initialized = true;
     renderAttendanceModule();
@@ -1447,9 +1368,8 @@ function renderAttendanceModule() {
     const workers = attendanceState.workers.filter(worker => worker.project === currentProject);
     const logs = attendanceState.logs.filter(log => log.project === currentProject && log.dateKey === todayKey);
     const enrolledCount = attendanceState.workers.filter(worker => Array.isArray(worker.descriptor) && worker.descriptor.length).length;
-    const presentCount = logs.filter(log => log.status === 'Present').length;
-    const lateCount = logs.filter(log => log.status === 'Late').length;
-    const absentCount = logs.filter(log => log.status === 'Absent').length;
+    const presentCount = logs.filter(log => log.status !== 'Absent').length;
+    const pendingCount = Math.max(workers.length - presentCount, 0);
 
     const roster = document.getElementById('workerRoster');
     if (roster) {
@@ -1489,30 +1409,19 @@ function renderAttendanceModule() {
 
     const presentEl = document.getElementById('attendancePresentCount');
     if (presentEl) presentEl.textContent = String(presentCount);
-    const lateEl = document.getElementById('attendanceLateCount');
-    if (lateEl) lateEl.textContent = String(lateCount);
-    const absentEl = document.getElementById('attendanceAbsentCount');
-    if (absentEl) absentEl.textContent = String(absentCount);
+    const pendingEl = document.getElementById('attendancePendingCount');
+    if (pendingEl) pendingEl.textContent = String(pendingCount);
     const enrolledEl = document.getElementById('attendanceEnrolledCount');
     if (enrolledEl) enrolledEl.textContent = String(enrolledCount);
     const dateLabel = document.getElementById('attendanceDateLabel');
     if (dateLabel) dateLabel.textContent = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-    // Update enrolled workers list
-    const enrolledWorkersList = document.getElementById('enrolledWorkersList');
-    if (enrolledWorkersList) {
-        const enrolledWorkers = workers.filter(w => Array.isArray(w.descriptor) && w.descriptor.length);
-        if (enrolledWorkers.length > 0) {
-            enrolledWorkersList.innerHTML = enrolledWorkers.map(worker => `
-                <div style="padding: 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-                    <div style="font-weight: 600; margin-bottom: 4px;">${worker.name}</div>
-                    <div style="font-size: 11px; color: var(--muted);">${worker.id} · ${worker.role} · ENROLLED</div>
-                </div>
-            `).join('');
-        } else {
-            enrolledWorkersList.innerHTML = '<div style="padding: 16px; background: #ffffff; border: 1px solid var(--border); border-radius: 12px; font-size: 13px; color: var(--muted); text-align: center;">No workers enrolled yet</div>';
-        }
+    const recentDateInput = document.getElementById('recentAttendanceDate');
+    if (recentDateInput && !recentDateInput.value && attendanceState.recentAttendanceDate) {
+        recentDateInput.value = attendanceState.recentAttendanceDate;
     }
+
+    renderRecentAttendanceLogs();
 }
 
 async function ensureFaceApiLoaded() {
@@ -1536,7 +1445,7 @@ async function loadFaceModels() {
     if (attendanceState.loadingModels) return attendanceState.loadingModels;
 
     attendanceState.loadingModels = (async () => {
-        showToast('Loading AI models...');
+        showAttendanceStatus('Loading FaceNet model weights...');
         await ensureFaceApiLoaded();
 
         await Promise.all([
@@ -1546,7 +1455,8 @@ async function loadFaceModels() {
         ]);
 
         attendanceState.modelsReady = true;
-        showToast('AI models loaded. Ready to enroll workers.');
+        showAttendanceStatus('FaceNet ready. Upload a worker portrait to save a reference profile.');
+        showFaceMeta('Models loaded successfully. Each saved profile becomes the reference for group-photo attendance.');
     })();
 
     return attendanceState.loadingModels;
@@ -1571,36 +1481,29 @@ function loadImageFromDataUrl(dataUrl) {
 }
 
 async function updateWorkerPhotoPreview(file) {
-    const preview = document.getElementById('enrollmentPhotoPreview');
-    const empty = document.getElementById('enrollmentPhotoEmpty');
+    const preview = document.getElementById('workerPhotoPreview');
+    const empty = document.getElementById('workerPhotoEmpty');
 
     if (!preview || !empty) return;
 
     if (!file) {
-        preview.innerHTML = '';
+        preview.removeAttribute('src');
         preview.style.display = 'none';
         empty.style.display = 'flex';
         return;
     }
 
     const dataUrl = await readFileAsDataUrl(file);
-    const img = document.createElement('img');
-    img.src = dataUrl;
-    img.style.width = '100%';
-    img.style.height = '100%';
-    img.style.objectFit = 'cover';
-    img.style.display = 'block';
-    preview.innerHTML = '';
-    preview.appendChild(img);
+    preview.src = dataUrl;
     preview.style.display = 'block';
     empty.style.display = 'none';
 }
 
 function resetWorkerForm() {
-    const nameInput = document.getElementById('enrollmentName');
-    const idInput = document.getElementById('enrollmentId');
-    const roleInput = document.getElementById('enrollmentRole');
-    const photoInput = document.getElementById('enrollmentPhoto');
+    const nameInput = document.getElementById('workerNameInput');
+    const idInput = document.getElementById('workerIdInput');
+    const roleInput = document.getElementById('workerRoleInput');
+    const photoInput = document.getElementById('workerPhotoInput');
 
     if (nameInput) nameInput.value = '';
     if (idInput) idInput.value = '';
@@ -1608,11 +1511,8 @@ function resetWorkerForm() {
     if (photoInput) photoInput.value = '';
 
     updateWorkerPhotoPreview(null);
-    showToast('Form cleared. Ready for next worker profile.');
-}
-
-function clearEnrollmentForm() {
-    resetWorkerForm();
+    showAttendanceStatus('Upload one clear reference photo for the next worker profile.');
+    showFaceMeta('Profiles are matched later against the supervisor group photo.');
 }
 
 async function extractDescriptorFromFile(file) {
@@ -1627,75 +1527,36 @@ async function extractDescriptorFromFile(file) {
     return { detection, dataUrl };
 }
 
-function showValidationMessage(message) {
-    const statusEl = document.getElementById('enrollmentStatus');
-    const msgEl = document.getElementById('validationMessage');
-    if (statusEl && msgEl) {
-        msgEl.textContent = message;
-        statusEl.style.display = 'block';
-        // Scroll to make visible
-        setTimeout(() => {
-            statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
-    }
-}
-
-function hideValidationMessage() {
-    const statusEl = document.getElementById('enrollmentStatus');
-    if (statusEl) {
-        statusEl.style.display = 'none';
-    }
-}
-
 async function registerWorker() {
-    const name = document.getElementById('enrollmentName')?.value.trim();
-    const id = document.getElementById('enrollmentId')?.value.trim();
-    const role = document.getElementById('enrollmentRole')?.value.trim();
-    const photoInput = document.getElementById('enrollmentPhoto');
+    const name = document.getElementById('workerNameInput')?.value.trim();
+    const id = document.getElementById('workerIdInput')?.value.trim();
+    const role = document.getElementById('workerRoleInput')?.value.trim();
+    const photoInput = document.getElementById('workerPhotoInput');
     const photoFile = photoInput?.files?.[0] || null;
     const project = attendanceState.currentProject;
 
-    let hasError = false;
-    let errorMessages = [];
-
-    // Validate inputs
-    if (!name) {
-        errorMessages.push('Please enter a worker name');
-        hasError = true;
-    }
-
-    if (!id) {
-        errorMessages.push('Please enter a worker ID');
-        hasError = true;
-    }
-
-    if (!role) {
-        errorMessages.push('Please enter a role');
-        hasError = true;
+    if (!name || !id || !role) {
+        showToast('Enter the worker name, ID, and role before saving.');
+        return;
     }
 
     if (!photoFile) {
-        errorMessages.push('Upload a photo by clicking the preview area');
-        hasError = true;
-    }
-
-    if (hasError) {
-        const message = errorMessages.join('. ');
-        showToast(message);
+        showToast('Upload a reference photo for the worker profile.');
         return;
     }
 
     try {
-        showToast('Analyzing portrait...');
+        showAttendanceStatus('Reading the uploaded worker portrait...');
         const { detection } = await extractDescriptorFromFile(photoFile);
 
         if (!detection) {
-            showToast('No face detected. Use a clearer portrait with good lighting.');
+            showAttendanceStatus('No face was detected in that upload. Use a clearer portrait with one visible face.');
             return;
         }
 
         const descriptor = Array.from(detection.descriptor);
         const existingIndex = attendanceState.workers.findIndex(worker => worker.id === id);
+        let workerRecord;
 
         if (existingIndex >= 0) {
             const existing = attendanceState.workers[existingIndex];
@@ -1716,29 +1577,31 @@ async function registerWorker() {
 
             if (!isDuplicate) refs.push(descriptor);
 
-            attendanceState.workers[existingIndex] = { ...existing, name, role, project, descriptor: refs, photoName: photoFile.name };
+            workerRecord = { id, name, role, project, descriptor: refs, photoName: photoFile.name };
+            attendanceState.workers[existingIndex] = workerRecord;
         } else {
-            const workerRecord = { id, name, role, project, descriptor, photoName: photoFile.name };
+            workerRecord = { id, name, role, project, descriptor, photoName: photoFile.name };
             attendanceState.workers.push(workerRecord);
         }
 
         persistWorkers();
-        console.log('Saving worker to API:', { id, name, role, project, photoName: photoFile.name });
-        try {
-            const apiResponse = await sendAttendanceApi('save-worker', { worker: { id, name, role, project, photoName: photoFile.name } });
-            if (!apiResponse.success) {
-                showToast('Warning: Local save successful but database sync failed.');
-            }
-        } catch (apiErr) {
-            console.error('API error (non-critical):', apiErr);
-            showToast('Local save successful.');
+        console.log('Saving worker to API:', workerRecord);
+        const apiResponse = await sendAttendanceApi('save-worker', { worker: workerRecord });
+        
+        if (!apiResponse.success) {
+            showAttendanceStatus('Failed to save to database: ' + (apiResponse.message || 'Unknown error'));
+            showToast('Database save failed: ' + (apiResponse.message || 'Unknown error'));
+            return;
         }
         
         renderAttendanceModule();
         resetWorkerForm();
-        showToast(`Profile saved for ${name}. Ready for group photo scans.`);
+        showAttendanceStatus(`${name} is enrolled for ${project}.`);
+        showFaceMeta('FaceNet descriptor stored in MySQL and ready for the supervisor group-photo scan.');
+        showToast(`Profile saved for ${name}.`);
     } catch (error) {
         console.error('Worker registration error:', error);
+        showAttendanceStatus('Enrollment failed: ' + (error.message || 'Unknown error'));
         showToast('Enrollment failed: ' + (error.message || 'Unknown error'));
     }
 }
@@ -1746,246 +1609,36 @@ async function registerWorker() {
 async function updateGroupPhotoPreview(file) {
     const preview = document.getElementById('groupPhotoPreview');
     const empty = document.getElementById('groupPhotoEmpty');
-    const container = document.getElementById('groupPhotoContainer');
+    const statusEl = document.getElementById('groupPhotoStatus');
+
+    if (!preview || !empty) return;
 
     if (!file) {
-        if (preview) preview.innerHTML = '';
-        if (preview) preview.style.display = 'none';
-        if (empty) empty.style.display = 'flex';
+        preview.removeAttribute('src');
+        preview.style.display = 'none';
+        empty.style.display = 'flex';
+        if (statusEl) statusEl.textContent = 'Upload a group photo containing multiple workers to scan and record attendance.';
         return;
     }
 
     const dataUrl = await readFileAsDataUrl(file);
-    const img = document.createElement('img');
-    img.src = dataUrl;
-    img.style.width = '100%';
-    img.style.height = '100%';
-    img.style.objectFit = 'cover';
-    img.style.display = 'block';
-    
-    if (preview) {
-        preview.innerHTML = '';
-        preview.appendChild(img);
-        preview.style.display = 'block';
-    }
-    if (empty) empty.style.display = 'none';
-    
-    showToast('Photo selected. Click "Run Scan" to process.');
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+    empty.style.display = 'none';
+    if (statusEl) statusEl.textContent = 'Photo loaded. Click "Run Attendance Match" to detect and match faces.';
 }
 
 function resetGroupPhotoForm() {
-    const photoInput = document.getElementById('groupScanPhoto');
+    const photoInput = document.getElementById('groupPhotoInput');
     if (photoInput) photoInput.value = '';
     
     updateGroupPhotoPreview(null);
-}
-
-async function runGroupPhotoAttendance(file) {
-    // Process the group photo file directly
-    const statusEl = document.getElementById('groupPhotoStatus') || { textContent: '' };
-    const project = attendanceState.currentProject;
-
-    if (!file) {
-        showToast('Please select a group photo first.');
-        return;
-    }
-
-    if (!attendanceState.workers.some(w => Array.isArray(w.descriptor) && w.descriptor.length)) {
-        showToast('Enroll at least one worker before scanning group photos.');
-        return;
-    }
-
-    try {
-        showToast('Analyzing group photo...');
-        await loadFaceModels();
-        
-        const dataUrl = await readFileAsDataUrl(file);
-        const image = await loadImageFromDataUrl(dataUrl);
-        
-        console.log('Group photo loaded. Image dimensions:', image.width, 'x', image.height);
-
-        let detections = [];
-        try {
-            console.log('Attempting TinyFaceDetector detection...');
-            detections = await faceapi
-                .detectAllFaces(image, new faceapi.TinyFaceDetectorOptions({ inputSize: 800, scoreThreshold: 0.05 }))
-                .withFaceLandmarks()
-                .withFaceDescriptors();
-            console.log('TinyFaceDetector found:', detections.length, 'faces');
-        } catch (detectionError) {
-            console.error('TinyFaceDetector error:', detectionError);
-            try {
-                console.log('Trying with default TinyFaceDetector options...');
-                detections = await faceapi
-                    .detectAllFaces(image)
-                    .withFaceLandmarks()
-                    .withFaceDescriptors();
-                console.log('Default detector found:', detections.length, 'faces');
-            } catch (fallbackError) {
-                console.error('Fallback detection also failed:', fallbackError);
-                throw new Error('Face detection failed: ' + fallbackError.message);
-            }
-        }
-
-        if (!detections.length) {
-            showToast('No faces detected. Ensure faces are clearly visible with good lighting.');
-            return;
-        }
-
-        showToast(`Detected ${detections.length} face(s). Matching against enrolled workers...`);
-        
-        // Continue with matching logic from processGroupPhoto
-        await processGroupPhotoMatching(detections, image);
-        renderAttendanceModule();
-    } catch (error) {
-        console.error('Group photo processing FAILED:', error.message);
-        showToast(`Error: ${error.message}`);
-    }
-}
-
-async function processGroupPhotoMatching(detections, image) {
-    const project = attendanceState.currentProject;
-    const todayKey = new Date().toISOString().slice(0, 10);
-    const matchedWorkers = [];
-    const distanceThreshold = 0.6;
-
-    // Clustering function (copy from original)
-    function getBox(det) {
-        const b = (det && det.detection && det.detection.box) || det.box;
-        if (!b) return null;
-        return { x: b.x, y: b.y, w: b.width, h: b.height };
-    }
-
-    function iou(a, b) {
-        if (!a || !b) return 0;
-        const ax1 = a.x, ay1 = a.y, ax2 = a.x + a.w, ay2 = a.y + a.h;
-        const bx1 = b.x, by1 = b.y, bx2 = b.x + b.w, by2 = b.y + b.h;
-        const ix1 = Math.max(ax1, bx1), iy1 = Math.max(ay1, by1);
-        const ix2 = Math.min(ax2, bx2), iy2 = Math.min(ay2, by2);
-        const iw = Math.max(0, ix2 - ix1);
-        const ih = Math.max(0, iy2 - iy1);
-        const inter = iw * ih;
-        const areaA = a.w * a.h;
-        const areaB = b.w * b.h;
-        const union = areaA + areaB - inter;
-        return union <= 0 ? 0 : inter / union;
-    }
-
-    function clusterDetections(dets, iouThreshold = 0.35) {
-        if (!Array.isArray(dets) || !dets.length) return [];
-        const items = dets.map(d => ({ det: d, box: getBox(d), score: (d && d.detection && d.detection.score) || 0 }));
-        items.sort((a, b) => b.score - a.score);
-        const chosen = [];
-        const suppressed = new Array(items.length).fill(false);
-        for (let i = 0; i < items.length; i++) {
-            if (suppressed[i]) continue;
-            const a = items[i];
-            chosen.push(a.det);
-            for (let j = i + 1; j < items.length; j++) {
-                if (suppressed[j]) continue;
-                const b = items[j];
-                const iouv = iou(a.box, b.box);
-                if (iouv > iouThreshold) suppressed[j] = true;
-            }
-        }
-        return chosen;
-    }
-
-    console.log('Detections before clustering:', detections.length);
-    const clustered = clusterDetections(detections, 0.35);
-    console.log('Detections after clustering:', clustered.length);
-    detections = clustered;
-
-    // Match faces against enrolled workers
-    for (const detection of detections) {
-        const detectedDescriptor = Array.from(detection.descriptor);
-        let bestMatch = null;
-        let bestScore = 0;
-
-        for (const worker of attendanceState.workers) {
-            if (!worker || worker.project !== project) continue;
-
-            let referenceDescriptors = [];
-            if (Array.isArray(worker.descriptor) && worker.descriptor.length) {
-                if (Array.isArray(worker.descriptor[0])) {
-                    referenceDescriptors = worker.descriptor;
-                } else {
-                    referenceDescriptors = [worker.descriptor];
-                }
-            }
-
-            if (!referenceDescriptors.length) continue;
-
-            let minDist = Infinity;
-            for (const ref of referenceDescriptors) {
-                const d = Math.sqrt(ref.reduce((sum, val, idx) => sum + Math.pow(val - detectedDescriptor[idx], 2), 0));
-                if (d < minDist) minDist = d;
-            }
-
-            const similarity = 1 / (1 + minDist);
-
-            if (minDist <= distanceThreshold && similarity > bestScore) {
-                bestScore = similarity;
-                bestMatch = { worker, score: bestScore, distance: minDist };
-            }
-        }
-
-        if (bestMatch) {
-            matchedWorkers.push({ ...bestMatch.worker, matchScore: bestMatch.score });
-        }
-    }
-
-    // Remove duplicates, keeping best match
-    const uniqueMatchesMap = new Map();
-    for (const w of matchedWorkers) {
-        if (!w || !w.id) continue;
-        const existing = uniqueMatchesMap.get(w.id);
-        if (!existing || (w.matchScore || 0) > (existing.matchScore || 0)) {
-            uniqueMatchesMap.set(w.id, w);
-        }
-    }
-    const uniqueMatchedWorkers = Array.from(uniqueMatchesMap.values());
-
-    // Record attendance
-    const recordedAttendance = [];
-    for (const worker of uniqueMatchedWorkers) {
-        const existingLogIndex = attendanceState.logs.findIndex(
-            log => log.workerId === worker.id && log.project === project && log.dateKey === todayKey
-        );
-
-        const timeInStr = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
-        const attendanceLog = {
-            workerId: worker.id,
-            workerName: worker.name,
-            workerRole: worker.role,
-            project: project,
-            dateKey: todayKey,
-            timeIn: timeInStr,
-            status: 'Present',
-            score: worker.matchScore,
-            scanSource: 'admin-group-photo',
-        };
-
-        if (existingLogIndex >= 0) {
-            attendanceState.logs[existingLogIndex] = attendanceLog;
-        } else {
-            attendanceState.logs.push(attendanceLog);
-        }
-
-        recordedAttendance.push(attendanceLog);
-    }
-
-    persistLogs();
     
-    for (const log of recordedAttendance) {
-        try {
-            await sendAttendanceApi('save-attendance', { log });
-        } catch (e) {
-            console.error('Failed to save attendance log:', e);
-        }
-    }
-
-    showToast(`Attendance recorded for ${uniqueMatchedWorkers.length} worker(s).`);
+    const resultsDiv = document.getElementById('groupPhotoResults');
+    if (resultsDiv) resultsDiv.style.display = 'none';
+    
+    const statusEl = document.getElementById('groupPhotoStatus');
+    if (statusEl) statusEl.textContent = 'Upload a group photo containing multiple workers to scan and record attendance.';
 }
 
 async function processGroupPhoto() {
@@ -2044,9 +1697,17 @@ async function processGroupPhoto() {
             return;
         }
 
-        if (statusEl) statusEl.textContent = `Detected ${detections.length} face(s). Matching against ${attendanceState.workers.filter(w => w.project === project && Array.isArray(w.descriptor) && w.descriptor.length).length} enrolled workers...`;
+        // Get workers to match against (prioritize current project, fall back to all if none found)
+        let workersToMatch = attendanceState.workers.filter(w => w.project === project && Array.isArray(w.descriptor) && w.descriptor.length);
+        if (!workersToMatch.length) {
+            console.warn(`No enrolled workers found for project '${project}'. Using all enrolled workers.`);
+            workersToMatch = attendanceState.workers.filter(w => Array.isArray(w.descriptor) && w.descriptor.length);
+        }
+
+        if (statusEl) statusEl.textContent = `Detected ${detections.length} face(s). Matching against ${workersToMatch.length} enrolled workers...`;
         console.log('Starting face matching');
-        console.log('Enrolled worker IDs:', attendanceState.workers.map(w => w.id));
+        console.log('Workers available for matching:', workersToMatch.map(w => `${w.name} (${w.project})`));
+        
         function getBox(det) {
             const b = (det && det.detection && det.detection.box) || det.box;
             if (!b) return null;
@@ -2103,8 +1764,8 @@ async function processGroupPhoto() {
             let bestScore = 0;
             const detectionScores = [];
 
-            for (const worker of attendanceState.workers) {
-                if (!worker || worker.project !== project) continue;
+            for (const worker of workersToMatch) {
+                if (!worker) continue;
 
                 let referenceDescriptors = [];
                 if (Array.isArray(worker.descriptor) && worker.descriptor.length) {
@@ -2134,7 +1795,11 @@ async function processGroupPhoto() {
             
             console.log('Face detection scores:', detectionScores);
             if (bestMatch) {
-                console.log('Matched:', bestMatch.worker.name, 'Score:', bestMatch.score.toFixed(3));
+                console.log('✓ Matched:', bestMatch.worker.name, 'Distance:', bestMatch.distance.toFixed(4), 'Score:', bestMatch.score.toFixed(3));
+            } else {
+                if (detectionScores.length) {
+                    console.warn('✗ No match - closest was:', detectionScores[0].name, 'at distance', detectionScores[0].distance);
+                }
             }
 
             if (bestMatch) {
@@ -2158,7 +1823,7 @@ async function processGroupPhoto() {
         const recordedAttendance = [];
         for (const worker of uniqueMatchedWorkers) {
             const existingLogIndex = attendanceState.logs.findIndex(
-                log => log.workerId === worker.id && log.project === project && log.dateKey === todayKey
+                log => log.workerId === worker.id && log.project === worker.project && log.dateKey === todayKey
             );
 
             const timeInStr = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
@@ -2166,7 +1831,7 @@ async function processGroupPhoto() {
                 workerId: worker.id,
                 workerName: worker.name,
                 workerRole: worker.role,
-                project: project,
+                project: worker.project,
                 dateKey: todayKey,
                 timeIn: timeInStr,
                 status: 'Present',
@@ -2222,105 +1887,17 @@ async function processGroupPhoto() {
     }
 }
 
-function openEnrollmentModal() {
-    const modal = document.getElementById('enrollmentModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        // Clear form on open
-        document.getElementById('workerNameInput').value = '';
-        document.getElementById('workerIdInput').value = '';
-        document.getElementById('workerRoleInput').value = '';
-        document.getElementById('workerPhotoInput').value = '';
-        document.getElementById('workerPhotoPreview').style.display = 'none';
-        document.getElementById('workerPhotoEmpty').style.display = 'flex';
-        hideValidationMessage();
-    }
-}
-
-function closeEnrollmentModal() {
-    const modal = document.getElementById('enrollmentModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
-}
-
-function showValidationMessage(message) {
-    const statusEl = document.getElementById('enrollmentStatus');
-    const msgEl = document.getElementById('validationMessage');
-    if (statusEl && msgEl) {
-        msgEl.textContent = message;
-        statusEl.style.display = 'block';
-        statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-}
-
-function hideValidationMessage() {
-    const statusEl = document.getElementById('enrollmentStatus');
-    if (statusEl) {
-        statusEl.style.display = 'none';
-    }
-}
-
-function saveWorkerProfile() {
-    registerWorker();
-}
-
-function saveWorkerEnrollment() {
-    registerWorker();
-}
-
-// Handle photo input change
 document.addEventListener('DOMContentLoaded', () => {
-    const photoInput = document.getElementById('enrollmentPhoto');
-    if (photoInput) {
-        photoInput.addEventListener('change', async function() {
-            if (this.files && this.files[0]) {
-                const file = this.files[0];
-                await updateWorkerPhotoPreview(file);
-            }
-        });
+    // Restore the previously viewed page
+    const savedPage = localStorage.getItem('dg-admin-current-page');
+    if (savedPage && pageTitles[savedPage]) {
+        const navItem = document.querySelector(`[onclick*="navigate('${savedPage}'"]`);
+        navigate(savedPage, navItem);
+    } else {
+        // Default to dashboard if no saved page
+        navigate('dashboard', document.querySelector("[onclick*=\"navigate('dashboard'\""));
     }
 
-    // Setup group photo scan handler
-    const groupScanInput = document.getElementById('groupScanPhoto');
-    if (groupScanInput) {
-        groupScanInput.addEventListener('change', async function() {
-            if (this.files && this.files[0]) {
-                const file = this.files[0];
-                await updateGroupPhotoPreview(file);
-            }
-        });
-    }
-
-    // Setup scan button
-    const runScanBtn = document.getElementById('runScanBtn');
-    if (runScanBtn) {
-        runScanBtn.addEventListener('click', async function() {
-            const file = document.getElementById('groupScanPhoto')?.files?.[0];
-            if (!file) {
-                showToast('Please select a group photo first');
-                return;
-            }
-            await runGroupPhotoAttendance(file);
-        });
-    }
-
-    // Setup save button
-    const saveBtn = document.getElementById('saveProfileBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', saveWorkerEnrollment);
-    }
-
-    // Setup clear button
-    const clearBtn = document.getElementById('clearFormBtn');
-    if (clearBtn) {
-        clearBtn.addEventListener('click', clearEnrollmentForm);
-    }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
     initAttendanceModule();
 
     const sel = document.getElementById('inventory-location');

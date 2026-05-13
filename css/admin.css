@@ -320,6 +320,8 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+
+
 .face-stage img,
 .face-stage canvas {
     position: absolute;
@@ -351,6 +353,13 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+}
+
+.face-info .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
 }
 
 .face-status {
@@ -374,9 +383,26 @@ body {
 .face-actions,
 .face-register {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    margin-top: 8px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.face-actions .btn-group-left,
+.face-register .btn-group-left {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.face-actions .btn-group-right,
+.face-register .btn-group-right {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .face-register .form-select {
@@ -432,40 +458,55 @@ body {
 }
 
 .attendance-stat {
-    background: #ffffff;
-    border: 1px solid rgba(22, 163, 74, 0.2);
-    border-radius: 12px;
-    padding: 16px 14px;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(240, 253, 250, 0.5) 100%);
+    border: 1.5px solid rgba(22, 163, 74, 0.25);
+    border-radius: 14px;
+    padding: 20px 18px;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 12px rgba(22, 163, 74, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    position: relative;
+    overflow: hidden;
+}
+
+.attendance-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 14px 14px 0 0;
 }
 
 .attendance-stat:hover {
     border-color: var(--accent);
-    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.12);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.18), inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    transform: translateY(-4px);
 }
 
 .attendance-stat-label {
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--muted);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 6px;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    font-weight: 700;
 }
 
 .attendance-stat-value {
     font-family: var(--heading);
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
-    color: var(--text);
+    color: var(--accent);
     line-height: 1;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
 }
 
 .attendance-stat-hint {
-    font-size: 11px;
+    font-size: 11.5px;
     color: var(--muted);
+    font-weight: 500;
 }
 
 .attendance-select {
@@ -712,6 +753,18 @@ table {
     font-size: 13px;
 }
 
+.recent-attendance-table tbody tr {
+    display: table-row;
+}
+
+.recent-attendance-table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    color: var(--text);
+    display: table-cell;
+    vertical-align: middle;
+}
+
 thead {
     background: rgba(22, 163, 74, 0.08);
     position: sticky;
@@ -750,7 +803,7 @@ tbody tr:nth-child(even) {
 
 /* ==================== FORMS & INPUTS ==================== */
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     position: relative;
 }
 
@@ -926,7 +979,7 @@ body:has(.modal-overlay.active) .sidebar {
 
 /* ==================== BUTTONS ==================== */
 .btn {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     border-radius: 8px;
     font-size: 13px;
@@ -936,7 +989,30 @@ body:has(.modal-overlay.active) .sidebar {
     font-family: var(--body);
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
+    height: 42px;
+    white-space: nowrap;
+}
+
+.icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: rgba(22, 163, 74, 0.1);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .btn-primary {
@@ -997,23 +1073,35 @@ body:has(.modal-overlay.active) .sidebar {
 }
 
 .enrollment-photo-area {
-    background: linear-gradient(135deg, rgba(22, 163, 74, 0.08), rgba(16, 185, 129, 0.04));
-    border: 2px dashed rgba(34, 197, 94, 0.25);
-    border-radius: 12px;
-    padding: 40px;
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.06), rgba(16, 185, 129, 0.03));
+    border: 2px solid rgba(34, 197, 94, 0.2);
+    border-radius: 16px;
+    padding: 0;
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-height: 240px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+    aspect-ratio: 1 / 1;
+    width: 240px;
+    max-width: 100%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(22, 163, 74, 0.08) inset;
+}
+
+.enrollment-photo-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .enrollment-photo-area:hover {
     border-color: var(--accent);
-    background: linear-gradient(135deg, rgba(22, 163, 74, 0.12), rgba(16, 185, 129, 0.08));
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.1), rgba(16, 185, 129, 0.06));
+    box-shadow: 0 8px 24px rgba(22, 163, 74, 0.12);
 }
 
 .enrollment-modal {
@@ -1042,6 +1130,142 @@ body:has(.modal-overlay.active) .sidebar {
     font-size: 12px;
     color: #856404;
     line-height: 1.5;
+}
+
+.btn-choose-photo,
+.btn-photo-upload,
+.file-picker {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent3) 100%);
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+    font-family: var(--body);
+    width: auto;
+    white-space: nowrap;
+    height: 42px;
+}
+
+.btn-choose-photo:hover,
+.btn-photo-upload:hover,
+.file-picker:hover {
+    background: linear-gradient(135deg, var(--accent2) 0%, #047857 100%);
+    box-shadow: 0 8px 20px rgba(22, 163, 74, 0.35);
+    transform: translateY(-2px);
+}
+
+.btn-choose-photo:active,
+.btn-photo-upload:active,
+.file-picker:active {
+    transform: translateY(0);
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+.enrollment-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.enrollment-photo-wrapper {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.face-info {
+    flex: 1;
+    min-width: 280px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.group-photo-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.group-photo-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.group-photo-area {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 12px;
+    border: 2px solid rgba(34, 197, 94, 0.2);
+    border-radius: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.06), rgba(16, 185, 129, 0.03));
+    overflow: hidden;
+}
+
+.group-photo-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.group-photo-panel .face-info {
+    width: 100%;
+    max-width: 500px;
+}
+
+.attendance-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.attendance-date-input {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 13px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    width: 160px;
+}
+
+@media (max-width: 900px) {
+    .enrollment-panel {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .enrollment-photo-wrapper {
+        flex: 0 0 240px;
+    }
+    
+    .group-photo-wrapper {
+        width: 100%;
+    }
 }
 
 /* ==================== RESPONSIVE ==================== */
