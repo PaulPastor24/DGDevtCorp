@@ -245,7 +245,10 @@ $userTitle = 'Project Supervisor';
 
                             <div class="form-group">
                                 <label class="form-label">Completion Description</label>
-                                <textarea class="form-textarea" placeholder="Describe work accomplished this period, milestones reached, and any issues encountered...">Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6. Weather delays of 2 days noted.</textarea>
+                                <textarea class="form-textarea" placeholder="Describe work accomplished this period, milestones reached, and any issues encountered...">Completed column forms on Levels 3-5.
+Poured concrete for Level 4 slab.
+Rebar installation ongoing for Level 6.
+Weather delays of 2 days noted.</textarea>
                             </div>
 
                             <div class="form-row">

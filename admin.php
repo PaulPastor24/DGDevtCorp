@@ -12,9 +12,9 @@ $userTitle = 'Project Engineer';
     <title>Admin Dashboard D&G Construction Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/admin.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/admin.css?v=<?php echo filemtime('css/admin.css'); ?>">
 </head>
 <body>
 
@@ -367,136 +367,113 @@ $userTitle = 'Project Engineer';
 
             <div class="page" id="pg-report">
                 <div class="page-header">
-                    <h1>Progress Report Submission</h1>
-                    <p>Submit accomplishment reports for admin review and phase assignment.</p>
+                    <h1>Progress Report Review</h1>
+                    <p>Review supervisor-submitted reports, validate evidence, and approve or request revisions.</p>
                 </div>
 
-                <div class="step-indicator" style="margin-bottom:24px;">
-                    <div class="step active">
-                        <div class="step-num">1</div>
-                        <div class="step-label">Project Info</div>
+                <div class="stat-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:20px;">
+                    <div class="stat-card" style="--accent-color: var(--yellow);">
+                        <div class="stat-label">Awaiting Review</div>
+                        <div class="stat-value">5</div>
+                        <div class="stat-change">Submitted by supervisors today</div>
                     </div>
-                    <div class="step-connector"></div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div class="step-label">Accomplishments</div>
+                    <div class="stat-card" style="--accent-color: var(--blue);">
+                        <div class="stat-label">In Review</div>
+                        <div class="stat-value">2</div>
+                        <div class="stat-change">Assigned to admin reviewers</div>
                     </div>
-                    <div class="step-connector"></div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <div class="step-label">Documentation</div>
+                    <div class="stat-card" style="--accent-color: var(--green);">
+                        <div class="stat-label">Approved</div>
+                        <div class="stat-value">12</div>
+                        <div class="stat-change up">This week</div>
                     </div>
-                    <div class="step-connector"></div>
-                    <div class="step">
-                        <div class="step-num">4</div>
-                        <div class="step-label">Submit</div>
+                    <div class="stat-card" style="--accent-color: var(--red);">
+                        <div class="stat-label">Needs Revision</div>
+                        <div class="stat-value">3</div>
+                        <div class="stat-change down">Returned to supervisor</div>
                     </div>
                 </div>
 
                 <div class="two-col" style="align-items: start;">
                     <div class="card mb-0">
-                        <div class="card-title" style="margin-bottom:18px;">Report Details</div>
-                        <div class="form-grid">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Project</label>
-                                    <select class="form-select">
-                                        <option>Rizal Residential Complex</option>
-                                        <option>San Pablo Commercial Hub</option>
-                                        <option>Batangas Warehouse Facility</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Report Period</label>
-                                    <input type="date" class="form-input" value="2026-04-28">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Current Phase</label>
-                                <select class="form-select">
-                                    <option>Phase 3 — Structural Works</option>
-                                    <option>Phase 2 — Foundation Works</option>
-                                    <option>Phase 4 — MEP Installation</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Completion Description</label>
-                                <textarea class="form-textarea" placeholder="Describe work accomplished this period, milestones reached, and any issues encountered...">Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6. Weather delays of 2 days noted.</textarea>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label class="form-label">Completion % (Est.)</label>
-                                    <input type="number" class="form-input" value="67" min="0" max="100">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Workers On-Site</label>
-                                    <input type="number" class="form-input" value="42">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Issues / Blockers</label>
-                                <textarea class="form-textarea" placeholder="Any issues, risks, or blockers..." style="min-height:60px;">Rebar delivery delayed by supplier — ETA Apr 30. Awaiting inspector sign-off for Level 4 slab.</textarea>
-                            </div>
+                        <div class="card-header">
+                            <div class="card-title">Supervisor Submissions Queue</div>
+                            <span class="tag yellow">5 Pending</span>
                         </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>Supervisor</th>
+                                    <th>Submitted</th>
+                                    <th>Phase</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Rizal Residential</strong></td>
+                                    <td>R. Santos</td>
+                                    <td style="color:var(--muted);">Apr 28, 08:12 AM</td>
+                                    <td><span class="phase-tag">Structural Works</span></td>
+                                    <td><span class="att-badge late">Awaiting Review</span></td>
+                                    <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="showToast('Loaded report for review')">Open</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>San Pablo Hub</strong></td>
+                                    <td>M. Dela Cruz</td>
+                                    <td style="color:var(--muted);">Apr 28, 07:44 AM</td>
+                                    <td><span class="phase-tag">Foundation</span></td>
+                                    <td><span class="att-badge late">Awaiting Review</span></td>
+                                    <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="showToast('Loaded report for review')">Open</button></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Batangas Warehouse</strong></td>
+                                    <td>P. Mendoza</td>
+                                    <td style="color:var(--muted);">Apr 27, 05:16 PM</td>
+                                    <td><span class="phase-tag">Finishing Works</span></td>
+                                    <td><span class="att-badge late">In Review</span></td>
+                                    <td><button class="topbar-btn" style="font-size:11px; padding:5px 10px;" onclick="showToast('Loaded report for review')">Open</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div>
                         <div class="card">
-                            <div class="card-title" style="margin-bottom:14px;">Supporting Documents</div>
-                            <div class="upload-zone">
-                                <div class="upload-icon">📎</div>
-                                <div class="upload-text">Drop files here or <span>browse</span></div>
-                                <div style="font-size:11px; color:var(--muted); margin-top:4px;">Photos, PDFs, inspection reports</div>
+                            <div class="card-header">
+                                <div class="card-title">Selected Report Details</div>
+                                <span class="tag">Rizal Residential</span>
                             </div>
-                            <div style="margin-top:12px;">
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;">
-                                    <span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span>
-                                </div>
-                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;">
-                                    <span>inspection_form_level4.pdf</span> <span style="margin-left:auto; color:var(--muted);">0.8 MB</span>
+                            <div style="display:grid; gap:12px;">
+                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Supervisor</span><span style="color:var(--text);">R. Santos Construction</span></div>
+                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Report Period</span><span style="color:var(--text);">Apr 22 - Apr 28, 2026</span></div>
+                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Current Phase</span><span style="color:var(--text);">Phase 3 — Structural Works</span></div>
+                                <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted);"><span>Completion</span><span style="color:var(--accent); font-weight:700;">67%</span></div>
+                                <div style="padding:12px; border:1px solid var(--border); border-radius:10px; background:rgba(0,0,0,0.01); font-size:12px; line-height:1.5;">
+                                    Completed column forms on Levels 3-5. Poured concrete for Level 4 slab. Rebar installation ongoing for Level 6.
                                 </div>
                             </div>
                         </div>
 
                         <div class="card mb-0">
-                            <div class="card-title" style="margin-bottom:14px;">Pending Admin Reviews</div>
-                            <table class="data-table">
-                                <thead>
-                                    <tr>
-                                        <th>Project</th>
-                                        <th>Submitted</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Rizal Complex</td>
-                                        <td style="color:var(--muted); font-size:11px;">Apr 21</td>
-                                        <td><span class="att-badge late">Reviewing</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>San Pablo Hub</td>
-                                        <td style="color:var(--muted); font-size:11px;">Apr 18</td>
-                                        <td><span class="att-badge absent">Revisions</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Lipa Townhouse</td>
-                                        <td style="color:var(--muted); font-size:11px;">Apr 25</td>
-                                        <td><span class="att-badge present">Approved</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="card-title" style="margin-bottom:14px;">Evidence & Review Decision</div>
+                            <div style="display:grid; gap:8px; margin-bottom:14px;">
+                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span></div>
+                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;"><span>📷</span> level4_slab_progress.jpg <span style="margin-left:auto; color:var(--muted);">1.7 MB</span></div>
+                                <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;"><span>📄</span> inspection_form_level4.pdf <span style="margin-left:auto; color:var(--muted);">0.8 MB</span></div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:12px;">
+                                <label class="form-label">Reviewer Notes</label>
+                                <textarea class="form-textarea" style="min-height:80px;" placeholder="Add findings, required revisions, or approval notes..."></textarea>
+                            </div>
+                            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                                <button class="topbar-btn" onclick="showToast('Revision request sent to supervisor')">Request Revision</button>
+                                <button class="topbar-btn primary" onclick="showToast('Report approved and forwarded to phase management')">Approve Report</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:12px;">
-                    <button class="topbar-btn">Save Draft</button>
-                    <button class="topbar-btn primary" onclick="showToast('Report submitted for admin review!')">Submit Report</button>
                 </div>
             </div>
 
@@ -638,6 +615,67 @@ $userTitle = 'Project Engineer';
                             <div class="card-title" style="margin-bottom:10px;">Enrolled Workers</div>
                             <div class="worker-roster" id="workerRoster"></div>
                         </div>
+
+                        <div class="card mb-0">
+                            <div class="card-title" style="margin-bottom:12px;">Recent Attendance</div>
+                            <div class="attendance-logs">
+                                <div class="log-entry">
+                                    <div class="log-time-wrap">
+                                        <div class="log-time">2:32 PM</div>
+                                        <div class="log-date">May 13, 2026</div>
+                                    </div>
+                                    <div class="log-info">
+                                        <div class="log-worker">Angelito Gonzales</div>
+                                        <div class="log-detail">W-003 · Carpenter</div>
+                                    </div>
+                                    <div class="log-status present">✓ Present</div>
+                                </div>
+                                <div class="log-entry">
+                                    <div class="log-time-wrap">
+                                        <div class="log-time">2:18 PM</div>
+                                        <div class="log-date">May 13, 2026</div>
+                                    </div>
+                                    <div class="log-info">
+                                        <div class="log-worker">Paul Pastor</div>
+                                        <div class="log-detail">W-001 · Carpenter</div>
+                                    </div>
+                                    <div class="log-status present">✓ Present</div>
+                                </div>
+                                <div class="log-entry">
+                                    <div class="log-time-wrap">
+                                        <div class="log-time">1:55 PM</div>
+                                        <div class="log-date">May 13, 2026</div>
+                                    </div>
+                                    <div class="log-info">
+                                        <div class="log-worker">Sheree Quan</div>
+                                        <div class="log-detail">W-002 · Carpenter</div>
+                                    </div>
+                                    <div class="log-status present">✓ Present</div>
+                                </div>
+                                <div class="log-entry">
+                                    <div class="log-time-wrap">
+                                        <div class="log-time">1:42 PM</div>
+                                        <div class="log-date">May 13, 2026</div>
+                                    </div>
+                                    <div class="log-info">
+                                        <div class="log-worker">Juan De La Cruz</div>
+                                        <div class="log-detail">W-004 · Welder</div>
+                                    </div>
+                                    <div class="log-status present">✓ Present</div>
+                                </div>
+                                <div class="log-entry">
+                                    <div class="log-time-wrap">
+                                        <div class="log-time">1:28 PM</div>
+                                        <div class="log-date">May 13, 2026</div>
+                                    </div>
+                                    <div class="log-info">
+                                        <div class="log-worker">Maria Santos</div>
+                                        <div class="log-detail">W-005 · Electrician</div>
+                                    </div>
+                                    <div class="log-status present">✓ Present</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="attendance-stack">
@@ -652,21 +690,20 @@ $userTitle = 'Project Engineer';
                                     <div class="form-grid" style="gap:12px; margin-bottom:12px;">
                                         <div class="form-group">
                                             <label class="form-label">Worker Name</label>
-                                            <input type="text" class="form-input" id="workerNameInput" placeholder="Enter worker name">
+                                            <input type="text" class="form-input" id="workerNameInput" placeholder="Name">
                                         </div>
-                                        <div class="form-row">
-                                            <div class="form-group">
-                                                <label class="form-label">Worker ID</label>
-                                                <input type="text" class="form-input" id="workerIdInput" placeholder="W-0042">
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="form-label">Role</label>
-                                                <input type="text" class="form-input" id="workerRoleInput" placeholder="Carpenter">
-                                            </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Worker ID</label>
+                                            <input type="text" class="form-input" id="workerIdInput" placeholder="W-0042">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label">Role</label>
+                                            <input type="text" class="form-input" id="workerRoleInput" placeholder="Carpenter">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label">Reference Photo</label>
-                                            <input type="file" class="form-input" id="workerPhotoInput" accept="image/*">
+                                            <label class="file-picker" for="workerPhotoInput">Choose File</label>
+                                            <input type="file" id="workerPhotoInput" accept="image/*" class="file-input-hidden">
                                         </div>
                                     </div>
                                     <div class="face-status" id="attendanceStatus">Load FaceNet models, then upload one clear reference photo for each worker profile.</div>
@@ -692,7 +729,8 @@ $userTitle = 'Project Engineer';
                                     <div class="form-grid" style="gap:12px; margin-bottom:12px;">
                                         <div class="form-group">
                                             <label class="form-label">Group Photo</label>
-                                            <input type="file" class="form-input" id="groupPhotoInput" accept="image/*">
+                                            <label class="file-picker" for="groupPhotoInput">Choose File</label>
+                                            <input type="file" id="groupPhotoInput" accept="image/*" class="file-input-hidden">
                                         </div>
                                     </div>
                                     <div class="face-status" id="groupPhotoStatus">Upload a group photo containing multiple workers to scan and record attendance.</div>
@@ -1116,6 +1154,7 @@ function seedAttendanceData() {
 
 function navigate(page, el) {
     currentPage = page;
+    localStorage.setItem('dg-admin-current-page', page);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
@@ -1766,6 +1805,16 @@ async function processGroupPhoto() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Restore the previously viewed page
+    const savedPage = localStorage.getItem('dg-admin-current-page');
+    if (savedPage && pageTitles[savedPage]) {
+        const navItem = document.querySelector(`[onclick*="navigate('${savedPage}'"]`);
+        navigate(savedPage, navItem);
+    } else {
+        // Default to dashboard if no saved page
+        navigate('dashboard', document.querySelector("[onclick*=\"navigate('dashboard'\""));
+    }
+
     initAttendanceModule();
 
     const sel = document.getElementById('inventory-location');
