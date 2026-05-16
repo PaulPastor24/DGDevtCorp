@@ -1,6 +1,194 @@
 <?php
 require_once __DIR__ . '/db.php';
 
+/**
+ * Determine match status based on confidence score
+ * @param float $confidence Confidence score 0-100
+ * @return array ['status' => 'verified'|'possible'|'rejected', 'label' => string, 'matchStatus' => string]
+ */
+function dg_get_match_status($confidence): array
+{
+    if ($confidence >= 90) {
+        return [
+            'status' => 'verified',
+            'label' => 'Verified Match',
+            'matchStatus' => 'verified'
+        ];
+    } elseif ($confidence >= 80) {
+        return [
+            'status' => 'possible',
+            'label' => 'Possible Match',
+            'matchStatus' => 'possible'
+        ];
+    } else {
+        return [
+            'status' => 'rejected',
+            'label' => 'Unrecognized',
+            'matchStatus' => 'rejected'
+        ];
+    }
+}
+
+/**
+ * Check if worker already has Time In logged today
+ * @param mysqli $connection Database connection
+ * @param string $workerId Worker ID
+ * @param string $dateKey Date key (YYYY-MM-DD)
+ * @return bool True if Time In exists, false otherwise
+ */
+function dg_worker_already_logged(mysqli $connection, $workerId, $dateKey): bool
+{
+    $statement = $connection->prepare('SELECT id FROM attendance_logs WHERE worker_id = ? AND date_key = ? AND action = "time_in" LIMIT 1');
+    $statement->bind_param('ss', $workerId, $dateKey);
+    $statement->execute();
+    $result = $statement->get_result();
+    $exists = $result->num_rows > 0;
+    $statement->close();
+    return $exists;
+}
+
+/**
+ * Validate attendance action based on workflow rules
+ * @param mysqli $connection Database connection
+ * @param string $workerId Worker ID
+ * @param string $dateKey Date key
+ * @param string $action The action to validate
+ * @return array ['valid' => bool, 'message' => string]
+ */
+function dg_validate_attendance_action(mysqli $connection, $workerId, $dateKey, $action): array
+{
+    $statement = $connection->prepare('SELECT action FROM attendance_logs WHERE worker_id = ? AND date_key = ? ORDER BY id DESC LIMIT 1');
+    $statement->bind_param('ss', $workerId, $dateKey);
+    $statement->execute();
+    $result = $statement->get_result();
+    $lastAction = $result->fetch_assoc()['action'] ?? null;
+    $statement->close();
+
+    // Workflow rules - enforced strict sequence
+    if ($action === 'time_in') {
+        // Cannot have duplicate Time In without Time Out
+        if ($lastAction === 'time_in' || ($lastAction !== 'time_out' && $lastAction !== null)) {
+            return ['valid' => false, 'message' => 'Worker already timed in. Cannot have duplicate Time In.'];
+        }
+    } elseif ($action === 'break_out') {
+        if ($lastAction !== 'time_in') {
+            return ['valid' => false, 'message' => 'Must Time In before Break Out'];
+        }
+    } elseif ($action === 'break_in') {
+        if ($lastAction !== 'break_out') {
+            return ['valid' => false, 'message' => 'Must Break Out before Break In'];
+        }
+    } elseif ($action === 'time_out') {
+        if (!$lastAction || $lastAction === 'time_out') {
+            return ['valid' => false, 'message' => 'Must Time In before Time Out'];
+        }
+        // Time Out is allowed after: time_in, break_out, or break_in
+        if ($lastAction !== 'time_in' && $lastAction !== 'break_out' && $lastAction !== 'break_in') {
+            return ['valid' => false, 'message' => 'Invalid state for Time Out'];
+        }
+    }
+
+    return ['valid' => true, 'message' => 'Valid action'];
+}
+
+/**
+ * Get highest confidence score for worker on a given date
+ * @param mysqli $connection Database connection
+ * @param string $workerId Worker ID
+ * @param string $dateKey Date key (YYYY-MM-DD)
+ * @return float|null Highest confidence score or null
+ */
+function dg_get_highest_confidence(mysqli $connection, $workerId, $dateKey): ?float
+{
+    $statement = $connection->prepare('SELECT MAX(score) as max_score FROM attendance_logs WHERE worker_id = ? AND date_key = ?');
+    $statement->bind_param('ss', $workerId, $dateKey);
+    $statement->execute();
+    $result = $statement->get_result();
+    $row = $result->fetch_assoc();
+    $statement->close();
+    return $row['max_score'] ? (float)$row['max_score'] : null;
+}
+
+/**
+ * Determine attendance status based on workflow state and time
+ * @param mysqli $connection Database connection
+ * @param string $workerId Worker ID
+ * @param string $dateKey Date key
+ * @param string $timeIn Time In value (HH:MM format)
+ * @return string Status: 'Present', 'Late', 'Pending Break In', 'Pending Time Out', 'Overtime', etc.
+ */
+function dg_get_attendance_status(mysqli $connection, $workerId, $dateKey, $timeIn): string
+{
+    // Get all actions for this worker today
+    $statement = $connection->prepare('SELECT action FROM attendance_logs WHERE worker_id = ? AND date_key = ? ORDER BY id ASC');
+    $statement->bind_param('ss', $workerId, $dateKey);
+    $statement->execute();
+    $result = $statement->get_result();
+    $actions = [];
+    while ($row = $result->fetch_assoc()) {
+        $actions[] = $row['action'];
+    }
+    $statement->close();
+
+    // Default start time (8:00 AM)
+    $standardStartTime = 8 * 60; // 480 minutes
+    $timeInMinutes = intval(explode(':', $timeIn)[0]) * 60 + intval(explode(':', $timeIn)[1] ?? 0);
+
+    // Determine status based on current state
+    $lastAction = end($actions) ?: null;
+
+    if (!$lastAction) {
+        // No actions yet
+        return 'Pending';
+    }
+
+    if ($lastAction === 'time_in') {
+        // Just timed in, check if late
+        if ($timeInMinutes > $standardStartTime + 15) {
+            return 'Late';
+        }
+        return 'Present';
+    }
+
+    if ($lastAction === 'break_out') {
+        return 'On Break';
+    }
+
+    if ($lastAction === 'break_in') {
+        return 'Pending Time Out';
+    }
+
+    if ($lastAction === 'time_out') {
+        // Check if overtime (worked more than 8 hours)
+        $timeOutTime = dg_get_action_time($connection, $workerId, $dateKey, 'time_out');
+        if ($timeOutTime && $timeInMinutes && (intval(explode(':', $timeOutTime)[0]) * 60 + intval(explode(':', $timeOutTime)[1] ?? 0)) - $timeInMinutes > 480) {
+            return 'Overtime';
+        }
+        return 'Present';
+    }
+
+    return 'Present';
+}
+
+/**
+ * Get time for a specific action
+ * @param mysqli $connection Database connection
+ * @param string $workerId Worker ID
+ * @param string $dateKey Date key
+ * @param string $action Action type
+ * @return string|null Time in HH:MM format or null
+ */
+function dg_get_action_time(mysqli $connection, $workerId, $dateKey, $action): ?string
+{
+    $statement = $connection->prepare('SELECT time_in FROM attendance_logs WHERE worker_id = ? AND date_key = ? AND action = ? ORDER BY id DESC LIMIT 1');
+    $statement->bind_param('sss', $workerId, $dateKey, $action);
+    $statement->execute();
+    $result = $statement->get_result();
+    $row = $result->fetch_assoc();
+    $statement->close();
+    return $row ? substr((string)$row['time_in'], 0, 5) : null;
+}
+
 function dg_default_workers(): array
 {
     return [
@@ -53,7 +241,7 @@ try {
         }
 
         $logs = [];
-        $logResult = $connection->query('SELECT worker_id, worker_name, worker_role, project, date_key, time_in, status, score, scan_source FROM attendance_logs ORDER BY date_key DESC, time_in DESC, id DESC');
+        $logResult = $connection->query('SELECT worker_id, worker_name, worker_role, project, date_key, time_in, action, status, score, scan_source FROM attendance_logs ORDER BY date_key DESC, time_in DESC, id DESC');
         while ($row = $logResult->fetch_assoc()) {
             $logs[] = [
                 'workerId' => $row['worker_id'],
@@ -62,6 +250,7 @@ try {
                 'project' => $row['project'],
                 'dateKey' => $row['date_key'],
                 'timeIn' => substr((string) $row['time_in'], 0, 5),
+                'action' => $row['action'] ?? 'time_in',
                 'status' => $row['status'],
                 'score' => $row['score'] !== null ? (float) $row['score'] : null,
                 'scanSource' => $row['scan_source'],
@@ -105,6 +294,7 @@ try {
         $project = trim((string) ($log['project'] ?? ''));
         $dateKey = trim((string) ($log['dateKey'] ?? ''));
         $timeIn = trim((string) ($log['timeIn'] ?? ''));
+        $action_type = trim((string) ($log['action'] ?? 'time_in'));
         $status = trim((string) ($log['status'] ?? ''));
         $score = isset($log['score']) ? (float) $log['score'] : null;
         $scanSource = trim((string) ($log['scanSource'] ?? 'group_photo')) ?: 'group_photo';
@@ -113,12 +303,27 @@ try {
             dg_json_response(['success' => false, 'message' => 'Invalid attendance payload.'], 422);
         }
 
-        $statement = $connection->prepare('INSERT INTO attendance_logs (worker_id, worker_name, worker_role, project, date_key, time_in, status, score, scan_source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE worker_name = VALUES(worker_name), worker_role = VALUES(worker_role), time_in = VALUES(time_in), status = VALUES(status), score = VALUES(score), scan_source = VALUES(scan_source)');
-        $statement->bind_param('sssssssds', $workerId, $workerName, $workerRole, $project, $dateKey, $timeIn, $status, $score, $scanSource);
-        $statement->execute();
-        $statement->close();
+        // Validate attendance action based on workflow rules
+        $validation = dg_validate_attendance_action($connection, $workerId, $dateKey, $action_type);
+        if (!$validation['valid']) {
+            dg_json_response(['success' => false, 'message' => $validation['message']], 422);
+        }
 
-        dg_json_response(['success' => true]);
+        // Determine match status from confidence score
+        $matchStatusData = dg_get_match_status($score ?? 0);
+        $matchStatus = $matchStatusData['matchStatus'];
+
+        // Only log verified and possible matches
+        if ($matchStatus === 'verified' || $matchStatus === 'possible') {
+            $statement = $connection->prepare('INSERT INTO attendance_logs (worker_id, worker_name, worker_role, project, date_key, time_in, action, status, score, scan_source) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $statement->bind_param('ssssssssds', $workerId, $workerName, $workerRole, $project, $dateKey, $timeIn, $action_type, $status, $score, $scanSource);
+            $statement->execute();
+            $statement->close();
+            dg_json_response(['success' => true, 'action' => $action_type, 'message' => ucfirst(str_replace('_', ' ', $action_type)) . ' recorded']);
+        } else {
+            // Rejected matches (< 80%) are not logged
+            dg_json_response(['success' => true, 'wasRejected' => true, 'message' => 'Match confidence below threshold, not logged']);
+        }
     }
 
     dg_json_response(['success' => false, 'message' => 'Unsupported action.'], 400);
