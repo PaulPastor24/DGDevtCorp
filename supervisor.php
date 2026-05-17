@@ -11,10 +11,10 @@ $userTitle = 'Project Supervisor';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supervisor Dashboard D&G Construction Monitor</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/supervisor.css">
+    <link rel="stylesheet" href="css/supervisor.css?v=<?php echo filemtime('css/supervisor.css'); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/responsive.css?v=<?php echo filemtime('css/responsive.css'); ?>">
 </head>
 <body>
 
@@ -56,7 +56,7 @@ $userTitle = 'Project Supervisor';
 
         <div class="sidebar-footer">
             <div class="user-card">
-                <div class="user-avatar">CL</div>
+                <div class="user-avatar"><i class="bi bi-person-fill"></i></div>
                 <div class="user-info">
                     <div class="user-name"><?php echo htmlspecialchars($userName); ?></div>
                     <div class="user-role"><?php echo htmlspecialchars($userTitle); ?></div>
@@ -89,87 +89,42 @@ $userTitle = 'Project Supervisor';
                 </div>
 
                 <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
-                    <select class="form-select" style="width:240px;">
+                    <select class="form-select" id="timeline-project-select" onchange="handleTimelineProjectChange(this)" style="width:240px;">
                         <option>Rizal Residential Complex</option>
                         <option>San Pablo Commercial Hub</option>
                         <option>Batangas Warehouse Facility</option>
                         <option>Lipa City Townhouse Dev.</option>
                     </select>
                     <div style="display:flex; gap:8px; align-items:center;">
-                        <span class="tag green">On Track</span>
-                        <span class="tag">62% Complete</span>
-                        <span class="tag blue">Structural Works Phase</span>
+                        <span class="tag green" id="timeline-overall-status">On Track</span>
+                        <span class="tag" id="timeline-complete-badge">62% Complete</span>
+                        <span class="tag blue" id="timeline-phase-badge">Structural Works Phase</span>
                     </div>
                 </div>
 
                 <div style="max-width: 100%;">
-                    <div class="card mb-0">
+                    <div class="card mb-0 timeline-card">
                         <div class="card-header">
-                            <div class="card-title">Construction Phases — Rizal Residential Complex</div>
-                            <div style="font-size:12px; color:var(--muted);">Target: Aug 2026</div>
+                            <div class="card-title" id="timeline-card-title">Construction Phases - Rizal Residential Complex</div>
+                            <div style="font-size:12px; color:var(--muted);" id="timeline-target-label">Target: Aug 2026</div>
                         </div>
 
-                        <div class="timeline-wrap">
-                            <div class="timeline-phase">
-                                <div class="phase-dot done"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 1 — Site Preparation & Earthworks</div>
-                                    <div class="phase-dates">Jan 15 – Feb 28, 2026 · Completed on time</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--accent);">100%</div>
-                                    <div class="phase-status">Completed</div>
-                                </div>
+                        <div class="timeline-summary">
+                            <div class="timeline-summary-item">
+                                <div class="timeline-summary-label">Completed</div>
+                                <div class="timeline-summary-value green" id="timeline-completed-count">2 phases</div>
                             </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot done"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 2 — Foundation Works</div>
-                                    <div class="phase-dates">Mar 1 – Apr 10, 2026 · Completed 3 days early</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--accent);">100%</div>
-                                    <div class="phase-status">Completed</div>
-                                </div>
+                            <div class="timeline-summary-item">
+                                <div class="timeline-summary-label">In Progress</div>
+                                <div class="timeline-summary-value blue" id="timeline-progress-count">1 phase</div>
                             </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot current"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 3 — Structural Works ← Current</div>
-                                    <div class="phase-dates">Apr 11 – Jun 30, 2026 · In progress</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--accent);">67%</div>
-                                    <div class="phase-status">On Track</div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot upcoming"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 4 — MEP Installation</div>
-                                    <div class="phase-dates">Jul 1 – Jul 31, 2026 · Upcoming</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--muted);">0%</div>
-                                    <div class="phase-status">Not Started</div>
-                                </div>
-                            </div>
-
-                            <div class="timeline-phase">
-                                <div class="phase-dot upcoming"></div>
-                                <div class="phase-info">
-                                    <div class="phase-name">Phase 5 — Finishing & Turnover</div>
-                                    <div class="phase-dates">Aug 1 – Aug 31, 2026 · Upcoming</div>
-                                </div>
-                                <div class="phase-right">
-                                    <div class="phase-pct" style="color:var(--muted);">0%</div>
-                                    <div class="phase-status">Not Started</div>
-                                </div>
+                            <div class="timeline-summary-item">
+                                <div class="timeline-summary-label">Upcoming</div>
+                                <div class="timeline-summary-value yellow" id="timeline-upcoming-count">2 phases</div>
                             </div>
                         </div>
+
+                        <div class="timeline-wrap" id="timeline-list"></div>
                     </div>
                 </div>
             </div>
@@ -242,9 +197,9 @@ $userTitle = 'Project Supervisor';
                             <div class="form-group">
                                 <label class="form-label">Current Phase</label>
                                 <select class="form-select">
-                                    <option>Phase 3 — Structural Works</option>
-                                    <option>Phase 2 — Foundation Works</option>
-                                    <option>Phase 4 — MEP Installation</option>
+                                    <option>Phase 3 - Structural Works</option>
+                                    <option>Phase 2 - Foundation Works</option>
+                                    <option>Phase 4 - MEP Installation</option>
                                 </select>
                             </div>
 
@@ -269,22 +224,21 @@ Weather delays of 2 days noted.</textarea>
 
                             <div class="form-group">
                                 <label class="form-label">Issues / Blockers</label>
-                                <textarea class="form-textarea" placeholder="Any issues, risks, or blockers..." style="min-height:60px;">Rebar delivery delayed by supplier — ETA Apr 30. Awaiting inspector sign-off for Level 4 slab.</textarea>
+                                <textarea class="form-textarea" placeholder="Any issues, risks, or blockers..." style="min-height:60px;">Rebar delivery delayed by supplier - ETA Apr 30. Awaiting inspector sign-off for Level 4 slab.</textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div style="display:flex; flex-direction:column; gap:14px;">
-                        <div class="card">
+                    <div style="display:flex; flex-direction:column; gap:20px;">
+                        <div class="card" style="margin-top:35px;">
                             <div class="card-title" style="margin-bottom:14px;">Supporting Documents</div>
                             <div class="upload-zone">
-                                <div class="upload-icon">📎</div>
-                                <div class="upload-text">Drop files here or <span>browse</span></div>
+                                <div class="upload-text">Drop files here or browse</div>
                                 <div style="font-size:11px; color:var(--muted); margin-top:4px;">Photos, PDFs, inspection reports</div>
                             </div>
                             <div style="margin-top:12px;">
                                 <div style="display:flex; align-items:center; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:12px;">
-                                    <span>📷</span> site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span>
+                                    site_photo_apr28_01.jpg <span style="margin-left:auto; color:var(--muted);">2.1 MB</span>
                                 </div>
                                 <div style="display:flex; align-items:center; gap:8px; padding:8px 0; font-size:12px;">
                                     <span>inspection_form_level4.pdf</span> <span style="margin-left:auto; color:var(--muted);">0.8 MB</span>
@@ -324,22 +278,76 @@ Weather delays of 2 days noted.</textarea>
                     <p>Upload one site photo and the system will match every visible face against the worker profiles saved by admin.</p>
                 </div>
 
-                <!-- 3-Column Layout: Enrolled Workers | Upload Group Photo | Today's Attendance -->
-                <div style="display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr) minmax(0, 1fr); gap: 28px; margin-bottom: 32px; align-items: start;">
+                <!-- 2-Column Layout: Left (Today's Attendance + Enrolled Workers stacked) | Right (Upload Group Photo) -->
+                <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 28px; margin-bottom: 32px; align-items: start;">
                     
-                    <!-- LEFT: Enrolled Workers -->
-                    <div>
-                        <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; height: 100%;">
-                            <div class="card-header" style="margin-bottom: 16px;">
-                                <div class="card-title">
-                                    <i class="bi bi-people-fill" style="color: var(--accent); margin-right: 8px;"></i>Enrolled Workers
+                    <!-- LEFT: Today's Attendance + Enrolled Workers (stacked) -->
+                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- TOP: Today's Attendance Table -->
+                        <div>
+                            <div class="card" style="margin-bottom: 0;">
+                                <div class="card-header" style="margin-bottom: 16px; flex-direction: column; align-items: flex-start; gap: 12px;">
+                                    <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+                                        <i class="bi bi-calendar-check" style="color: var(--accent); font-size: 18px;"></i>
+                                        <div>
+                                            <div class="card-title" style="margin: 0; font-size: 14px;">Today's Attendance</div>
+                                            <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span id="attendanceDateLabel">May 13, 2026</span></div>
+                                        </div>
+                                    </div>
+                                    <select class="form-select attendance-select" id="attendanceProjectSelect" style="min-width: 160px; font-size: 12px; width: 100%; max-width: 100%;">
+                                        <option value="Rizal Residential Complex">Rizal Residential Complex</option>
+                                        <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
+                                    </select>
+                                </div>
+
+                                <!-- Summary Stats -->
+                                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
+                                    <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
+                                        <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Detected</div>
+                                        <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceDetectedCount">0</div>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
+                                        <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Matched</div>
+                                        <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceMatchedCount">0</div>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
+                                        <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Enrolled</div>
+                                        <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceEnrolledCount">0</div>
+                                    </div>
+                                </div>
+
+                                <!-- Attendance Table -->
+                                <div style="overflow-x: auto;">
+                                    <table class="data-table attendance-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Worker</th>
+                                                <th>ID</th>
+                                                <th>Role</th>
+                                                <th>Time In</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="attendanceLogBody"></tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div class="worker-roster" id="workerRoster" style="flex: 1; overflow-y: auto; max-height: 600px;"></div>
+                        </div>
+
+                        <!-- BOTTOM: Enrolled Workers -->
+                        <div>
+                            <div class="card" style="margin-bottom: 0; display: flex; flex-direction: column; height: 100%;">
+                                <div class="card-header" style="margin-bottom: 16px;">
+                                    <div class="card-title">
+                                        <i class="bi bi-people-fill" style="color: var(--accent); margin-right: 8px;"></i>Enrolled Workers
+                                    </div>
+                                </div>
+                                <div class="worker-roster" id="workerRoster" style="flex: 1; overflow-y: auto; max-height: 600px;"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- MIDDLE: Upload Group Photo -->
+                    <!-- RIGHT: Upload Group Photo -->
                     <div>
                         <div class="card" style="margin-bottom: 0;">
                             <div class="card-header" style="margin-bottom: 20px;">
@@ -392,57 +400,6 @@ Weather delays of 2 days noted.</textarea>
                                 <div class="face-meta" id="faceMeta" style="padding-top: 12px; border-top: 1px solid var(--border); font-size: 10px; color: var(--muted); text-align: center; line-height: 1.4;">
                                     <i class="bi bi-info-circle" style="margin-right: 3px;"></i>Faces matched against profiles
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT: Today's Attendance Table -->
-                    <div>
-                        <div class="card" style="margin-bottom: 0;">
-                            <div class="card-header" style="margin-bottom: 16px; flex-direction: column; align-items: flex-start; gap: 12px;">
-                                <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
-                                    <i class="bi bi-calendar-check" style="color: var(--accent); font-size: 18px;"></i>
-                                    <div>
-                                        <div class="card-title" style="margin: 0; font-size: 14px;">Today's Attendance</div>
-                                        <div style="font-size: 11px; color: var(--muted); margin-top: 2px;"><span id="attendanceDateLabel">May 13, 2026</span></div>
-                                    </div>
-                                </div>
-                                <select class="form-select attendance-select" id="attendanceProjectSelect" style="min-width: 160px; font-size: 12px; width: 100%; max-width: 100%;">
-                                    <option value="Rizal Residential Complex">Rizal Residential Complex</option>
-                                    <option value="San Pablo Commercial Hub">San Pablo Commercial Hub</option>
-                                </select>
-                            </div>
-
-                            <!-- Summary Stats -->
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
-                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
-                                    <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Detected</div>
-                                    <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceDetectedCount">0</div>
-                                </div>
-                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
-                                    <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Matched</div>
-                                    <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceMatchedCount">0</div>
-                                </div>
-                                <div style="background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0.04) 100%); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 8px; padding: 11px; text-align: center;">
-                                    <div style="font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; font-weight: 600;">Enrolled</div>
-                                    <div style="font-family: var(--heading); font-size: 18px; font-weight: 800; color: var(--accent);" id="attendanceEnrolledCount">0</div>
-                                </div>
-                            </div>
-
-                            <!-- Attendance Table -->
-                            <div style="overflow-x: auto;">
-                                <table class="data-table attendance-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Worker</th>
-                                            <th>ID</th>
-                                            <th>Role</th>
-                                            <th>Time In</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="attendanceLogBody"></tbody>
-                                </table>
                             </div>
                         </div>
                     </div>
@@ -558,7 +515,7 @@ Weather delays of 2 days noted.</textarea>
                             <label class="form-label">Supplier</label>
                             <input type="text" class="form-input" placeholder="Supplier name...">
                         </div>
-                        <button class="topbar-btn primary" onclick="showToast('Delivery logged successfully!')">Log Delivery</button>
+                        <button class="topbar-btn primary" style="margin-top: 20px;" onclick="showToast('Delivery logged successfully!')">Log Delivery</button>
                     </div>
                 </div>
             </div>
@@ -584,6 +541,111 @@ const primaryActions = {
     attendance: '',
     materials: '',
 };
+
+const timelineProjects = {
+    'Rizal Residential Complex': {
+        target: 'Aug 2026',
+        overallStatus: 'On Track',
+        completion: 62,
+        phaseBadge: 'Structural Works Phase',
+        counts: { completed: 2, progress: 1, upcoming: 2 },
+        phases: [
+            { name: 'Phase 1 - Site Preparation & Earthworks', dates: 'Jan 15 - Feb 28, 2026 - Completed on time', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 2 - Foundation Works', dates: 'Mar 1 - Apr 10, 2026 - Completed 3 days early', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 3 - Structural Works (Current)', dates: 'Apr 11 - Jun 30, 2026 - In progress', pct: 67, status: 'On Track', tone: 'current' },
+            { name: 'Phase 4 - MEP Installation', dates: 'Jul 1 - Jul 31, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+            { name: 'Phase 5 - Finishing & Turnover', dates: 'Aug 1 - Aug 31, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+        ],
+    },
+    'San Pablo Commercial Hub': {
+        target: 'Nov 2026',
+        overallStatus: 'Delayed',
+        completion: 28,
+        phaseBadge: 'Foundation Phase',
+        counts: { completed: 1, progress: 1, upcoming: 3 },
+        phases: [
+            { name: 'Phase 1 - Mobilization & Clearing', dates: 'Jan 10 - Feb 2, 2026 - Completed on time', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 2 - Foundation Works (Current)', dates: 'Feb 3 - Apr 30, 2026 - In progress', pct: 28, status: 'Delayed', tone: 'current' },
+            { name: 'Phase 3 - Column & Beam Works', dates: 'May 1 - Jun 30, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+            { name: 'Phase 4 - MEP Installation', dates: 'Jul 1 - Aug 31, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+            { name: 'Phase 5 - Finishing & Turnover', dates: 'Sep 1 - Nov 30, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+        ],
+    },
+    'Batangas Warehouse Facility': {
+        target: 'May 2026',
+        overallStatus: 'Ahead',
+        completion: 88,
+        phaseBadge: 'Finishing Works Phase',
+        counts: { completed: 3, progress: 1, upcoming: 1 },
+        phases: [
+            { name: 'Phase 1 - Site Clearing & Layout', dates: 'Jan 20 - Feb 25, 2026 - Completed', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 2 - Foundation Works', dates: 'Feb 26 - Mar 20, 2026 - Completed early', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 3 - Structural Works', dates: 'Mar 21 - Apr 25, 2026 - Completed early', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 4 - Finishing Works (Current)', dates: 'Apr 26 - May 20, 2026 - In progress', pct: 88, status: 'Ahead', tone: 'current' },
+            { name: 'Phase 5 - Turnover', dates: 'May 21 - May 31, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+        ],
+    },
+    'Lipa City Townhouse Dev.': {
+        target: 'Feb 2027',
+        overallStatus: 'On Track',
+        completion: 45,
+        phaseBadge: 'MEP Installation Phase',
+        counts: { completed: 2, progress: 1, upcoming: 2 },
+        phases: [
+            { name: 'Phase 1 - Site Preparation', dates: 'Jan 5 - Feb 10, 2026 - Completed', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 2 - Foundation Works', dates: 'Feb 11 - Apr 15, 2026 - Completed on time', pct: 100, status: 'Completed', tone: 'done' },
+            { name: 'Phase 3 - Structural Works', dates: 'Apr 16 - Jul 10, 2026 - In progress', pct: 45, status: 'On Track', tone: 'current' },
+            { name: 'Phase 4 - MEP Installation', dates: 'Jul 11 - Nov 15, 2026 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+            { name: 'Phase 5 - Finishing & Turnover', dates: 'Nov 16, 2026 - Feb 28, 2027 - Upcoming', pct: 0, status: 'Not Started', tone: 'upcoming' },
+        ],
+    },
+};
+
+function renderTimelineProject(projectName) {
+    const project = timelineProjects[projectName] || timelineProjects['Rizal Residential Complex'];
+    const title = document.getElementById('timeline-card-title');
+    const target = document.getElementById('timeline-target-label');
+    const overallStatus = document.getElementById('timeline-overall-status');
+    const completionBadge = document.getElementById('timeline-complete-badge');
+    const phaseBadge = document.getElementById('timeline-phase-badge');
+    const completedCount = document.getElementById('timeline-completed-count');
+    const progressCount = document.getElementById('timeline-progress-count');
+    const upcomingCount = document.getElementById('timeline-upcoming-count');
+    const list = document.getElementById('timeline-list');
+
+    if (title) title.textContent = `Construction Phases - ${projectName}`;
+    if (target) target.textContent = `Target: ${project.target}`;
+    if (overallStatus) {
+        overallStatus.textContent = project.overallStatus;
+        overallStatus.className = 'tag ' + (project.overallStatus === 'On Track' ? 'green' : project.overallStatus === 'Ahead' ? 'blue' : 'red');
+    }
+    if (completionBadge) completionBadge.textContent = `${project.completion}% Complete`;
+    if (phaseBadge) phaseBadge.textContent = project.phaseBadge;
+    if (completedCount) completedCount.textContent = `${project.counts.completed} phase${project.counts.completed === 1 ? '' : 's'}`;
+    if (progressCount) progressCount.textContent = `${project.counts.progress} phase${project.counts.progress === 1 ? '' : 's'}`;
+    if (upcomingCount) upcomingCount.textContent = `${project.counts.upcoming} phase${project.counts.upcoming === 1 ? '' : 's'}`;
+
+    if (list) {
+        list.innerHTML = project.phases.map(phase => `
+            <div class="timeline-phase">
+                <div class="phase-dot ${phase.tone}"></div>
+                <div class="phase-info">
+                    <div class="phase-name">${phase.name}</div>
+                    <div class="phase-dates">${phase.dates}</div>
+                </div>
+                <div class="phase-right">
+                    <div class="phase-pct" style="color:${phase.tone === 'upcoming' ? 'var(--muted)' : 'var(--accent)'};">${phase.pct}%</div>
+                    <div class="phase-status">${phase.status}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+function handleTimelineProjectChange(select) {
+    const selectedProject = select?.value || 'Rizal Residential Complex';
+    renderTimelineProject(selectedProject);
+}
 
 const FACE_MODELS_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
 const FACE_STORAGE_KEYS = {
@@ -756,7 +818,7 @@ function renderAttendanceModule() {
                     <div class="worker-roster-item">
                         <div>
                             <div class="worker-roster-name">${worker.name}</div>
-                            <div class="worker-roster-meta">${worker.id} � ${worker.role}${worker.photoName ? ` � ${worker.photoName}` : ''}</div>
+                            <div class="worker-roster-meta">${worker.id} | ${worker.role}${worker.photoName ? ` | ${worker.photoName}` : ''}</div>
                         </div>
                         <span class="roster-pill ${enrolled ? 'ready' : 'pending'}">${enrolled ? 'Enrolled' : 'Needs photo'}</span>
                     </div>`;
@@ -1071,6 +1133,7 @@ async function initAttendanceModule() {
 
 function navigate(page, el) {
     currentPage = page;
+    localStorage.setItem('supervisorCurrentPage', page);
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
@@ -1109,6 +1172,15 @@ function doLogout() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const savedPage = localStorage.getItem('supervisorCurrentPage') || 'timeline';
+    const projectSelect = document.getElementById('timeline-project-select');
+    if (projectSelect) {
+        renderTimelineProject(projectSelect.value || 'Rizal Residential Complex');
+    }
+    if (savedPage !== 'timeline') {
+        const navItem = document.querySelector(`[onclick="navigate('${savedPage}', this)"]`);
+        if (navItem) navigate(savedPage, navItem);
+    }
     initAttendanceModule();
 });
 </script>

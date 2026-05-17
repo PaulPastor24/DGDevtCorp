@@ -13,6 +13,7 @@ $userTitle = 'Project Engineer';
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/admin.css?v=<?php echo filemtime('css/admin.css'); ?>">
 </head>
@@ -69,7 +70,7 @@ $userTitle = 'Project Engineer';
 
         <div class="sidebar-footer">
             <div class="user-card">
-                <div class="user-avatar">EA</div>
+                <div class="user-avatar"><i class="bi bi-person-fill"></i></div>
                 <div class="user-info">
                     <div class="user-name"><?php echo htmlspecialchars($userName); ?></div>
                     <div class="user-role"><?php echo htmlspecialchars($userTitle); ?></div>
@@ -85,7 +86,8 @@ $userTitle = 'Project Engineer';
             </div>
             <div class="topbar-right">
                 <span style="font-size:12px;color:var(--muted)">Mon, 28 Apr 2026</span>
-                <div class="topbar-notif">
+                <div class="topbar-notif" style="cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                    <i class="bi bi-bell-fill" style="font-size: 18px;"></i>
                     <div class="notif-dot"></div>
                 </div>
                 <button class="topbar-btn primary" id="primaryAction" onclick="primaryAction()">+ New Project</button>
@@ -528,7 +530,7 @@ $userTitle = 'Project Engineer';
                                     <button class="topbar-btn" type="button" id="recentAttendanceClearBtn">Clear</button>
                                 </div>
                             </div>
-                            <div class="attendance-logs" id="recentAttendanceList"></div>
+                            <div class="attendance-logs" id="recentAttendanceList" style="max-height: 464px; overflow-y: auto; padding-right: 4px;"></div>
                         </div>
                     </div>
 
@@ -815,7 +817,7 @@ const primaryActions = {
     timeline: '+ Add Phase',
     report: '+ New Report',
     phase: '',
-    attendance: '+ Register Worker',
+    attendance: '+ View Reports',
     materials: '+ Log Delivery',
     alerts: 'Mark All Read',
 };
@@ -951,11 +953,15 @@ function navigate(page, el) {
 
 function primaryAction() {
     if (currentPage === 'attendance') {
-        registerWorker();
+        viewReports();
         return;
     }
 
     alert('Feature coming soon!');
+}
+
+function viewReports() {
+    alert('Attendance reports feature coming soon!');
 }
 
 function doLogout() {
