@@ -48,6 +48,38 @@ function dg_worker_already_logged(mysqli $connection, $workerId, $dateKey): bool
 }
 
 /**
+ * Check if a worker has completed all four main cycles (Time In, Break Out, Break In, Time Out) for the day
+ * @param mysqli $connection Database connection
+ * @param string $workerId Worker ID
+ * @param string $dateKey Date key
+ * @return bool True if all cycles completed, false otherwise
+ */
+function dg_is_attendance_completed(mysqli $connection, $workerId, $dateKey): bool
+{
+    $statement = $connection->prepare('SELECT action FROM attendance_logs WHERE worker_id = ? AND date_key = ? ORDER BY id ASC');
+    $statement->bind_param('ss', $workerId, $dateKey);
+    $statement->execute();
+    $result = $statement->get_result();
+    
+    $hasTimeIn = false;
+    $hasBreakOut = false;
+    $hasBreakIn = false;
+    $hasTimeOut = false;
+    
+    while ($row = $result->fetch_assoc()) {
+        $action = $row['action'] ?? 'time_in';
+        if ($action === 'time_in') $hasTimeIn = true;
+        if ($action === 'break_out') $hasBreakOut = true;
+        if ($action === 'break_in') $hasBreakIn = true;
+        if ($action === 'time_out') $hasTimeOut = true;
+    }
+    $statement->close();
+    
+    // All four cycles must be present
+    return $hasTimeIn && $hasBreakOut && $hasBreakIn && $hasTimeOut;
+}
+
+/**
  * Validate attendance action based on workflow rules
  * @param mysqli $connection Database connection
  * @param string $workerId Worker ID
@@ -57,6 +89,11 @@ function dg_worker_already_logged(mysqli $connection, $workerId, $dateKey): bool
  */
 function dg_validate_attendance_action(mysqli $connection, $workerId, $dateKey, $action): array
 {
+    // Check if worker has already completed all cycles for the day
+    if (dg_is_attendance_completed($connection, $workerId, $dateKey)) {
+        return ['valid' => false, 'message' => 'Attendance already completed for today. Duplicate attendance detected.'];
+    }
+
     $statement = $connection->prepare('SELECT action FROM attendance_logs WHERE worker_id = ? AND date_key = ? ORDER BY id DESC LIMIT 1');
     $statement->bind_param('ss', $workerId, $dateKey);
     $statement->execute();
@@ -110,6 +147,47 @@ function dg_get_highest_confidence(mysqli $connection, $workerId, $dateKey): ?fl
 }
 
 /**
+ * Convert time string (HH:MM) to minutes since midnight
+ * @param string $timeStr Time in HH:MM format
+ * @return int Minutes since midnight
+ */
+function dg_time_to_minutes($timeStr): int
+{
+    if (!$timeStr) return 0;
+    $parts = explode(':', $timeStr);
+    return intval($parts[0] ?? 0) * 60 + intval($parts[1] ?? 0);
+}
+
+/**
+ * Calculate Time Out status based on actual timestamp
+ * - Before 5:00 PM (17:00): "Early Out"
+ * - 5:00 PM to before 6:00 PM (17:00-17:59): "Done"
+ * - 6:00 PM (18:00) onwards: "Overtime"
+ * @param string $timeOutValue Time Out value (HH:MM format)
+ * @return string Status: 'Early Out', 'Done', or 'Overtime'
+ */
+function dg_get_time_out_status($timeOutValue): string
+{
+    if (!$timeOutValue) {
+        return 'Pending';
+    }
+    
+    $timeOutMinutes = dg_time_to_minutes($timeOutValue);
+    
+    // 5:00 PM = 17 * 60 = 1020 minutes
+    $fivepmMinutes = 17 * 60;      // 1020
+    $sixpmMinutes = 18 * 60;        // 1080
+    
+    if ($timeOutMinutes < $fivepmMinutes) {
+        return 'Early Out';
+    } elseif ($timeOutMinutes < $sixpmMinutes) {
+        return 'Done';
+    } else {
+        return 'Overtime';
+    }
+}
+
+/**
  * Determine attendance status based on workflow state and time
  * @param mysqli $connection Database connection
  * @param string $workerId Worker ID
@@ -130,9 +208,9 @@ function dg_get_attendance_status(mysqli $connection, $workerId, $dateKey, $time
     }
     $statement->close();
 
-    // Default start time (8:00 AM)
-    $standardStartTime = 8 * 60; // 480 minutes
-    $timeInMinutes = intval(explode(':', $timeIn)[0]) * 60 + intval(explode(':', $timeIn)[1] ?? 0);
+    // Default start time (7:00 AM)
+    $standardStartTime = 7 * 60; // 420 minutes
+    $timeInMinutes = dg_time_to_minutes($timeIn);
 
     // Determine status based on current state
     $lastAction = end($actions) ?: null;
@@ -159,12 +237,9 @@ function dg_get_attendance_status(mysqli $connection, $workerId, $dateKey, $time
     }
 
     if ($lastAction === 'time_out') {
-        // Check if overtime (worked more than 8 hours)
+        // Get the actual Time Out value and calculate status dynamically
         $timeOutTime = dg_get_action_time($connection, $workerId, $dateKey, 'time_out');
-        if ($timeOutTime && $timeInMinutes && (intval(explode(':', $timeOutTime)[0]) * 60 + intval(explode(':', $timeOutTime)[1] ?? 0)) - $timeInMinutes > 480) {
-            return 'Overtime';
-        }
-        return 'Present';
+        return dg_get_time_out_status($timeOutTime);
     }
 
     return 'Present';
