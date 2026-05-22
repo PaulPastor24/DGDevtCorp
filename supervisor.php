@@ -1750,11 +1750,11 @@ function escapeHtml(text) {
 
 /**
  * Get match status and label based on euclidean distance score
- * Distance-based classification with realistic confidence ranges:
- * - distance 0.0-0.30: Verified (99-100% confidence - perfect match)
- * - distance 0.30-0.40: Verified (90-99% confidence - very high match)
- * - distance 0.40-0.50: Possible (70-90% confidence - needs review)
- * - distance >0.50: Rejected (0-70% confidence - not a match)
+ * Distance-based classification aligned with admin tolerance:
+ * - distance 0.0-0.30: Verified (95-100% confidence - perfect match)
+ * - distance 0.30-0.45: Verified (90-95% confidence - high match)
+ * - distance 0.45-0.60: Possible (80-89% confidence - needs review)
+ * - distance >0.60: Rejected (below 80% confidence)
  * 
  * @param {number} distance - Euclidean distance between face descriptors (lower = better)
  * @returns {{status: string, label: string, color: string, badge: string, confidence: number}}
@@ -1764,16 +1764,16 @@ function getMatchStatus(distance) {
     let status = 'rejected';
     
     if (distance <= 0.30) {
-        // Perfect/excellent match - 99-100% confidence
-        confidence = Math.round(99 + ((0.30 - distance) / 0.30) * 1);
+        // Perfect/excellent match
+        confidence = Math.round(95 + ((0.30 - distance) / 0.30) * 5);
         status = 'verified';
-    } else if (distance <= 0.40) {
-        // Very good match - 90-99% confidence
-        confidence = Math.round(90 + ((0.40 - distance) / 0.10) * 9);
+    } else if (distance <= 0.45) {
+        // High-confidence match
+        confidence = Math.round(90 + ((0.45 - distance) / 0.15) * 5);
         status = 'verified';
-    } else if (distance <= 0.50) {
-        // Close match - 70-90% confidence (needs review)
-        confidence = Math.round(70 + ((0.50 - distance) / 0.10) * 20);
+    } else if (distance <= 0.60) {
+        // Admin-tolerant possible match
+        confidence = Math.round(80 + ((0.60 - distance) / 0.15) * 9);
         status = 'possible';
     } else {
         // Not a match
@@ -1883,7 +1883,7 @@ function calculateDetectionStats(clusteredDetections, dupResults, allMatches) {
 function findBestMatch(descriptor, projectFilter = null) {
     let bestWorker = null;
     let bestScore = Number.POSITIVE_INFINITY;
-    const DISTANCE_THRESHOLD = 0.55; // Tighter threshold for more accurate matching
+    const DISTANCE_THRESHOLD = 0.60; // Align with admin matcher tolerance
 
     attendanceState.workers.forEach(worker => {
         // Filter by project if provided
@@ -2074,7 +2074,7 @@ async function processGroupPhoto() {
         const dataUrl = await readFileAsDataUrl(file);
         const image = await loadImageFromDataUrl(dataUrl);
         const detections = await faceapi
-            .detectAllFaces(image, new faceapi.TinyFaceDetectorOptions({ inputSize: 800, scoreThreshold: 0.15 }))
+            .detectAllFaces(image, new faceapi.TinyFaceDetectorOptions({ inputSize: 800, scoreThreshold: 0.05 }))
             .withFaceLandmarks()
             .withFaceDescriptors();
 
