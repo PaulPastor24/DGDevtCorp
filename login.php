@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Demo credentials - in production, validate against database
 $DEMO_CREDENTIALS = [
     'admin@dg-corp.ph' => [
         'password' => 'password123',
@@ -31,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = isset($_POST['password']) ? $_POST['password'] : '';
     $role = isset($_POST['role']) ? trim($_POST['role']) : 'admin';
 
-    // Validate input
     if (empty($email) || empty($password)) {
         $response['message'] = 'Email and password are required.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -41,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $credentials = $DEMO_CREDENTIALS[$email];
 
-        // Verify password
         if ($password !== $credentials['password']) {
             $response['message'] = 'Invalid password.';
         } elseif ($role !== $credentials['role']) {
@@ -70,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// If accessed directly via GET, redirect to index
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     header('Location: index.php');
     exit;

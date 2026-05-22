@@ -1353,9 +1353,21 @@ async function applyRecentAttendanceFilter() {
 }
 
 function clearRecentAttendanceFilter() {
+    // Clear the date filter
     attendanceState.recentAttendanceDate = '';
     const input = document.getElementById('recentAttendanceDate');
     if (input) input.value = '';
+
+    // Remove recent attendance logs for the current project
+    const project = attendanceState.currentProject || document.getElementById('attendanceProjectSelect')?.value;
+    if (project) {
+        attendanceState.logs = (attendanceState.logs || []).filter(log => log.project !== project);
+        persistLogs();
+        showToast('Recent attendance cleared for ' + project);
+    } else {
+        showToast('Recent attendance cleared');
+    }
+
     renderAttendanceModule();
 }
 
@@ -1455,7 +1467,7 @@ function renderAttendanceModule() {
                     <td style="color:var(--muted);">${log.workerId}</td>
                     <td style="color:var(--muted);">${log.workerRole}</td>
                     <td>${formatClock(log.timeIn)}</td>
-                    <td><span class="att-badge ${log.status.toLowerCase()}">${log.status}</span></td>
+                    <td><span class="att-badge ${String(log.status || 'pending').toLowerCase()}">${log.status || 'Pending'}</span></td>
                 </tr>`).join('')
             : '<tr><td colspan="5" style="color:var(--muted); text-align:center; padding:24px;">No attendance logs recorded for this project yet.</td></tr>';
     }
@@ -1612,7 +1624,76 @@ async function registerWorker() {
         let workerRecord;
 
         if (existingIndex >= 0) {
-            const existing = attendanceState.workers[existingIndex];
+            const existing = attendanceState.workers[existi            # compute_metrics.py
+            import pymysql
+            import pandas as pd
+            import numpy as np
+            from sklearn.metrics import precision_recall_fscore_support, confusion_matrix, roc_auc_score, roc_curve
+            import matplotlib.pyplot as plt
+            
+            # --- CONFIG: update these ---
+            DB = dict(host='127.0.0.1', user='root', password='', db='your_db_name', charset='utf8mb4')
+            TABLE = 'attendance_logs'
+            # ------------------------------
+            
+            conn = pymysql.connect(**DB)
+            sql = f"""
+            SELECT id, worker_id, status, score, manual_label
+            FROM {TABLE}
+            WHERE manual_label IS NOT NULL
+            """
+            df = pd.read_sql(sql, conn)
+            conn.close()
+            
+            # If scores in 0-100, normalize:
+            if df['score'].max() > 1.1:
+                df['score_norm'] = df['score'] / 100.0
+            else:
+                df['score_norm'] = df['score'].fillna(0.0)
+            
+            # Convert status->pred label (Present -> 1, else 0)
+            df['pred'] = (df['status'] == 'Present').astype(int)
+            y_true = df['manual_label'].astype(int)
+            y_pred = df['pred'].astype(int)
+            y_score = df['score_norm'].fillna(0.0).astype(float)
+            
+            p, r, f1, _ = precision_recall_fscore_support(y_true, y_pred, average='binary', zero_division=0)
+            cm = confusion_matrix(y_true, y_pred)
+            
+            print('N samples:', len(df))
+            print('Precision: {:.3f}  Recall: {:.3f}  F1: {:.3f}'.format(p,r,f1))
+            print('Confusion matrix (rows=true, cols=pred):\n', cm)
+            
+            # ROC-AUC (requires both classes)
+            try:
+                auc = roc_auc_score(y_true, y_score)
+                print('ROC AUC:', round(auc,3))
+            except Exception as e:
+                print('ROC AUC not available:', e)
+            
+            # Plot score histogram
+            plt.figure(figsize=(6,3))
+            plt.hist(y_score[y_true==1], bins=20, alpha=0.6, label='True present')
+            plt.hist(y_score[y_true==0], bins=20, alpha=0.6, label='True absent')
+            plt.xlabel('Normalized match score')
+            plt.ylabel('Count')
+            plt.legend()
+            plt.tight_layout()
+            plt.savefig('score_histogram.png', dpi=150)
+            print('Saved score_histogram.png')
+            
+            # Optional: threshold sweep for precision/recall
+            thresholds = np.linspace(0,1,101)
+            precisions, recalls = [], []
+            for t in thresholds:
+                preds = (y_score >= t).astype(int)
+                p_t, r_t, f1_t, _ = precision_recall_fscore_support(y_true, preds, average='binary', zero_division=0)
+                precisions.append(p_t); recalls.append(r_t)
+            
+            # Save sweep
+            pd.DataFrame({'threshold': thresholds, 'precision': precisions, 'recall': recalls}).to_csv('threshold_sweep.csv', index=False)
+            print('Saved threshold_sweep.csv')            cd C:\xampp\htdocs\D&G
+            python test.pyngIndex];
             let refs = [];
             if (existing.descriptor && Array.isArray(existing.descriptor)) {
                 if (Array.isArray(existing.descriptor[0])) refs = existing.descriptor.slice();
@@ -1935,8 +2016,7 @@ async function processGroupPhoto() {
     } catch (error) {
         console.error('Group photo processing FAILED:', error.message);
         console.error('Full error:', error);
-        if (statusEl) statusEl.textContent = `Error: ${error.message}. Check console (F12) for details.`;
-        showToast(`Error: ${error.message}`);
+        if (statusEl) statusEl.textContent = 'Unable to process this photo right now. Please try another clear photo.';
     }
 }
 

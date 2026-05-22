@@ -10,9 +10,9 @@ $brandName = 'D&G ConstructMonitor';
     <title>D&G ConstructMonitor - Construction Project Monitoring System</title>
     <meta name="description" content="Construction project monitoring for workforce, progress, and site operations in one unified platform.">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/landing.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUarbnLLtQbOV5JnXwyIEo56nNmslbdkrMjW03fNvqrviJkur" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/landing.css?v=<?php echo filemtime('css/landing.css'); ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/responsive.css?v=<?php echo filemtime('css/responsive.css'); ?>">
 </head>
 <body>
 
@@ -183,7 +183,7 @@ $brandName = 'D&G ConstructMonitor';
     <div class="login-card">
         <!-- Left Section: Form -->
         <div class="login-form-section">
-            <button class="modal-close" onclick="closeLoginModal()">×</button>
+            <button type="button" id="loginModalClose" class="modal-close" onclick="closeLoginModal()" aria-label="Close">×</button>
 
             <div class="login-header">
                 <div class="login-logo"><img src="images/logo.jpg" alt="D&G Construction logo"></div>
@@ -225,13 +225,8 @@ $brandName = 'D&G ConstructMonitor';
             </div>
         </div>
 
-        <!-- Right Section: Pattern Background -->
-        <div class="login-pattern-section">
-            <div class="login-pattern-content">
-                <h3>Streamline Your Construction Operations</h3>
-                <p>Unified platform for project tracking, workforce management, and real-time site visibility.</p>
-            </div>
-        </div>
+        <!-- Right Section removed per request; close button moved into white form side -->
+        
     </div>
 </div>
 
@@ -331,6 +326,12 @@ $brandName = 'D&G ConstructMonitor';
         if (e.key === 'Escape') {
             closeLoginModal();
         }
+    });
+
+    // Defensive: ensure the close button always calls closeLoginModal
+    document.getElementById('loginModalClose')?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        closeLoginModal();
     });
 </script>
 
